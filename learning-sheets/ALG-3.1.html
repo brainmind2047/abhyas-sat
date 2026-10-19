@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3.1 Function notation and evaluating</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-3.1", "unit": "Algebra", "topic": "Linear functions", "title": "Function notation and evaluating", "intro": "Function notation gives a rule a name, so <i>f<\/i>(<i>x<\/i>) means \"the output of rule <i>f<\/i> when the input is <i>x<\/i>.\" The DSAT uses it constantly: evaluating <i>f<\/i>(<i>a<\/i>), solving <i>f<\/i>(<i>x<\/i>) = <i>k<\/i>, reading tables of values, and combining or shifting linear functions.", "los": [{"id": "LO1", "text": "Evaluate a function at a number or an expression, including forms such as <i>f<\/i>(2<i>a<\/i>), <i>f<\/i>(<i>a<\/i> + 1) and <i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>)."}, {"id": "LO2", "text": "Solve equations of the form <i>f<\/i>(<i>x<\/i>) = <i>k<\/i> for the input, including in real-world contexts."}, {"id": "LO3", "text": "Determine a linear function, and the values it takes, from a table of values or a pair of points."}, {"id": "LO4", "text": "Evaluate and write compositions of linear functions such as <i>f<\/i>(<i>g<\/i>(<i>x<\/i>))."}, {"id": "LO5", "text": "Interpret and write transformations of linear functions such as <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − <i>h<\/i>) + <i>k<\/i>."}], "notes": [{"lo": "LO1", "h": "Reading f(x)", "html": "A function is a rule that turns each input into exactly one output. In <i>f<\/i>(<i>x<\/i>), the letter <i>f<\/i> is the name of the rule, <i>x<\/i> is the input, and <i>f<\/i>(<i>x<\/i>) is the output. Read it as \"<i>f<\/i> of <i>x<\/i>\", never as \"<i>f<\/i> times <i>x<\/i>\".<div class=\"rule\">To find <i>f<\/i>(3), replace <b>every<\/b> <i>x<\/i> in the rule with 3 (in parentheses), then simplify.<\/div>For <i>f<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 9:<ul><li><i>f<\/i>(3) = 4(3) − 9 = 3<\/li><li><i>f<\/i>(−2) = 4(−2) − 9 = −17<\/li><li><i>f<\/i>(0) = −9, which is the <i>y<\/i>-intercept of the graph.<\/li><\/ul>The statement <i>f<\/i>(3) = 3 also tells you the graph of <i>y<\/i> = <i>f<\/i>(<i>x<\/i>) passes through the point (3, 3). Every fact of the form <i>f<\/i>(<i>a<\/i>) = <i>b<\/i> is a point (<i>a<\/i>, <i>b<\/i>) on the graph."}, {"lo": "LO1", "h": "Expressions as inputs", "html": "The input can be an expression, not just a number. Put the whole expression in parentheses wherever <i>x<\/i> appears, then expand.<div class=\"tscroll\"><table class=\"dtab\"><tr><th>For <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 2<\/th><th>Work<\/th><th>Result<\/th><\/tr><tr><td><i>f<\/i>(2<i>a<\/i>)<\/td><td>3(2<i>a<\/i>) + 2<\/td><td>6<i>a<\/i> + 2<\/td><\/tr><tr><td>2<i>f<\/i>(<i>a<\/i>)<\/td><td>2(3<i>a<\/i> + 2)<\/td><td>6<i>a<\/i> + 4<\/td><\/tr><tr><td><i>f<\/i>(<i>a<\/i> + 1)<\/td><td>3(<i>a<\/i> + 1) + 2<\/td><td>3<i>a<\/i> + 5<\/td><\/tr><tr><td><i>f<\/i>(<i>a<\/i>) + 1<\/td><td>(3<i>a<\/i> + 2) + 1<\/td><td>3<i>a<\/i> + 3<\/td><\/tr><\/table><\/div><div class=\"rule\">Changes <b>inside<\/b> the parentheses change the input; changes <b>outside<\/b> change the output. In general <i>f<\/i>(2<i>a<\/i>) ≠ 2<i>f<\/i>(<i>a<\/i>) and <i>f<\/i>(<i>a<\/i> + <i>b<\/i>) ≠ <i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>).<\/div>When a question asks for <i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>), evaluate each piece separately and then add."}, {"lo": "LO2", "h": "Solving f(x) = k", "html": "Two question types look alike but ask opposite things:<ul><li><i>f<\/i>(5) = ? gives you the <b>input<\/b> 5; you find the output.<\/li><li><i>f<\/i>(<i>x<\/i>) = 5 gives you the <b>output<\/b> 5; you find the input.<\/li><\/ul><div class=\"rule\">To solve <i>f<\/i>(<i>x<\/i>) = <i>k<\/i>, set the rule equal to <i>k<\/i> and solve the equation for <i>x<\/i>.<\/div>For <i>f<\/i>(<i>x<\/i>) = 6<i>x<\/i> − 4 and <i>f<\/i>(<i>x<\/i>) = 29: 6<i>x<\/i> − 4 = 29, so 6<i>x<\/i> = 33 and <i>x<\/i> = 5.5. Check: <i>f<\/i>(5.5) = 33 − 4 = 29.<br>The same idea works with expressions: if <i>f<\/i>(2<i>k<\/i>) = 20, then 6(2<i>k<\/i>) − 4 = 20, so <i>k<\/i> = 2.<div class=\"tip\">Desmos tip: type the rule as <i>f<\/i>(<i>x<\/i>) = 6<i>x<\/i> − 4, then type <i>f<\/i>(<i>x<\/i>) = 29 (or graph <i>y<\/i> = 29). Click the intersection; its <i>x<\/i>-coordinate is the solution.<\/div>"}, {"lo": "LO3", "h": "Linear functions from tables", "html": "A table of a linear function has a constant rate of change: equal steps in <i>x<\/i> give equal steps in <i>f<\/i>(<i>x<\/i>).<div class=\"rule\">slope <i>m<\/i> = <span class=\"fq\"><span>change in <i>f<\/i>(<i>x<\/i>)<\/span><span>change in <i>x<\/i><\/span><\/span>; then use one row to find <i>b<\/i> in <i>f<\/i>(<i>x<\/i>) = <i>m<\/i><i>x<\/i> + <i>b<\/i>.<\/div><div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>x<\/i><\/th><td>2<\/td><td>5<\/td><td>9<\/td><\/tr><tr><th><i>f<\/i>(<i>x<\/i>)<\/th><td>1<\/td><td>10<\/td><td>22<\/td><\/tr><\/table><\/div>Slope: <span class=\"fq\"><span>10 − 1<\/span><span>5 − 2<\/span><\/span> = 3 (check: <span class=\"fq\"><span>22 − 10<\/span><span>9 − 5<\/span><\/span> = 3). Using (2, 1): 1 = 3(2) + <i>b<\/i>, so <i>b<\/i> = −5 and <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 5.<br>The rows need not be evenly spaced, so always divide by the change in <i>x<\/i>. Two facts such as <i>f<\/i>(2) = 1 and <i>f<\/i>(5) = 10 work exactly like two rows.<div class=\"tip\">Desmos tip: make a table with columns x<sub>1<\/sub> and y<sub>1<\/sub>, then type y<sub>1<\/sub> ~ <i>m<\/i><i>x<\/i><sub>1<\/sub> + b. Desmos reports <i>m<\/i> and <i>b<\/i> directly.<\/div>"}, {"lo": "LO4", "h": "Composition: f(g(x))", "html": "In <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)), the output of <i>g<\/i> becomes the input of <i>f<\/i>. Work from the <b>inside out<\/b>.<div class=\"rule\"><i>f<\/i>(<i>g<\/i>(2)): first find <i>g<\/i>(2), then put that number into <i>f<\/i>.<\/div>Let <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 1 and <i>g<\/i>(<i>x<\/i>) = <i>x<\/i> − 3.<ul><li><i>f<\/i>(<i>g<\/i>(5)): <i>g<\/i>(5) = 2, then <i>f<\/i>(2) = 5.<\/li><li><i>g<\/i>(<i>f<\/i>(5)): <i>f<\/i>(5) = 11, then <i>g<\/i>(11) = 8.<\/li><li><i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 2(<i>x<\/i> − 3) + 1 = 2<i>x<\/i> − 5.<\/li><\/ul>Order matters: <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) and <i>g<\/i>(<i>f<\/i>(<i>x<\/i>)) are usually different. To write <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)), substitute the entire expression for <i>g<\/i>(<i>x<\/i>) into every <i>x<\/i> of <i>f<\/i>.<br>A composition of two linear functions is linear, and its slope is the <b>product<\/b> of the two slopes (here 2 · 1 = 2). The same rule applies to <i>f<\/i>(<i>f<\/i>(<i>x<\/i>))."}, {"lo": "LO5", "h": "Shifting and reflecting", "html": "Changing a function's formula moves its graph in predictable ways.<div class=\"tscroll\"><table class=\"dtab\"><tr><th>New function<\/th><th>Effect on graph of <i>f<\/i><\/th><\/tr><tr><td><i>f<\/i>(<i>x<\/i>) + <i>k<\/i><\/td><td>up <i>k<\/i> units<\/td><\/tr><tr><td><i>f<\/i>(<i>x<\/i>) − <i>k<\/i><\/td><td>down <i>k<\/i> units<\/td><\/tr><tr><td><i>f<\/i>(<i>x<\/i> − <i>h<\/i>)<\/td><td>right <i>h<\/i> units<\/td><\/tr><tr><td><i>f<\/i>(<i>x<\/i> + <i>h<\/i>)<\/td><td>left <i>h<\/i> units<\/td><\/tr><tr><td>−<i>f<\/i>(<i>x<\/i>)<\/td><td>reflect over the <i>x<\/i>-axis<\/td><\/tr><tr><td><i>f<\/i>(−<i>x<\/i>)<\/td><td>reflect over the <i>y<\/i>-axis<\/td><\/tr><\/table><\/div><div class=\"rule\">Inside changes move the graph the <b>opposite<\/b> way to the sign: <i>f<\/i>(<i>x<\/i> − 2) moves right 2.<\/div>For <i>f<\/i>(<i>x<\/i>) = <i>m<\/i><i>x<\/i> + <i>b<\/i>, the function <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − <i>h<\/i>) + <i>k<\/i> = <i>m<\/i><i>x<\/i> + (<i>b<\/i> − <i>m<\/i><i>h<\/i> + <i>k<\/i>): a horizontal or vertical shift keeps the slope and changes only the intercept. Points move too. If (2, 5) is on <i>f<\/i>, then (2 + <i>h<\/i>, 5 + <i>k<\/i>) is on <i>g<\/i>."}], "examples": [{"lo": "LO1", "q": "Let <i>f<\/i>(<i>x<\/i>) = 5<i>x<\/i> − 8. Find <i>f<\/i>(−2) and <i>f<\/i>(<i>a<\/i> + 3).", "steps": ["<i>f<\/i>(−2) = 5(−2) − 8 = −10 − 8 = −18.", "For <i>f<\/i>(<i>a<\/i> + 3), replace <i>x<\/i> with (<i>a<\/i> + 3): 5(<i>a<\/i> + 3) − 8.", "Distribute: 5<i>a<\/i> + 15 − 8 = 5<i>a<\/i> + 7."], "ans": "<i>f<\/i>(−2) = −18 and <i>f<\/i>(<i>a<\/i> + 3) = 5<i>a<\/i> + 7"}, {"lo": "LO1", "q": "Let <i>g<\/i>(<i>x<\/i>) = −3<i>x<\/i> + 10. Find the value of <i>g<\/i>(2<i>a<\/i>) − 2<i>g<\/i>(<i>a<\/i>).", "steps": ["<i>g<\/i>(2<i>a<\/i>) = −3(2<i>a<\/i>) + 10 = −6<i>a<\/i> + 10.", "2<i>g<\/i>(<i>a<\/i>) = 2(−3<i>a<\/i> + 10) = −6<i>a<\/i> + 20.", "Subtract: (−6<i>a<\/i> + 10) − (−6<i>a<\/i> + 20) = −10. The <i>a<\/i> terms cancel, so the value is a constant."], "ans": "−10"}, {"lo": "LO2", "q": "Let <i>h<\/i>(<i>x<\/i>) = <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>x<\/i> + 4. If <i>h<\/i>(<i>k<\/i>) = 10, what is the value of <i>k<\/i>?", "steps": ["Set the rule equal to 10: <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>k<\/i> + 4 = 10.", "Subtract 4: <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>k<\/i> = 6.", "Multiply by <span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>: <i>k<\/i> = 9. Check: <i>h<\/i>(9) = 6 + 4 = 10."], "ans": "<i>k<\/i> = 9"}, {"lo": "LO3", "q": "The table shows values of a linear function <i>p<\/i>.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>x<\/i><\/th><td>1<\/td><td>3<\/td><td>7<\/td><\/tr><tr><th><i>p<\/i>(<i>x<\/i>)<\/th><td>5<\/td><td>11<\/td><td>23<\/td><\/tr><\/table><\/div>What is <i>p<\/i>(10)?", "steps": ["Slope: <span class=\"fq\"><span>11 − 5<\/span><span>3 − 1<\/span><\/span> = 3, and <span class=\"fq\"><span>23 − 11<\/span><span>7 − 3<\/span><\/span> = 3, so the rate is constant.", "Use (1, 5): 5 = 3(1) + <i>b<\/i>, so <i>b<\/i> = 2 and <i>p<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 2.", "<i>p<\/i>(10) = 30 + 2 = 32."], "ans": "32"}, {"lo": "LO4", "q": "Let <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 1 and <i>g<\/i>(<i>x<\/i>) = <i>x<\/i> + 5. Find <i>f<\/i>(<i>g<\/i>(3)) and write <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) in the form <i>m<\/i><i>x<\/i> + <i>b<\/i>.", "steps": ["Inside first: <i>g<\/i>(3) = 8.", "Then <i>f<\/i>(8) = 16 − 1 = 15.", "For the formula: <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 2(<i>x<\/i> + 5) − 1 = 2<i>x<\/i> + 9. Check: 2(3) + 9 = 15."], "ans": "<i>f<\/i>(<i>g<\/i>(3)) = 15 and <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 2<i>x<\/i> + 9"}, {"lo": "LO5", "q": "A linear function <i>f<\/i> satisfies <i>f<\/i>(1) = 4 and <i>f<\/i>(5) = 12. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 3) + 2. What is <i>g<\/i>(0)?", "steps": ["Slope of <i>f<\/i>: <span class=\"fq\"><span>12 − 4<\/span><span>5 − 1<\/span><\/span> = 2. From (1, 4): <i>b<\/i> = 2, so <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 2.", "<i>g<\/i>(<i>x<\/i>) = 2(<i>x<\/i> − 3) + 2 + 2 = 2<i>x<\/i> − 2.", "<i>g<\/i>(0) = −2. Check directly: <i>g<\/i>(0) = <i>f<\/i>(−3) + 2 = −4 + 2 = −2."], "ans": "−2"}], "traps": ["Reading <i>f<\/i>(<i>x<\/i>) as \"<i>f<\/i> times <i>x<\/i>\": <i>f<\/i>(3) is the output for input 3, not 3 times some number <i>f<\/i>.", "Mixing up <i>f<\/i>(5) (input is 5, find the output) with <i>f<\/i>(<i>x<\/i>) = 5 (output is 5, find the input).", "Assuming <i>f<\/i>(2<i>a<\/i>) = 2<i>f<\/i>(<i>a<\/i>) or <i>f<\/i>(<i>a<\/i> + <i>b<\/i>) = <i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>); for a linear function with a nonzero constant term, neither is true.", "Moving the graph the wrong way: <i>f<\/i>(<i>x<\/i> − 2) shifts the graph 2 units to the <b>right<\/b>, not left.", "Evaluating <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) from the outside in, which gives <i>g<\/i>(<i>f<\/i>(<i>x<\/i>)) instead; always start with the inner function."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "If <i>f<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 7, what is the value of <i>f<\/i>(3)?", "opts": ["5", "19", "12", "−19"], "ans": 0, "sol": "Replace <i>x<\/i> with 3: <i>f<\/i>(3) = 4(3) − 7 = 12 − 7 = 5. Answer: <b>5<\/b>", "hint": "Swap every <i>x<\/i> in the rule for (3), then follow the order of operations."}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "If <i>h<\/i>(<i>x<\/i>) = 9 − 2<i>x<\/i>, what is the value of <i>h<\/i>(−4)?", "opts": ["1", "17", "−28", "28"], "ans": 1, "sol": "<i>h<\/i>(−4) = 9 − 2(−4) = 9 + 8 = 17. Answer: <b>17<\/b>", "hint": "Use parentheses around −4. What is −2 times −4?"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 5. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = 26?", "opts": ["83", "21", "7", "<span class=\"fq\"><span>31<\/span><span>3<\/span><\/span>"], "ans": 2, "sol": "Set 3<i>x<\/i> + 5 = 26. Then 3<i>x<\/i> = 21, so <i>x<\/i> = 7. Answer: <b>7<\/b>", "hint": "Here 26 is the output, not the input. Set the rule equal to 26."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "The table shows four values of a linear function <i>f<\/i>.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>x<\/i><\/th><td>0<\/td><td>1<\/td><td>2<\/td><td>3<\/td><\/tr><tr><th><i>f<\/i>(<i>x<\/i>)<\/th><td>−4<\/td><td>−1<\/td><td>2<\/td><td>5<\/td><\/tr><\/table><\/div>Which equation defines <i>f<\/i>?", "opts": ["<i>f<\/i>(<i>x<\/i>) = −4<i>x<\/i> + 3", "<i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 4", "<i>f<\/i>(<i>x<\/i>) = <i>x<\/i> − 4", "<i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 4"], "ans": 3, "sol": "Each step of 1 in <i>x<\/i> raises <i>f<\/i>(<i>x<\/i>) by 3, so the slope is 3. <i>f<\/i>(0) = −4 gives the intercept. <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 4. Answer: <b><i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 4<\/b>", "hint": "What does <i>f<\/i>(0) tell you? How much does <i>f<\/i>(<i>x<\/i>) change when <i>x<\/i> goes up by 1?"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "If <i>f<\/i>(<i>x<\/i>) = 6<i>x<\/i> + 1, what is the value of <i>f<\/i>(2) + <i>f<\/i>(−1)?", "ans": ["8"], "sol": "<i>f<\/i>(2) = 13 and <i>f<\/i>(−1) = −5. Their sum is 13 + (−5) = 8. Answer: <b>8<\/b>", "hint": "Find each output on its own first, then add the two outputs."}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A plumber's charge, in dollars, for a job lasting <i>h<\/i> hours is given by C(<i>h<\/i>) = 65<i>h<\/i> + 90. A customer was charged $415. How many hours did the job last?", "ans": ["5"], "sol": "Solve 65<i>h<\/i> + 90 = 415: 65<i>h<\/i> = 325, so <i>h<\/i> = 5. Answer: <b>5<\/b>", "hint": "The $415 is the output C(<i>h<\/i>). Set up C(<i>h<\/i>) = 415."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "For a linear function <i>f<\/i>, <i>f<\/i>(2) = 7 and <i>f<\/i>(6) = 19. What is the value of <i>f<\/i>(10)?", "opts": ["26", "31", "38", "43"], "ans": 1, "sol": "Slope = <span class=\"fq\"><span>19 − 7<\/span><span>6 − 2<\/span><\/span> = 3. From <i>x<\/i> = 6 to <i>x<\/i> = 10 is 4 more units, so <i>f<\/i>(10) = 19 + 4(3) = 31. Answer: <b>31<\/b>", "hint": "Find the rate of change first, then count how far 10 is from 6."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "If <i>f<\/i>(<i>x<\/i>) = 5<i>x<\/i> − 2, which expression is equivalent to <i>f<\/i>(2<i>a<\/i>)?", "opts": ["10<i>a<\/i> − 4", "5<i>a<\/i> − 4", "10<i>a<\/i> − 2", "7<i>a<\/i> − 2"], "ans": 2, "sol": "Replace <i>x<\/i> with 2<i>a<\/i>: 5(2<i>a<\/i>) − 2 = 10<i>a<\/i> − 2. (The choice 10<i>a<\/i> − 4 is 2<i>f<\/i>(<i>a<\/i>).) Answer: <b>10<i>a<\/i> − 2<\/b>", "hint": "Only the input is doubled. Substitute (2<i>a<\/i>) for <i>x<\/i>."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 3 and <i>g<\/i>(<i>x<\/i>) = <i>x<\/i> − 4. What is the value of <i>f<\/i>(<i>g<\/i>(6))?", "opts": ["11", "30", "17", "7"], "ans": 3, "sol": "Inside first: <i>g<\/i>(6) = 2. Then <i>f<\/i>(2) = 2(2) + 3 = 7. Answer: <b>7<\/b>", "hint": "Which function do you apply first: the inner one or the outer one?"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 1. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> + 2). Which equation defines <i>g<\/i>?", "opts": ["<i>g<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 5", "<i>g<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 1", "<i>g<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 7", "<i>g<\/i>(<i>x<\/i>) = 5<i>x<\/i> − 1"], "ans": 0, "sol": "<i>g<\/i>(<i>x<\/i>) = 3(<i>x<\/i> + 2) − 1 = 3<i>x<\/i> + 6 − 1 = 3<i>x<\/i> + 5. Answer: <b><i>g<\/i>(<i>x<\/i>) = 3<i>x<\/i> + 5<\/b>", "hint": "Substitute the whole expression (<i>x<\/i> + 2) for <i>x<\/i> in <i>f<\/i>, and distribute the 3."}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "Let <i>f<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 3 and <i>g<\/i>(<i>x<\/i>) = <i>a<\/i><i>x<\/i> + 2, where <i>a<\/i> is a constant. If <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 8<i>x<\/i> + 5 for all values of <i>x<\/i>, what is the value of <i>a<\/i>?", "ans": ["2"], "sol": "<i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 4(<i>a<\/i><i>x<\/i> + 2) − 3 = 4<i>a<\/i><i>x<\/i> + 5. Matching 4<i>a<\/i><i>x<\/i> with 8<i>x<\/i> gives 4<i>a<\/i> = 8, so <i>a<\/i> = 2. Answer: <b>2<\/b>", "hint": "Write <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) in terms of <i>a<\/i>, then compare the coefficients of <i>x<\/i>."}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "The table shows three values of a linear function <i>f<\/i>.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>x<\/i><\/th><td>1<\/td><td>2<\/td><td>3<\/td><\/tr><tr><th><i>f<\/i>(<i>x<\/i>)<\/th><td>7<\/td><td>4<\/td><td>1<\/td><\/tr><\/table><\/div>The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 4) + 6. What is the value of <i>g<\/i>(5)?", "opts": ["−11", "13", "1", "7"], "ans": 1, "sol": "<i>g<\/i>(5) = <i>f<\/i>(5 − 4) + 6 = <i>f<\/i>(1) + 6 = 7 + 6 = 13. Answer: <b>13<\/b>", "hint": "What input does <i>f<\/i> actually receive when <i>x<\/i> = 5? Is that input in the table?"}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "If <i>g<\/i>(<i>x<\/i>) = 7 − 3<i>x<\/i>, what is the value of <i>g<\/i>(2)?", "opts": ["1", "8", "13", "−1"], "ans": 0, "sol": "<i>g<\/i>(2) = 7 − 3(2) = 7 − 6 = 1. Answer: <b>1<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "A gym charges M(<i>n<\/i>) = 25 + 12<i>n<\/i> dollars for a month in which a member attends <i>n<\/i> classes. What is M(6)?", "opts": ["222", "97", "37", "72"], "ans": 1, "sol": "M(6) = 25 + 12(6) = 25 + 72 = 97. Answer: <b>97<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "The function <i>p<\/i> is defined by <i>p<\/i>(<i>x<\/i>) = <span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> + 3. If <i>p<\/i>(<i>x<\/i>) = 8, what is the value of <i>x<\/i>?", "opts": ["5", "44", "20", "2"], "ans": 2, "sol": "<span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> + 3 = 8, so <span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> = 5 and <i>x<\/i> = 20. Answer: <b>20<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "The table shows values of a linear function <i>f<\/i>.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>x<\/i><\/th><td>−1<\/td><td>0<\/td><td>1<\/td><td>2<\/td><\/tr><tr><th><i>f<\/i>(<i>x<\/i>)<\/th><td>9<\/td><td>7<\/td><td>5<\/td><td>3<\/td><\/tr><\/table><\/div>Which equation defines <i>f<\/i>?", "opts": ["<i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 7", "<i>f<\/i>(<i>x<\/i>) = −2<i>x<\/i> + 9", "<i>f<\/i>(<i>x<\/i>) = 7<i>x<\/i> − 2", "<i>f<\/i>(<i>x<\/i>) = −2<i>x<\/i> + 7"], "ans": 3, "sol": "As <i>x<\/i> increases by 1, <i>f<\/i>(<i>x<\/i>) decreases by 2, so the slope is −2. <i>f<\/i>(0) = 7. Answer: <b><i>f<\/i>(<i>x<\/i>) = −2<i>x<\/i> + 7<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = <i>x<\/i> + 6 and <i>g<\/i>(<i>x<\/i>) = 3<i>x<\/i>. What is the value of <i>f<\/i>(<i>g<\/i>(2))?", "opts": ["12", "24", "14", "48"], "ans": 0, "sol": "<i>g<\/i>(2) = 6, then <i>f<\/i>(6) = 12. Answer: <b>12<\/b>"}, {"lo": "LO5", "diff": "E", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 1. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i>) − 5. Which equation defines <i>g<\/i>?", "opts": ["<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 4", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 6", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 9", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 5"], "ans": 0, "sol": "Subtract 5 from the whole output: <i>g<\/i>(<i>x<\/i>) = (2<i>x<\/i> + 1) − 5 = 2<i>x<\/i> − 4. Answer: <b><i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 4<\/b>"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "If <i>f<\/i>(<i>x<\/i>) = −4<i>x<\/i> + 9, what is the value of <i>f<\/i>(1) − <i>f<\/i>(6)?", "ans": ["20"], "sol": "<i>f<\/i>(1) = 5 and <i>f<\/i>(6) = −15. So <i>f<\/i>(1) − <i>f<\/i>(6) = 5 − (−15) = 20. Answer: <b>20<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "If <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 8, which expression is equivalent to <i>f<\/i>(<i>a<\/i> + 2)?", "opts": ["3<i>a<\/i> − 6", "3<i>a<\/i> − 2", "3<i>a<\/i> − 14", "5<i>a<\/i> − 8"], "ans": 1, "sol": "<i>f<\/i>(<i>a<\/i> + 2) = 3(<i>a<\/i> + 2) − 8 = 3<i>a<\/i> + 6 − 8 = 3<i>a<\/i> − 2. Answer: <b>3<i>a<\/i> − 2<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "The temperature of a liquid, in degrees Celsius, <i>m<\/i> minutes after it is taken off a burner is modeled by T(<i>m<\/i>) = 84 − 2.5<i>m<\/i>. According to the model, after how many minutes is the temperature 39 degrees Celsius?", "opts": ["−13.5", "49.2", "18", "15.6"], "ans": 2, "sol": "Solve 84 − 2.5<i>m<\/i> = 39: 2.5<i>m<\/i> = 45, so <i>m<\/i> = 18. Answer: <b>18<\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "A theater's total charge C(<i>n<\/i>), in dollars, for an order of <i>n<\/i> tickets is a linear function of <i>n<\/i>. The table shows some orders.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>n<\/i><\/th><td>2<\/td><td>5<\/td><td>9<\/td><\/tr><tr><th>C(<i>n<\/i>)<\/th><td>31<\/td><td>61<\/td><td>101<\/td><\/tr><\/table><\/div>What is the total charge, in dollars, for an order of 14 tickets?", "ans": ["151"], "sol": "Slope = <span class=\"fq\"><span>61 − 31<\/span><span>5 − 2<\/span><\/span> = 10 dollars per ticket. From (2, 31): 31 = 20 + <i>b<\/i>, so <i>b<\/i> = 11 and C(<i>n<\/i>) = 10<i>n<\/i> + 11. C(14) = 151. Answer: <b>151<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "For a linear function <i>f<\/i>, <i>f<\/i>(−2) = 11 and <i>f<\/i>(4) = −7. What is the value of <i>f<\/i>(0)?", "opts": ["2", "−1", "5", "17"], "ans": 2, "sol": "Slope = <span class=\"fq\"><span>−7 − 11<\/span><span>4 − (−2)<\/span><\/span> = <span class=\"fq\"><span>−18<\/span><span>6<\/span><\/span> = −3. Moving from <i>x<\/i> = −2 to <i>x<\/i> = 0 adds 2(−3) = −6, so <i>f<\/i>(0) = 11 − 6 = 5. Answer: <b>5<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 5 and <i>g<\/i>(<i>x<\/i>) = 4 − <i>x<\/i>. Which expression is equivalent to <i>g<\/i>(<i>f<\/i>(<i>x<\/i>))?", "opts": ["−2<i>x<\/i> + 3", "−2<i>x<\/i> − 1", "2<i>x<\/i> − 9", "−2<i>x<\/i> + 9"], "ans": 3, "sol": "<i>g<\/i>(<i>f<\/i>(<i>x<\/i>)) = 4 − (2<i>x<\/i> − 5) = 4 − 2<i>x<\/i> + 5 = −2<i>x<\/i> + 9. (−2<i>x<\/i> + 3 is <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)).) Answer: <b>−2<i>x<\/i> + 9<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = −<i>x<\/i> + 4. The function <i>h<\/i> is defined by <i>h<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 3). What is the value of <i>h<\/i>(1)?", "opts": ["0", "3", "−2", "6"], "ans": 3, "sol": "<i>h<\/i>(1) = <i>f<\/i>(1 − 3) = <i>f<\/i>(−2) = −(−2) + 4 = 6. Answer: <b>6<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = 6<i>x<\/i> − 5. If <i>f<\/i>(2<i>k<\/i>) = 31, what is the value of <i>k<\/i>?", "ans": ["3"], "sol": "<i>f<\/i>(2<i>k<\/i>) = 6(2<i>k<\/i>) − 5 = 12<i>k<\/i> − 5. Solve 12<i>k<\/i> − 5 = 31: 12<i>k<\/i> = 36, so <i>k<\/i> = 3. Answer: <b>3<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "The cost, in dollars, of renting a van for <i>d<\/i> days is R(<i>d<\/i>) = 40<i>d<\/i> + 35. How many dollars greater is R(9) than R(6)?", "opts": ["120", "155", "40", "395"], "ans": 0, "sol": "R(9) = 395 and R(6) = 275, so the difference is 120. (Each extra day adds $40, and 3 extra days add $120.) Answer: <b>120<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "Let <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> + <i>k<\/i>, where <i>k<\/i> is a constant, and <i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 1. If <i>f<\/i>(<i>g<\/i>(4)) = 25, what is the value of <i>k<\/i>?", "ans": ["4"], "sol": "<i>g<\/i>(4) = 7, so <i>f<\/i>(7) = 21 + <i>k<\/i> = 25, giving <i>k<\/i> = 4. Answer: <b>4<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 6. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> + 1) − 3. For what value of <i>x<\/i> is <i>g<\/i>(<i>x<\/i>) = 11?", "opts": ["<span class=\"fq\"><span>17<\/span><span>4<\/span><\/span>", "4", "6", "<span class=\"fq\"><span>5<\/span><span>2<\/span><\/span>"], "ans": 1, "sol": "<i>g<\/i>(<i>x<\/i>) = 4(<i>x<\/i> + 1) − 6 − 3 = 4<i>x<\/i> − 5. Solve 4<i>x<\/i> − 5 = 11: <i>x<\/i> = 4. Answer: <b>4<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "Water drains from a tank at a constant rate. The table shows the volume V(<i>t<\/i>), in liters, of water in the tank <i>t<\/i> minutes after draining begins.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>t<\/i><\/th><td>3<\/td><td>8<\/td><td>15<\/td><\/tr><tr><th>V(<i>t<\/i>)<\/th><td>448<\/td><td>378<\/td><td>280<\/td><\/tr><\/table><\/div>At what time <i>t<\/i>, in minutes, will the tank be empty?", "ans": ["35"], "sol": "Slope = <span class=\"fq\"><span>378 − 448<\/span><span>8 − 3<\/span><\/span> = −14 liters per minute. From (3, 448): V(0) = 448 + 42 = 490, so V(<i>t<\/i>) = 490 − 14<i>t<\/i>. Solve 490 − 14<i>t<\/i> = 0: <i>t<\/i> = 35. Answer: <b>35<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A store prices an item by first marking up its cost <i>c<\/i> dollars with <i>p<\/i>(<i>c<\/i>) = 1.25<i>c<\/i>, then adding a shipping charge with <i>s<\/i>(<i>p<\/i>) = <i>p<\/i> + 8. The total charged for the item is <i>s<\/i>(<i>p<\/i>(<i>c<\/i>)). If the total charged is $58, what is the cost <i>c<\/i>, in dollars?", "opts": ["38.4", "46.4", "50", "40"], "ans": 3, "sol": "<i>s<\/i>(<i>p<\/i>(<i>c<\/i>)) = 1.25<i>c<\/i> + 8. Solve 1.25<i>c<\/i> + 8 = 58: 1.25<i>c<\/i> = 50, so <i>c<\/i> = 40. Answer: <b>40<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "A linear function <i>f<\/i> satisfies <i>f<\/i>(2) = 5 and <i>f<\/i>(6) = 17. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 2) + 4. What is the <i>y<\/i>-intercept of the graph of <i>y<\/i> = <i>g<\/i>(<i>x<\/i>)?", "opts": ["(0, 9)", "(0, 3)", "(0, −3)", "(0, −7)"], "ans": 2, "sol": "Slope of <i>f<\/i> = <span class=\"fq\"><span>17 − 5<\/span><span>6 − 2<\/span><\/span> = 3, and <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 1. Then <i>g<\/i>(0) = <i>f<\/i>(−2) + 4 = −7 + 4 = −3. Answer: <b>(0, −3)<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "If <i>f<\/i>(<i>x<\/i>) = 7<i>x<\/i> − 3, what is the value of <i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>) − <i>f<\/i>(<i>a<\/i> + <i>b<\/i>)?", "opts": ["−3", "3", "0", "−6"], "ans": 0, "sol": "<i>f<\/i>(<i>a<\/i>) + <i>f<\/i>(<i>b<\/i>) = 7<i>a<\/i> + 7<i>b<\/i> − 6 and <i>f<\/i>(<i>a<\/i> + <i>b<\/i>) = 7<i>a<\/i> + 7<i>b<\/i> − 3. The difference is −3. Answer: <b>−3<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A phone plan charges P(<i>g<\/i>) = 15<i>g<\/i> + 30 dollars in a month when <i>g<\/i> gigabytes of data are used. One month's bill was $142.50. How many gigabytes were used that month?", "ans": ["7.5", "15/2"], "sol": "Solve 15<i>g<\/i> + 30 = 142.5: 15<i>g<\/i> = 112.5, so <i>g<\/i> = 7.5. Answer: <b>7.5<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "For a linear function <i>f<\/i>, <i>f<\/i>(4) = −1 and <i>f<\/i>(10) = 8. What is the value of <i>f<\/i>(0)?", "opts": ["−5", "−7", "−13", "5"], "ans": 1, "sol": "Slope = <span class=\"fq\"><span>8 − (−1)<\/span><span>10 − 4<\/span><\/span> = <span class=\"fq\"><span>9<\/span><span>6<\/span><\/span> = 1.5. Going back 4 units from <i>x<\/i> = 4: <i>f<\/i>(0) = −1 − 4(1.5) = −7. Answer: <b>−7<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = <span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + 1 and <i>g<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 2. Which expression is equivalent to <i>f<\/i>(<i>g<\/i>(<i>x<\/i>))?", "opts": ["2<i>x<\/i> + 2", "2<i>x<\/i> − 1", "2<i>x<\/i>", "2<i>x<\/i> − 2"], "ans": 2, "sol": "<i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = <span class=\"fq\"><span>4<i>x<\/i> − 2<\/span><span>2<\/span><\/span> + 1 = 2<i>x<\/i> − 1 + 1 = 2<i>x<\/i>. (2<i>x<\/i> + 2 is <i>g<\/i>(<i>f<\/i>(<i>x<\/i>)).) Answer: <b>2<i>x<\/i><\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "The graph of <i>y<\/i> = <i>f<\/i>(<i>x<\/i>), where <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 3, is translated 4 units to the right and 1 unit down to give the graph of <i>y<\/i> = <i>g<\/i>(<i>x<\/i>). Which equation defines <i>g<\/i>?", "opts": ["<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> + 10", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 3", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 2", "<i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 6"], "ans": 3, "sol": "<i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 4) − 1 = 2(<i>x<\/i> − 4) + 3 − 1 = 2<i>x<\/i> − 6. Answer: <b><i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> − 6<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A taxi fare, in dollars, for a ride of <i>m<\/i> miles is F(<i>m<\/i>) = 3.5 + 2.25<i>m<\/i>. Two separate rides of <i>m<\/i> miles each cost how many dollars more than a single ride of 2<i>m<\/i> miles?", "opts": ["$3.50", "$2.25", "$7.00", "$0"], "ans": 0, "sol": "Two rides: 2F(<i>m<\/i>) = 7 + 4.5<i>m<\/i>. One long ride: F(2<i>m<\/i>) = 3.5 + 4.5<i>m<\/i>. The difference is 3.5, the extra flag-drop fee. Answer: <b>$3.50<\/b>"}, {"lo": "LO1", "diff": "H", "type": "spr", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = <i>a<\/i><i>x<\/i> − 5, where <i>a<\/i> is a constant. If <i>f<\/i>(3) = <i>f<\/i>(1) + 10, what is the value of <i>f<\/i>(4)?", "ans": ["15"], "sol": "3<i>a<\/i> − 5 = (<i>a<\/i> − 5) + 10, so 2<i>a<\/i> = 10 and <i>a<\/i> = 5. Then <i>f<\/i>(4) = 20 − 5 = 15. Answer: <b>15<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = 2<i>x<\/i> + <i>c<\/i>, where <i>c<\/i> is a constant, and <i>f<\/i>(5) = 19. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = −3?", "opts": ["3", "−6", "−8", "6"], "ans": 1, "sol": "10 + <i>c<\/i> = 19, so <i>c<\/i> = 9. Solve 2<i>x<\/i> + 9 = −3: 2<i>x<\/i> = −12, so <i>x<\/i> = −6. Answer: <b>−6<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "The population P(<i>t<\/i>), in thousands, of a town <i>t<\/i> years after 2010 is modeled by a linear function. The table shows three values.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>t<\/i><\/th><td>2<\/td><td>5<\/td><td>11<\/td><\/tr><tr><th>P(<i>t<\/i>)<\/th><td>41.6<\/td><td>47.0<\/td><td>57.8<\/td><\/tr><\/table><\/div>According to the model, how many years after 2010 will the population be 63.2 thousand?", "ans": ["14"], "sol": "Slope = <span class=\"fq\"><span>47.0 − 41.6<\/span><span>3<\/span><\/span> = 1.8 thousand per year. P(0) = 41.6 − 2(1.8) = 38, so P(<i>t<\/i>) = 1.8<i>t<\/i> + 38. Solve 1.8<i>t<\/i> + 38 = 63.2: <i>t<\/i> = 14. Answer: <b>14<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 2. If <i>f<\/i>(<i>f<\/i>(<i>k<\/i>)) = 19, what is the value of <i>k<\/i>?", "opts": ["7", "<span class=\"fq\"><span>17<\/span><span>9<\/span><\/span>", "3", "<span class=\"fq\"><span>25<\/span><span>9<\/span><\/span>"], "ans": 2, "sol": "<i>f<\/i>(<i>f<\/i>(<i>x<\/i>)) = 3(3<i>x<\/i> − 2) − 2 = 9<i>x<\/i> − 8. Solve 9<i>k<\/i> − 8 = 19: <i>k<\/i> = 3. Answer: <b>3<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = <i>m<\/i><i>x<\/i> + 4 and <i>g<\/i>(<i>x<\/i>) = 2<i>x<\/i> + <i>n<\/i>, where <i>m<\/i> and <i>n<\/i> are constants. If <i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = <i>g<\/i>(<i>f<\/i>(<i>x<\/i>)) for all values of <i>x<\/i>, which of the following must be true?", "opts": ["<i>m<\/i><i>n<\/i> = 8", "<i>m<\/i> = 2", "<i>n<\/i> = 4", "<i>n<\/i>(<i>m<\/i> − 1) = 4"], "ans": 3, "sol": "<i>f<\/i>(<i>g<\/i>(<i>x<\/i>)) = 2<i>m<\/i><i>x<\/i> + <i>m<\/i><i>n<\/i> + 4 and <i>g<\/i>(<i>f<\/i>(<i>x<\/i>)) = 2<i>m<\/i><i>x<\/i> + 8 + <i>n<\/i>. The <i>x<\/i> terms already match, so <i>m<\/i><i>n<\/i> + 4 = <i>n<\/i> + 8, which gives <i>m<\/i><i>n<\/i> − <i>n<\/i> = 4, or <i>n<\/i>(<i>m<\/i> − 1) = 4. (For example, <i>m<\/i> = 3, <i>n<\/i> = 2 works, which rules out the other choices.) Answer: <b><i>n<\/i>(<i>m<\/i> − 1) = 4<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "The graph of a function <i>f<\/i> passes through the point (2, 7). The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> + 3) − 5. Which point must lie on the graph of <i>y<\/i> = <i>g<\/i>(<i>x<\/i>)?", "opts": ["(−1, 2)", "(5, 2)", "(−1, 12)", "(5, 12)"], "ans": 0, "sol": "<i>g<\/i>(<i>x<\/i>) equals <i>f<\/i>(2) − 5 when <i>x<\/i> + 3 = 2, that is when <i>x<\/i> = −1. So <i>g<\/i>(−1) = 7 − 5 = 2. Answer: <b>(−1, 2)<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "On Monday, the temperature, in degrees Fahrenheit, <i>t<\/i> hours after 6:00 a.m. is modeled by C(<i>t<\/i>) = 1.5<i>t<\/i> + 4. On Tuesday, the temperature at each time <i>t<\/i> equals Monday's temperature from 2 hours earlier, minus 3 degrees. If D(<i>t<\/i>) models Tuesday's temperature, what is D(10)?", "opts": ["19", "13", "16", "14"], "ans": 1, "sol": "D(<i>t<\/i>) = C(<i>t<\/i> − 2) − 3, so D(10) = C(8) − 3 = (12 + 4) − 3 = 13. Answer: <b>13<\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = <span class=\"fq\"><span>2<i>x<\/i> − 7<\/span><span>3<\/span><\/span>. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = <i>f<\/i>(4) + 6?", "ans": ["13"], "sol": "<i>f<\/i>(4) = <span class=\"fq\"><span>1<\/span><span>3<\/span><\/span>, so the target output is <span class=\"fq\"><span>19<\/span><span>3<\/span><\/span>. Then 2<i>x<\/i> − 7 = 19, so <i>x<\/i> = 13. (Shortcut: raising the output by 6 means raising 2<i>x<\/i> − 7 by 18, so <i>x<\/i> rises by 9 from 4.) Answer: <b>13<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = −2<i>x<\/i> + 9. For what value of <i>a<\/i> is <i>f<\/i>(<i>a<\/i> + 3) = 2<i>f<\/i>(<i>a<\/i>)?", "opts": ["3", "<span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>", "<span class=\"fq\"><span>15<\/span><span>2<\/span><\/span>", "9"], "ans": 2, "sol": "<i>f<\/i>(<i>a<\/i> + 3) = −2<i>a<\/i> − 6 + 9 = −2<i>a<\/i> + 3 and 2<i>f<\/i>(<i>a<\/i>) = −4<i>a<\/i> + 18. Solve −2<i>a<\/i> + 3 = −4<i>a<\/i> + 18: 2<i>a<\/i> = 15, so <i>a<\/i> = <span class=\"fq\"><span>15<\/span><span>2<\/span><\/span>. Answer: <b><span class=\"fq\"><span>15<\/span><span>2<\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "A candle burns at a constant rate. Its height <i>h<\/i>(<i>t<\/i>), in centimeters, <i>t<\/i> hours after it is lit is shown for three times.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>t<\/i><\/th><td>1<\/td><td>4<\/td><td><i>k<\/i><\/td><\/tr><tr><th><i>h<\/i>(<i>t<\/i>)<\/th><td>28<\/td><td>19<\/td><td>7<\/td><\/tr><\/table><\/div>What is the value of <i>k<\/i>?", "ans": ["8"], "sol": "Slope = <span class=\"fq\"><span>19 − 28<\/span><span>4 − 1<\/span><\/span> = −3 cm per hour, so <i>h<\/i>(<i>t<\/i>) = 31 − 3<i>t<\/i>. Solve 31 − 3<i>k<\/i> = 7: <i>k<\/i> = 8. Answer: <b>8<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = <i>a<\/i><i>x<\/i> + <i>b<\/i>, where <i>a<\/i> and <i>b<\/i> are constants and <i>a<\/i> > 0. If <i>f<\/i>(<i>f<\/i>(<i>x<\/i>)) = 16<i>x<\/i> − 15 for all values of <i>x<\/i>, what is the value of <i>f<\/i>(3)?", "opts": ["9", "−7", "33", "12"], "ans": 0, "sol": "<i>f<\/i>(<i>f<\/i>(<i>x<\/i>)) = <i>a<\/i>(<i>a<\/i><i>x<\/i> + <i>b<\/i>) + <i>b<\/i> = <i>a<\/i><sup>2<\/sup><i>x<\/i> + <i>a<\/i><i>b<\/i> + <i>b<\/i>. So <i>a<\/i><sup>2<\/sup> = 16; with <i>a<\/i> > 0, <i>a<\/i> = 4. Then 4<i>b<\/i> + <i>b<\/i> = −15, so <i>b<\/i> = −3. <i>f<\/i>(3) = 12 − 3 = 9. Answer: <b>9<\/b>"}, {"lo": "LO5", "diff": "X", "type": "mcq", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = <i>m<\/i><i>x<\/i> + <i>b<\/i>, where <i>m<\/i> and <i>b<\/i> are constants. The function <i>g<\/i> is defined by <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i> − 4) + 6. If <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(<i>x<\/i>) for all values of <i>x<\/i>, what is the value of <i>m<\/i>?", "opts": ["<span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>", "<span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>", "−<span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>", "−<span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>"], "ans": 1, "sol": "<i>g<\/i>(<i>x<\/i>) = <i>m<\/i>(<i>x<\/i> − 4) + <i>b<\/i> + 6 = <i>m<\/i><i>x<\/i> + <i>b<\/i> − 4<i>m<\/i> + 6. For this to equal <i>m<\/i><i>x<\/i> + <i>b<\/i>, −4<i>m<\/i> + 6 = 0, so <i>m<\/i> = <span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>. (Moving right 4 and up 6 along a line of slope <span class=\"fq\"><span>6<\/span><span>4<\/span><\/span> lands back on the line.) Answer: <b><span class=\"fq\"><span>3<\/span><span>2<\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "X", "type": "mcq", "q": "The balance B(<i>w<\/i>), in dollars, of a savings account <i>w<\/i> weeks after it was opened is a linear function of <i>w<\/i>. If B(3) + B(11) = 1,480, what is the value of B(7)?", "opts": ["1,480", "370", "740", "1,110"], "ans": 2, "sol": "For a linear function, the output at the midpoint of two inputs is the average of their outputs. Since 7 is halfway between 3 and 11, B(7) = <span class=\"fq\"><span>1,480<\/span><span>2<\/span><\/span> = 740. Answer: <b>740<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "Let <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 4, and let <i>g<\/i>(<i>x<\/i>) = <i>f<\/i>(2<i>x<\/i> + <i>k<\/i>), where <i>k<\/i> is a constant. If <i>g<\/i>(5) = <i>f<\/i>(5) + 21, what is the value of <i>k<\/i>?", "opts": ["6", "10", "−2", "2"], "ans": 3, "sol": "<i>f<\/i>(5) = 11, so <i>g<\/i>(5) = 32. Also <i>g<\/i>(5) = <i>f<\/i>(10 + <i>k<\/i>) = 3(10 + <i>k<\/i>) − 4 = 26 + 3<i>k<\/i>. Solve 26 + 3<i>k<\/i> = 32: <i>k<\/i> = 2. Answer: <b>2<\/b>"}], "unit_no": 1, "topic_no": "3", "code": "3.1"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

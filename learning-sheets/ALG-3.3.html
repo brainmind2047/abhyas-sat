@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3.3 Interpreting linear models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-3.3", "unit": "Algebra", "topic": "Linear functions", "title": "Interpreting linear models", "intro": "A linear model describes a real situation with an equation like <i>y<\/i> = <i>mx<\/i> + <i>b<\/i>, where the slope is a constant rate and the intercept is a starting amount. The DSAT tests whether you can say what those numbers mean, use the model to predict, compare two models, handle unit changes, and recognise where a model stops making sense.", "los": [{"id": "LO1", "text": "Interpret the slope, intercepts and other constants of a linear model in context, including models written in non-standard forms."}, {"id": "LO2", "text": "Use a linear model, or build one from two data points, to make predictions in both directions (input to output and output to input)."}, {"id": "LO3", "text": "Compare two linear models and determine when they are equal and when one overtakes the other."}, {"id": "LO4", "text": "Rewrite a linear model after converting the units of its input, its output or its rate."}, {"id": "LO5", "text": "Determine a reasonable domain for a linear model and identify conclusions that go beyond its limits."}], "notes": [{"lo": "LO1", "h": "Slope = rate of change, with units", "html": "In a model <i>y<\/i> = <i>mx<\/i> + <i>b<\/i>, the slope <i>m<\/i> tells how much the output changes when the input goes up by exactly <b>1 unit<\/b>. Its units are always <i>output units per input unit<\/i>.<div class=\"rule\">Slope meaning = \"For each additional 1 [input unit], the [output] increases (or decreases) by <i>m<\/i> [output units].\"<\/div><ul><li>A positive slope means the quantity grows; a negative slope means it shrinks. On the DSAT the answer says \"decreases by 4\", not \"increases by −4\".<\/li><li>If the input goes up by <i>k<\/i> units, the output changes by <i>k<\/i> · <i>m<\/i>.<\/li><li>With two inputs, as in <i>P<\/i> = 14<i>b<\/i> + 9<i>c<\/i> − 620, each coefficient is the change for one more unit of <b>that<\/b> input while the other input stays fixed.<\/li><\/ul><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Model<\/th><th>Slope says<\/th><\/tr><tr><td><i>C<\/i> = 3<i>h<\/i> + 20 (dollars, hours)<\/td><td>$3 more for each extra hour<\/td><\/tr><tr><td><i>W<\/i> = 80 − 2<i>d<\/i> (liters, days)<\/td><td>2 liters used per day<\/td><\/tr><\/table><\/div>"}, {"lo": "LO1", "h": "Intercepts and other forms", "html": "The <b><i>y<\/i>-intercept<\/b> <i>b<\/i> is the output when the input is 0: a starting amount, a flat fee or an initial value. The <b><i>x<\/i>-intercept<\/b> is the input at which the output becomes 0, such as the time a tank empties or the sales needed to break even.<div class=\"rule\">Set input = 0 to read the starting value. Set output = 0 to find when the quantity runs out or breaks even.<\/div>Models are not always in slope-intercept form, so read each number by what it does:<ul><li><i>V<\/i> = 300(9 − <i>t<\/i>): <i>V<\/i> = 0 when <i>t<\/i> = 9, so 9 is the time until the value is gone, and 300 is the drop per unit of time.<\/li><li><i>y<\/i> − 50 = 4(<i>x<\/i> − 3): the point (3, 50) is on the line, so 50 is the output when <i>x<\/i> = 3, <b>not<\/b> when <i>x<\/i> = 0.<\/li><li>A term like 2.5<i>n<\/i> is a total (the variable part of the cost for <i>n<\/i> items), not a rate.<\/li><\/ul>"}, {"lo": "LO2", "h": "Making predictions", "html": "Prediction questions run in two directions.<ul><li><b>Input given:<\/b> substitute it and evaluate.<\/li><li><b>Output given:<\/b> set the model equal to that value and solve for the input.<\/li><\/ul>If you only have two data points, build the model first. The slope is <i>m<\/i> = <span class=\"fq\"><span>change in output<\/span><span>change in input<\/span><\/span>. Then use one point to find the intercept, or predict directly by stepping from a known point:<div class=\"rule\">New output = known output + <i>m<\/i> × (distance in input from the known point)<\/div>For example, if a quantity is 50 at <i>t<\/i> = 2 and 74 at <i>t<\/i> = 6, then <i>m<\/i> = 6, and at <i>t<\/i> = 10 it is 74 + 6 · 4 = 98. Check what the input counts: \"years after 2015\" makes 2023 <i>t<\/i> = 8.<div class=\"tip\">Desmos tip: type the two points as a table, then type <i>y<\/i><sub>1<\/sub> ~ <i>m<\/i><i>x<\/i><sub>1<\/sub> + <i>b<\/i> to get the exact slope and intercept. To predict, type the model and click on the curve, or add a line such as <i>y<\/i> = 1000 and click the intersection.<\/div>"}, {"lo": "LO3", "h": "Comparing two models", "html": "When two plans, objects or quantities each follow a linear model, compare them in two ways.<ul><li>The <b>intercepts<\/b> tell you who starts ahead.<\/li><li>The <b>slopes<\/b> tell you who changes faster.<\/li><\/ul>A model that starts behind but has a larger slope will eventually overtake the other one.<div class=\"rule\">Equal when <i>m<\/i><sub>1<\/sub><i>x<\/i> + <i>b<\/i><sub>1<\/sub> = <i>m<\/i><sub>2<\/sub><i>x<\/i> + <i>b<\/i><sub>2<\/sub>, that is, <i>x<\/i> = <span class=\"fq\"><span><i>b<\/i><sub>2<\/sub> − <i>b<\/i><sub>1<\/sub><\/span><span><i>m<\/i><sub>1<\/sub> − <i>m<\/i><sub>2<\/sub><\/span><\/span>. The gap between the intercepts closes at a speed equal to the difference of the slopes.<\/div><ul><li>\"Cheaper\", \"taller\" and \"more than\" need an <b>inequality<\/b>. Solve the equality first, then decide which side you want.<\/li><li>If the input must be a whole number (shirts, months), the first value that is strictly better is the next whole number past the break-even point.<\/li><li>A model given as a table or graph needs its slope and intercept found first.<\/li><\/ul><div class=\"tip\">Desmos tip: graph both models and click the intersection point. Its <i>x<\/i>-coordinate is the break-even input, and its <i>y<\/i>-coordinate is the common value.<\/div>"}, {"lo": "LO4", "h": "Unit conversions inside a model", "html": "A unit change can hit the model in three places.<div class=\"tscroll\"><table class=\"dtab\"><tr><th>What changes<\/th><th>What to do<\/th><\/tr><tr><td>Input units (minutes → hours)<\/td><td>Rewrite the old input in terms of the new one (<i>t<\/i> = 60<i>h<\/i>) and substitute. Only the slope changes.<\/td><\/tr><tr><td>Output units (miles → km)<\/td><td>Multiply the <b>whole<\/b> right side by the factor. The slope <b>and<\/b> the intercept both change.<\/td><\/tr><tr><td>Non-proportional output (°C → °F)<\/td><td>Substitute the model into <i>F<\/i> = 1.8<i>C<\/i> + 32. The added 32 changes only the intercept.<\/td><\/tr><\/table><\/div><div class=\"rule\">Check the units of the slope: (output unit)/(input unit). Multiplying by factors that equal 1, such as <span class=\"fq\"><span>60 min<\/span><span>1 h<\/span><\/span>, cancels the old units and leaves the new ones.<\/div>A good sanity check is to plug in a matching pair of inputs to the old and new models. For example, 1 hour in the new model should give the same amount as 60 minutes in the old one."}, {"lo": "LO5", "h": "Domain and limits of a model", "html": "A model only describes the situation over a sensible set of inputs, called its <b>domain<\/b>. To find it:<ul><li><b>Physical limits:<\/b> amounts cannot be negative. Find where the output hits 0 (or a stated floor or capacity) to get an endpoint.<\/li><li><b>Discrete inputs:<\/b> people, tickets and pages come in whole numbers.<\/li><li><b>Data range:<\/b> a model fitted to data from, say, ages 2 to 10 should not be trusted at age 0 or age 40. Using it there is <i>extrapolation<\/i>.<\/li><\/ul><div class=\"rule\">If a model gives a negative length, a volume above capacity, or a prediction far outside the data, the conclusion is not supported. The model has gone past its limits.<\/div>Also remember that a model built from data gives <b>estimates<\/b> or <b>predictions<\/b>, not exact facts. When a quantity stops changing (a tank becomes full, a battery hits 0%), the linear model no longer applies. Use the new constant value from that point on."}], "examples": [{"lo": "LO1", "q": "A courier charges <i>C<\/i> = 1.4<i>m<\/i> + 6.5 dollars to deliver a parcel <i>m<\/i> miles. What do 1.4 and 6.5 mean?", "steps": ["1.4 is the coefficient of <i>m<\/i>, so it is the rate: dollars per mile.", "6.5 is the value of <i>C<\/i> when <i>m<\/i> = 0: a fixed charge that is paid regardless of distance.", "Check: a 10-mile delivery costs 1.4(10) + 6.5 = $20.50, which is $14 for distance plus the $6.50 base."], "ans": "1.4: the cost rises $1.40 for each additional mile. 6.5: a $6.50 base fee."}, {"lo": "LO2", "q": "A library had 520 visitors in month 3 and 680 visitors in month 7 of a year, and attendance grows linearly. Predict the visitors in month 12, and find the month when visitors first reach 1,000.", "steps": ["Slope: <i>m<\/i> = <span class=\"fq\"><span>680 − 520<\/span><span>7 − 3<\/span><\/span> = <span class=\"fq\"><span>160<\/span><span>4<\/span><\/span> = 40 visitors per month.", "Step from month 7: month 12 is 5 months later, so 680 + 40 · 5 = 880 visitors.", "Solve for 1,000: 680 + 40(<i>t<\/i> − 7) = 1,000 gives 40(<i>t<\/i> − 7) = 320, so <i>t<\/i> − 7 = 8 and <i>t<\/i> = 15."], "ans": "880 visitors in month 12. Visitors reach 1,000 in month 15."}, {"lo": "LO3", "q": "Streaming service A charges a $60 sign-up fee plus $8 per month. Service B charges $12 per month with no fee. After how many months do they cost the same, and which is cheaper after that?", "steps": ["Models: <i>A<\/i> = 8<i>n<\/i> + 60 and <i>B<\/i> = 12<i>n<\/i>.", "Set them equal: 12<i>n<\/i> = 8<i>n<\/i> + 60, so 4<i>n<\/i> = 60 and <i>n<\/i> = 15.", "B has the larger slope, so after month 15 B grows faster and A is cheaper. Check at <i>n<\/i> = 20: A = $220 and B = $240."], "ans": "Equal at 15 months ($180 each). A is cheaper after that."}, {"lo": "LO4", "q": "A tank holds <i>V<\/i> = 0.75<i>t<\/i> + 20 gallons of water <i>t<\/i> minutes after a pump starts. Using 1 gallon ≈ 3.8 liters, write the volume <i>L<\/i> in liters in terms of <i>h<\/i>, the time in hours.", "steps": ["Change the input: <i>t<\/i> = 60<i>h<\/i>, so <i>V<\/i> = 0.75(60<i>h<\/i>) + 20 = 45<i>h<\/i> + 20 gallons.", "Change the output: multiply the whole right side by 3.8, so <i>L<\/i> = 3.8(45<i>h<\/i> + 20) = 171<i>h<\/i> + 76.", "Check: <i>h<\/i> = 1 gives 247 L, and the old model at <i>t<\/i> = 60 gives 65 gallons × 3.8 = 247 L."], "ans": "<i>L<\/i> = 171<i>h<\/i> + 76"}, {"lo": "LO5", "q": "A printer's ink level is <i>I<\/i> = 92 − 0.4<i>p<\/i> percent after printing <i>p<\/i> pages. Give the domain for which the model makes sense, find when the ink is at 20%, and explain what the model's value at <i>p<\/i> = 250 tells you.", "steps": ["Ink cannot be negative: 92 − 0.4<i>p<\/i> ≥ 0 gives <i>p<\/i> ≤ 230. Pages are whole numbers, so the domain is the integers 0 ≤ <i>p<\/i> ≤ 230.", "Solve 92 − 0.4<i>p<\/i> = 20: 0.4<i>p<\/i> = 72, so <i>p<\/i> = 180 pages.", "At <i>p<\/i> = 250 the model gives 92 − 100 = −8%. That is impossible, because <i>p<\/i> = 250 is outside the domain: the cartridge ran dry at 230 pages."], "ans": "Domain: integers 0 to 230. 20% ink at 180 pages. The value at 250 pages is meaningless because it is outside the model's limits."}], "traps": ["Reading the slope as a starting amount (or the intercept as a rate): the number multiplied by the variable is the rate, and the number standing alone is the starting value.", "Saying a negative slope means \"increases by a negative amount\" instead of decreasing, or forgetting that the rate is per <b>one<\/b> unit of input, not per the whole change you were given.", "Using a point-slope form like <i>y<\/i> − 50 = 4(<i>x<\/i> − 3) and calling 50 the initial value, when it is the value at <i>x<\/i> = 3.", "Converting only the slope when the <b>output<\/b> units change: the intercept must be converted too.", "Trusting a model outside its domain, for example a negative amount left, a volume past capacity, or a prediction far beyond the data, or giving the break-even value when the question asks for the first value that is strictly cheaper."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "A plumber charges <i>C<\/i> = 65<i>h<\/i> + 90 dollars for a job that takes <i>h<\/i> hours. What is the best interpretation of 65 in this context?", "opts": ["The plumber charges a fixed fee of $65 for every job.", "The plumber charges $65 for each hour of work.", "A job that takes 1 hour costs a total of $65.", "The plumber works 65 hours for every $90 charged."], "ans": 1, "sol": "65 multiplies <i>h<\/i>, so it is the change in cost for each additional hour. The fixed fee is 90, and a 1-hour job costs 155. Answer: <b>$65 for each hour of work<\/b>", "hint": "Which number multiplies the variable <i>h<\/i>? That number is a rate."}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "The height of a burning candle is <i>H<\/i> = 24 − 1.5<i>t<\/i> centimeters, <i>t<\/i> hours after it is lit. What is the best interpretation of 24?", "opts": ["The candle burns for 24 hours.", "The candle loses 24 centimeters each hour.", "The candle is 24 centimeters tall when it is lit.", "The candle is 24 centimeters tall after 1.5 hours."], "ans": 2, "sol": "At <i>t<\/i> = 0 (the moment it is lit), <i>H<\/i> = 24. It burns for 24 ÷ 1.5 = 16 hours, not 24. Answer: <b>The candle is 24 cm tall when it is lit<\/b>", "hint": "What is <i>H<\/i> when <i>t<\/i> = 0?"}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "A taxi fare is <i>F<\/i> = 2.75<i>m<\/i> + 4.20 dollars for a ride of <i>m<\/i> miles. What is the fare, in dollars, for a 12-mile ride?", "ans": ["37.2", "37.20", "186/5"], "sol": "<i>F<\/i> = 2.75(12) + 4.20 = 33 + 4.20 = 37.20. Answer: <b>37.2<\/b>", "hint": "Substitute the number of miles for <i>m<\/i>, then add the fixed part."}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A tank holds <i>V<\/i> = 1,800 − 45<i>t<\/i> liters of water <i>t<\/i> minutes after it starts draining. After how many minutes will the tank hold 630 liters?", "ans": ["26"], "sol": "Set 1,800 − 45<i>t<\/i> = 630. Then 45<i>t<\/i> = 1,170, so <i>t<\/i> = 26. Answer: <b>26<\/b>", "hint": "Now the output is given. Set the model equal to 630 and solve for <i>t<\/i>."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Gym A charges a $40 joining fee plus $25 per month. Gym B charges a $100 joining fee plus $15 per month. After how many months will the total amounts paid at the two gyms be equal?", "opts": ["2.5", "4", "6", "14"], "ans": 2, "sol": "40 + 25<i>m<\/i> = 100 + 15<i>m<\/i>, so 10<i>m<\/i> = 60 and <i>m<\/i> = 6. Check: both total $190. Answer: <b>6<\/b>", "hint": "Write a cost model for each gym and set the two equal."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Ava saves money in a jar. The amount in the jar is <i>M<\/i> = 10.5<i>w<\/i> + 8 dollars after <i>w<\/i> weeks. Which equation gives the amount in terms of <i>d<\/i>, the number of days?", "opts": ["<i>M<\/i> = 73.5<i>d<\/i> + 8", "<i>M<\/i> = 1.5<i>d<\/i> + <span class=\"fq\"><span>8<\/span><span>7<\/span><\/span>", "<i>M<\/i> = 1.5<i>d<\/i> + 56", "<i>M<\/i> = 1.5<i>d<\/i> + 8"], "ans": 3, "sol": "<i>w<\/i> = <span class=\"fq\"><span><i>d<\/i><\/span><span>7<\/span><\/span>, so <i>M<\/i> = 10.5 · <span class=\"fq\"><span><i>d<\/i><\/span><span>7<\/span><\/span> + 8 = 1.5<i>d<\/i> + 8. The starting $8 does not depend on time units. Answer: <b><i>M<\/i> = 1.5<i>d<\/i> + 8<\/b>", "hint": "Is a day more or less than a week? Write <i>w<\/i> in terms of <i>d<\/i> and substitute."}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "A phone's battery charge is <i>B<\/i> = 100 − 8<i>t<\/i> percent, <i>t<\/i> hours after it is unplugged with a full charge. For which values of <i>t<\/i> does the model make sense?", "opts": ["0 ≤ <i>t<\/i> ≤ 12.5", "0 ≤ <i>t<\/i> ≤ 100", "0 ≤ <i>t<\/i> ≤ 8", "<i>t<\/i> ≥ 0"], "ans": 0, "sol": "The charge cannot drop below 0%: 100 − 8<i>t<\/i> ≥ 0 gives <i>t<\/i> ≤ 12.5, and time starts at 0. Answer: <b>0 ≤ <i>t<\/i> ≤ 12.5<\/b>", "hint": "When does the battery reach 0%?"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A school club's profit from selling <i>n<\/i> tickets is <i>P<\/i> = 8<i>n<\/i> − 1,200 dollars. The graph of this model crosses the <i>n<\/i>-axis at <i>n<\/i> = 150. What is the best interpretation of 150?", "opts": ["The club makes a profit of $150.", "The club must sell 150 tickets to break even.", "Each ticket increases the profit by $150.", "The club spent $150 before selling any tickets."], "ans": 1, "sol": "On the <i>n<\/i>-axis <i>P<\/i> = 0: 8(150) − 1,200 = 0. So 150 tickets give zero profit, the break-even point. Answer: <b>150 tickets are needed to break even<\/b>", "hint": "What is the value of <i>P<\/i> at any point on the <i>n<\/i>-axis?"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A town's population grew linearly from 18,400 in 2010 to 21,600 in 2018. If this trend continues, what will the population be in 2025?", "ans": ["24400"], "sol": "Rate: <span class=\"fq\"><span>21,600 − 18,400<\/span><span>8<\/span><\/span> = 400 people per year. 2025 is 15 years after 2010: 18,400 + 15 · 400 = 24,400. Answer: <b>24400<\/b>", "hint": "Find the change per year first, then count how many years 2025 is from a known year."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Maya has $900 and spends $40 each week. Leo has $600 and spends $15 each week. After how many weeks will they have the same amount of money?", "opts": ["7.5", "12", "20", "22.5"], "ans": 1, "sol": "900 − 40<i>w<\/i> = 600 − 15<i>w<\/i>, so 300 = 25<i>w<\/i> and <i>w<\/i> = 12. Both then have $420. Answer: <b>12<\/b>", "hint": "Maya's gap of $300 shrinks by the difference of the two weekly amounts."}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "An oven's temperature is <i>T<\/i> = 12<i>m<\/i> + 70 degrees Fahrenheit, <i>m<\/i> minutes after it is turned on. Celsius and Fahrenheit are related by <i>C<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> − 32). Which equation gives the oven's temperature <i>C<\/i> in degrees Celsius?", "opts": ["<i>C<\/i> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>m<\/i> + <span class=\"fq\"><span>350<\/span><span>9<\/span><\/span>", "<i>C<\/i> = 12<i>m<\/i> + <span class=\"fq\"><span>190<\/span><span>9<\/span><\/span>", "<i>C<\/i> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>m<\/i> + 38", "<i>C<\/i> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>m<\/i> + <span class=\"fq\"><span>190<\/span><span>9<\/span><\/span>"], "ans": 3, "sol": "<i>C<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(12<i>m<\/i> + 70 − 32) = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(12<i>m<\/i> + 38) = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>m<\/i> + <span class=\"fq\"><span>190<\/span><span>9<\/span><\/span>. Answer: <b><i>C<\/i> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>m<\/i> + <span class=\"fq\"><span>190<\/span><span>9<\/span><\/span><\/b>", "hint": "Substitute the whole expression 12<i>m<\/i> + 70 for <i>F<\/i>, then distribute <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>."}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "A doctor uses the model <i>h<\/i> = 2.4<i>a<\/i> + 31 to estimate a child's height <i>h<\/i>, in inches, at age <i>a<\/i> years. The model was built from data on children aged 2 to 10. Which conclusion is best supported by the model?", "opts": ["A 7-year-old child is predicted to be about 47.8 inches tall.", "A newborn baby is 31 inches tall.", "A 30-year-old adult is predicted to be about 103 inches tall.", "A child's predicted height increases by 2.4 inches each month."], "ans": 0, "sol": "Age 7 is inside the data range: 2.4(7) + 31 = 47.8. Ages 0 and 30 are outside the 2–10 range, and 2.4 is per year, not per month. Answer: <b>A 7-year-old is predicted to be about 47.8 inches tall<\/b>", "hint": "Which choice uses an age inside the data range and the correct units for the slope?"}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "The balance in Rafael's savings account is <i>S<\/i> = 1,250 − 35<i>w<\/i> dollars, <i>w<\/i> weeks after he starts withdrawing money. What is the best interpretation of 35?", "opts": ["The account starts with $35.", "The balance decreases by $35 each week.", "The balance is $35 after 1 week.", "The account will be empty after 35 weeks."], "ans": 1, "sol": "35 multiplies <i>w<\/i> with a minus sign, so the balance drops $35 per week. It starts at $1,250 and empties after about 35.7 weeks. Answer: <b>The balance decreases by $35 each week<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Renting a kayak costs <i>C<\/i> = 12<i>h<\/i> + 18 dollars for <i>h<\/i> hours. What is the best interpretation of 18?", "opts": ["The cost for each hour of rental", "The total cost of an 18-hour rental", "The number of hours that $12 pays for", "A fixed charge paid regardless of the rental time"], "ans": 3, "sol": "When <i>h<\/i> = 0, <i>C<\/i> = 18, so $18 is charged before any hours are counted. Answer: <b>A fixed charge paid regardless of time<\/b>"}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "The function <i>f<\/i> is defined by <i>f<\/i>(<i>x<\/i>) = 4<i>x<\/i> − 17. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = 31?", "ans": ["12"], "sol": "4<i>x<\/i> − 17 = 31, so 4<i>x<\/i> = 48 and <i>x<\/i> = 12. Answer: <b>12<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "A phone plan's monthly cost is <i>C<\/i> = 0.15<i>m<\/i> + 22 dollars, where <i>m<\/i> is the number of minutes used beyond the plan. What is the cost for a month with 340 extra minutes?", "opts": ["$51.00", "$54.30", "$73.00", "$362.15"], "ans": 2, "sol": "<i>C<\/i> = 0.15(340) + 22 = 51 + 22 = 73. Answer: <b>$73.00<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "In the <i>xy<\/i>-plane, the lines <i>y<\/i> = 3<i>x<\/i> + 5 and <i>y<\/i> = −<i>x<\/i> + 21 intersect at the point (<i>a<\/i>, <i>b<\/i>). What is the value of <i>a<\/i>?", "opts": ["4", "6.5", "8", "17"], "ans": 0, "sol": "3<i>x<\/i> + 5 = −<i>x<\/i> + 21 gives 4<i>x<\/i> = 16, so <i>x<\/i> = 4. (17 is the <i>y<\/i>-value.) Answer: <b>4<\/b>"}, {"lo": "LO5", "diff": "E", "type": "mcq", "q": "A bakery starts the day with 50 kg of flour. The flour left after baking <i>c<\/i> cakes is <i>F<\/i> = 50 − 2.5<i>c<\/i> kilograms. Which describes the possible values of <i>c<\/i> in this context?", "opts": ["All real numbers", "All real numbers from 0 to 50", "Integers from 0 to 20", "Integers from 0 to 50"], "ans": 2, "sol": "Cakes are whole numbers, and the flour runs out when 50 − 2.5<i>c<\/i> = 0, that is, at <i>c<\/i> = 20. Answer: <b>Integers from 0 to 20<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "The table shows the fuel <i>g<\/i>, in gallons, left in a car's tank after it has been driven <i>d<\/i> miles. The relationship is linear.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>d<\/i> (miles)<\/th><td>0<\/td><td>60<\/td><td>150<\/td><\/tr><tr><th><i>g<\/i> (gallons)<\/th><td>13.5<\/td><td>11.1<\/td><td>7.5<\/td><\/tr><\/table><\/div>What is the best interpretation of the slope of the line through these points?", "opts": ["The car travels 0.04 miles on each gallon of fuel.", "The car uses 2.4 gallons of fuel for each mile driven.", "The car uses 0.04 gallons of fuel for each mile driven.", "The tank holds 0.04 gallons more fuel for each mile driven."], "ans": 2, "sol": "Slope = <span class=\"fq\"><span>11.1 − 13.5<\/span><span>60 − 0<\/span><\/span> = <span class=\"fq\"><span>−2.4<\/span><span>60<\/span><\/span> = −0.04 gallons per mile, so 0.04 gallons are used each mile. Answer: <b>0.04 gallons used per mile<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "The price of a ticket to a museum is modeled by <i>P<\/i> = 15.2 + 0.8<i>t<\/i> dollars, <i>t<\/i> years after 2015. According to the model, by how much does the price increase every 5 years?", "opts": ["$0.80", "$4.00", "$19.20", "$76.00"], "ans": 1, "sol": "Each year adds $0.80, so 5 years add 5 × 0.8 = $4.00. ($19.20 is the price in 2020.) Answer: <b>$4.00<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A drink cools so that its temperature in °F is a linear function of time. It is 47°F after 2 minutes and 29°F after 8 minutes. According to the model, what is its temperature, in °F, after 5 minutes?", "ans": ["38"], "sol": "Slope = <span class=\"fq\"><span>29 − 47<\/span><span>8 − 2<\/span><\/span> = −3 °F per minute. From <i>m<\/i> = 2: 47 − 3(3) = 38. Answer: <b>38<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A hiker descends a mountain trail. The elevation is <i>E<\/i> = 3,420 − 180<i>h<\/i> feet, <i>h<\/i> hours after she starts. After how many hours will she be at an elevation of 2,250 feet?", "opts": ["6.5", "12.5", "19", "31.5"], "ans": 0, "sol": "3,420 − 180<i>h<\/i> = 2,250 gives 180<i>h<\/i> = 1,170, so <i>h<\/i> = 6.5. Answer: <b>6.5<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Printing company A charges $120 for setup plus $1.80 per shirt. Company B charges $45 for setup plus $2.30 per shirt. What is the least number of shirts for which company A costs less than company B?", "opts": ["36", "75", "150", "151"], "ans": 3, "sol": "120 + 1.8<i>n<\/i> &lt; 45 + 2.3<i>n<\/i> gives 75 &lt; 0.5<i>n<\/i>, so <i>n<\/i> &gt; 150. At 150 shirts the costs are equal, so the least whole number is 151. Answer: <b>151<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Functions <i>f<\/i> and <i>g<\/i> are defined by <i>f<\/i>(<i>x<\/i>) = 7<i>x<\/i> − 12 and <i>g<\/i>(<i>x<\/i>) = 4<i>x<\/i> + 15. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = <i>g<\/i>(<i>x<\/i>)?", "opts": ["<span class=\"fq\"><span>3<\/span><span>11<\/span><\/span>", "1", "<span class=\"fq\"><span>27<\/span><span>11<\/span><\/span>", "9"], "ans": 3, "sol": "7<i>x<\/i> − 12 = 4<i>x<\/i> + 15 gives 3<i>x<\/i> = 27, so <i>x<\/i> = 9. Answer: <b>9<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A pool contains <i>V<\/i> = 18<i>t<\/i> + 400 gallons of water <i>t<\/i> minutes after a hose is turned on. Which equation gives the volume in terms of <i>h<\/i>, the number of hours?", "opts": ["<i>V<\/i> = 1,080<i>h<\/i> + 400", "<i>V<\/i> = 0.3<i>h<\/i> + 400", "<i>V<\/i> = 18<i>h<\/i> + 24,000", "<i>V<\/i> = 1,080<i>h<\/i> + 24,000"], "ans": 0, "sol": "<i>t<\/i> = 60<i>h<\/i>, so <i>V<\/i> = 18(60<i>h<\/i>) + 400 = 1,080<i>h<\/i> + 400. The starting 400 gallons does not change. Answer: <b><i>V<\/i> = 1,080<i>h<\/i> + 400<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A runner starts 300 meters past a marker and runs away from it. Her distance from the marker is <i>D<\/i> = 4.2<i>s<\/i> + 300 meters after <i>s<\/i> seconds. Which equation gives her distance <i>K<\/i>, in kilometers, after <i>m<\/i> minutes?", "opts": ["<i>K<\/i> = 0.252<i>m<\/i> + 300", "<i>K<\/i> = 252<i>m<\/i> + 0.3", "<i>K<\/i> = 0.252<i>m<\/i> + 0.3", "<i>K<\/i> = 0.07<i>m<\/i> + 0.3"], "ans": 2, "sol": "<i>s<\/i> = 60<i>m<\/i>, so <i>D<\/i> = 252<i>m<\/i> + 300 meters. Divide by 1,000 for kilometers: <i>K<\/i> = 0.252<i>m<\/i> + 0.3. Answer: <b><i>K<\/i> = 0.252<i>m<\/i> + 0.3<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "A bike shop collected data at rental prices from $5 to $25 and found that the number of daily rentals is about <i>R<\/i> = 340 − 12<i>p<\/i>, where <i>p<\/i> is the price in dollars. For which price is it most reasonable to use the model?", "opts": ["$0", "$18", "$30", "$40"], "ans": 1, "sol": "Only $18 lies in the data range of $5 to $25 (<i>R<\/i> = 124). At $30 and $40 the model gives negative rentals, and $0 is outside the data. Answer: <b>$18<\/b>"}, {"lo": "LO5", "diff": "H", "type": "spr", "q": "A humidifier starts with 2.4 liters of water and uses 16 milliliters per minute. Its water is modeled by <i>V<\/i> = 2.4 − 0.016<i>t<\/i> liters after <i>t<\/i> minutes, until the water runs out. What is the greatest value of <i>t<\/i> in the domain of this model?", "ans": ["150"], "sol": "16 mL = 0.016 L. Set 2.4 − 0.016<i>t<\/i> = 0: <i>t<\/i> = 2.4 ÷ 0.016 = 150 minutes. Answer: <b>150<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "Electricity company X charges $18 per month plus $0.12 per kilowatt-hour (kWh). Company Y charges $29.50 per month plus $0.095 per kWh. For how many kWh in a month do the two companies charge the same amount?", "ans": ["460"], "sol": "18 + 0.12<i>k<\/i> = 29.5 + 0.095<i>k<\/i> gives 0.025<i>k<\/i> = 11.5, so <i>k<\/i> = 460. Answer: <b>460<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A store's price for cashews is <i>C<\/i> = 3.6<i>w<\/i> + 2 dollars for <i>w<\/i> pounds, including a $2 container fee. Using 1 kilogram = 2.2 pounds, which equation gives the price for <i>k<\/i> kilograms?", "opts": ["<i>C<\/i> = 1.636<i>k<\/i> + 2", "<i>C<\/i> = 7.92<i>k<\/i> + 4.4", "<i>C<\/i> = 3.6<i>k<\/i> + 4.4", "<i>C<\/i> = 7.92<i>k<\/i> + 2"], "ans": 3, "sol": "<i>k<\/i> kilograms = 2.2<i>k<\/i> pounds, so <i>C<\/i> = 3.6(2.2<i>k<\/i>) + 2 = 7.92<i>k<\/i> + 2. The fee is in dollars and is not converted. Answer: <b><i>C<\/i> = 7.92<i>k<\/i> + 2<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "The value of a machine is <i>V<\/i> = 4,000(12 − <i>t<\/i>) dollars, <i>t<\/i> years after it is bought. What is the best interpretation of 12 in this context?", "opts": ["The machine loses $12 of value each year.", "The machine's value drops to $0 after 12 years.", "The machine was bought for $12,000.", "The machine loses 12% of its value each year."], "ans": 1, "sol": "<i>V<\/i> = 0 when 12 − <i>t<\/i> = 0, that is, <i>t<\/i> = 12. (Expanded, <i>V<\/i> = 48,000 − 4,000<i>t<\/i>.) Answer: <b>The value is $0 after 12 years<\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "The altitude of a hot-air balloon is a linear function of time. It is 1,310 feet after 4 minutes and 2,120 feet after 10 minutes. According to the model, what is the altitude, in feet, after 15 minutes?", "ans": ["2795"], "sol": "Rate = <span class=\"fq\"><span>2,120 − 1,310<\/span><span>6<\/span><\/span> = 135 feet per minute. 2,120 + 135(5) = 2,795. Answer: <b>2795<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "The model <i>y<\/i> = 0.62<i>x<\/i> + 4.1 estimates the weight <i>y<\/i>, in kilograms, of a puppy <i>x<\/i> weeks after birth, for 8 ≤ <i>x<\/i> ≤ 30. What is the best interpretation of 0.62?", "opts": ["The puppy's estimated weight increases by 0.62 kilograms each week.", "The puppy's estimated weight at birth is 0.62 kilograms.", "The puppy takes 0.62 weeks to gain 1 kilogram.", "The puppy's estimated weight increases by 0.62 weeks per kilogram."], "ans": 0, "sol": "0.62 is the coefficient of <i>x<\/i>: kilograms gained per week. Answer: <b>The weight increases by 0.62 kg each week<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A rideshare's cost is a linear function of distance. A 4-mile ride costs $14.80 and an 11-mile ride costs $27.40. What is the cost, in dollars, of a 20-mile ride?", "ans": ["43.6", "43.60", "218/5"], "sol": "Rate = <span class=\"fq\"><span>27.40 − 14.80<\/span><span>7<\/span><\/span> = $1.80 per mile. 27.40 + 1.8(9) = 43.60. Answer: <b>43.6<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Plant A is 12 cm tall and grows 0.8 cm per day. Plant B is 4 cm tall and grows 1.3 cm per day. When the two plants are the same height, what is that height, in centimeters?", "opts": ["12.8", "16", "20.8", "24.8"], "ans": 3, "sol": "12 + 0.8<i>d<\/i> = 4 + 1.3<i>d<\/i> gives 0.5<i>d<\/i> = 8, so <i>d<\/i> = 16 days. Height = 12 + 0.8(16) = 24.8. Answer: <b>24.8<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A train travels at a constant speed, so its distance is <i>D<\/i> = 72<i>t<\/i> miles after <i>t<\/i> hours. Using 1 mile = 5,280 feet, which expression gives the distance in feet after <i>s<\/i> seconds?", "opts": ["1.2<i>s<\/i>", "105.6<i>s<\/i>", "4,320<i>s<\/i>", "380,160<i>s<\/i>"], "ans": 1, "sol": "72 miles per hour = <span class=\"fq\"><span>72 × 5,280<\/span><span>3,600<\/span><\/span> feet per second = 105.6 feet per second. Answer: <b>105.6<i>s<\/i><\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "The depth of snow on a roof is <i>D<\/i> = 38 − 2.5<i>h<\/i> centimeters, <i>h<\/i> hours after the sun comes out, until the snow is gone. A student uses the model to get <i>D<\/i> = −12 at <i>h<\/i> = 20. Which statement best explains the result?", "opts": ["The model is valid only up to <i>h<\/i> = 15.2, when the snow is gone.", "The snow is melting faster than 2.5 cm per hour.", "The roof had 12 cm less snow than the model assumed.", "The model is valid only up to <i>h<\/i> = 38."], "ans": 0, "sol": "38 − 2.5<i>h<\/i> = 0 at <i>h<\/i> = 15.2. After that the depth stays 0, so <i>h<\/i> = 20 is outside the domain. Answer: <b>The model is valid only up to <i>h<\/i> = 15.2<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "The cost of producing <i>n<\/i> lamps is <i>C<\/i> = 2.35<i>n<\/i> + 1,860 dollars. What is the best interpretation of 2.35<i>n<\/i>?", "opts": ["The fixed cost of running the factory", "The cost of producing each lamp", "The part of the total cost that depends on the number of lamps produced", "The total cost of producing <i>n<\/i> lamps"], "ans": 2, "sol": "2.35<i>n<\/i> is $2.35 per lamp times <i>n<\/i> lamps: the variable part of the cost. The total cost also includes the fixed $1,860. Answer: <b>The part of the cost that depends on the number of lamps<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A pot of water is heated. Its temperature <i>T<\/i>, in °F, after <i>m<\/i> minutes satisfies <i>T<\/i> − 68 = 1.6(<i>m<\/i> − 5). What is the best interpretation of 68?", "opts": ["The temperature of the water before heating began", "The temperature of the water after 5 minutes", "The increase in temperature during the first 5 minutes", "The increase in temperature each minute"], "ans": 1, "sol": "When <i>m<\/i> = 5, the right side is 0, so <i>T<\/i> = 68. The starting temperature is 68 − 1.6(5) = 60°F. Answer: <b>The temperature after 5 minutes<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A gas station estimates that it sells <i>G<\/i> = 5,200 − 900<i>p<\/i> gallons of fuel per day when the price is <i>p<\/i> dollars per gallon. According to the model, at what price will it sell 1,960 gallons per day?", "opts": ["$2.18", "$3.60", "$5.78", "$7.96"], "ans": 1, "sol": "5,200 − 900<i>p<\/i> = 1,960 gives 900<i>p<\/i> = 3,240, so <i>p<\/i> = 3.60. Answer: <b>$3.60<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Weekly sales at Store A are modeled by <i>S<\/i> = 820 + 35<i>t<\/i> dollars, <i>t<\/i> weeks after opening. Sales at Store B follow the linear pattern in the table.<div class=\"tscroll\"><table class=\"dtab\"><tr><th><i>t<\/i><\/th><td>0<\/td><td>4<\/td><td>10<\/td><\/tr><tr><th>Store B sales ($)<\/th><td>1,190<\/td><td>1,130<\/td><td>1,040<\/td><\/tr><\/table><\/div>At what value of <i>t<\/i> will the two stores have equal weekly sales?", "opts": ["7.4", "10.6", "18.5", "24.7"], "ans": 0, "sol": "Store B: slope = <span class=\"fq\"><span>1,130 − 1,190<\/span><span>4<\/span><\/span> = −15, so <i>B<\/i> = 1,190 − 15<i>t<\/i>. 820 + 35<i>t<\/i> = 1,190 − 15<i>t<\/i> gives 50<i>t<\/i> = 370, so <i>t<\/i> = 7.4. Answer: <b>7.4<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "On a straight highway, car P passes mile marker 18 at the same moment that car Q passes mile marker 40. Both cars are heading in the direction of increasing mile markers. Car P travels at 62 miles per hour and car Q at 54 miles per hour. How many <b>minutes<\/b> later will car P catch up with car Q?", "ans": ["165"], "sol": "18 + 62<i>t<\/i> = 40 + 54<i>t<\/i> gives 8<i>t<\/i> = 22, so <i>t<\/i> = 2.75 hours = 165 minutes. Answer: <b>165<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "An aquarium heater raises the water temperature so that <i>T<\/i> = 0.5<i>h<\/i> + 22 degrees Celsius after <i>h<\/i> hours. Using <i>F<\/i> = 1.8<i>C<\/i> + 32, which equation gives the temperature in degrees Fahrenheit after <i>m<\/i> minutes?", "opts": ["<i>F<\/i> = 0.9<i>m<\/i> + 71.6", "<i>F<\/i> = 0.015<i>m<\/i> + 39.6", "<i>F<\/i> = 0.015<i>m<\/i> + 71.6", "<i>F<\/i> = 0.0083<i>m<\/i> + 71.6"], "ans": 2, "sol": "<i>h<\/i> = <span class=\"fq\"><span><i>m<\/i><\/span><span>60<\/span><\/span>, so <i>T<\/i> = <span class=\"fq\"><span>0.5<\/span><span>60<\/span><\/span><i>m<\/i> + 22. Then <i>F<\/i> = 1.8(<span class=\"fq\"><span>0.5<\/span><span>60<\/span><\/span><i>m<\/i> + 22) + 32 = 0.015<i>m<\/i> + 71.6. Answer: <b><i>F<\/i> = 0.015<i>m<\/i> + 71.6<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "The water in a tank starts 9 inches deep, and the depth rises 1.5 inches every 4 minutes. The depth is modeled by <i>d<\/i> = <i>kh<\/i> + 0.75, where <i>d<\/i> is the depth in feet and <i>h<\/i> is the time in hours. What is the value of <i>k<\/i>? (1 foot = 12 inches)", "ans": ["15/8", "1.875"], "sol": "Rate = 1.5 ÷ 4 = 0.375 inches per minute = 22.5 inches per hour = 22.5 ÷ 12 = 1.875 feet per hour. (Check: 9 inches = 0.75 ft.) Answer: <b>1.875<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "Using data on cars with 20,000 to 120,000 miles, a dealer models a used car's value as <i>V<\/i> = 26,400 − 0.15<i>m<\/i> dollars, where <i>m<\/i> is the mileage. Which conclusion is best supported by the model?", "opts": ["A brand-new car with 0 miles is worth $26,400.", "A car with 200,000 miles has a value of −$3,600.", "A car with 80,000 miles is predicted to be worth $12,000.", "For each additional 10,000 miles, the predicted value drops by $1,500."], "ans": 3, "sol": "0.15 × 10,000 = 1,500, which applies anywhere in the data range. 0 and 200,000 miles are outside the data, and the prediction at 80,000 miles is 26,400 − 12,000 = $14,400. Answer: <b>The predicted value drops $1,500 per 10,000 miles<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "For a linear function <i>f<\/i>, <i>f<\/i>(3) = −4 and <i>f<\/i>(9) = 14. For what value of <i>x<\/i> is <i>f<\/i>(<i>x<\/i>) = 29?", "opts": ["13", "14", "<span class=\"fq\"><span>29<\/span><span>3<\/span><\/span>", "74"], "ans": 1, "sol": "Slope = <span class=\"fq\"><span>14 − (−4)<\/span><span>9 − 3<\/span><\/span> = 3, so <i>f<\/i>(<i>x<\/i>) = 3<i>x<\/i> − 13. 3<i>x<\/i> − 13 = 29 gives <i>x<\/i> = 14. (74 is <i>f<\/i>(29).) Answer: <b>14<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A café's daily profit is <i>P<\/i> = 14<i>b<\/i> + 9<i>c<\/i> − 620 dollars when it sells <i>b<\/i> sandwiches and <i>c<\/i> coffees. What is the best interpretation of 9?", "opts": ["The number of coffees needed to break even", "The price of 9 coffees", "The increase in profit for each additional coffee sold, when sandwich sales stay the same", "The increase in profit for each additional sandwich and coffee sold together"], "ans": 2, "sol": "With <i>b<\/i> fixed, raising <i>c<\/i> by 1 raises <i>P<\/i> by 9. A sandwich-and-coffee pair would add 14 + 9 = 23. Answer: <b>The extra profit per coffee, with sandwich sales fixed<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "An elevator descends from the top of a tower to a viewing platform 31 meters above the ground. Its height is <i>h<\/i> = 186 − 3.1<i>t<\/i> meters, <i>t<\/i> seconds after it starts. What is the greatest value of <i>t<\/i> in the domain of this model?", "opts": ["50", "60", "70", "10"], "ans": 0, "sol": "The trip ends at <i>h<\/i> = 31: 186 − 3.1<i>t<\/i> = 31 gives 3.1<i>t<\/i> = 155, so <i>t<\/i> = 50. (60 s is when <i>h<\/i> = 0, below the platform.) Answer: <b>50<\/b>"}, {"lo": "LO3", "diff": "X", "type": "mcq", "q": "Plan A costs 25 + <i>kx<\/i> dollars and plan B costs 40 + 0.6<i>x<\/i> dollars for <i>x<\/i> units of data, where <i>k<\/i> is a constant. Plan A is cheaper when <i>x<\/i> &lt; 300 and more expensive when <i>x<\/i> &gt; 300. What is the value of <i>k<\/i>?", "opts": ["0.05", "0.55", "0.65", "<span class=\"fq\"><span>11<\/span><span>15<\/span><\/span>"], "ans": 2, "sol": "The costs are equal at <i>x<\/i> = 300: 25 + 300<i>k<\/i> = 40 + 180, so <i>k<\/i> = 0.65. Because 0.65 &gt; 0.6, A grows faster and overtakes B after 300, as required. Answer: <b>0.65<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "A cyclist's distance from home is <i>d<\/i> = 0.25<i>t<\/i> + 3 miles, <i>t<\/i> minutes after she passes a café. The model is rewritten as <i>K<\/i> = <i>ah<\/i> + <i>b<\/i>, where <i>K<\/i> is the distance in kilometers and <i>h<\/i> is the time in hours. Using 1 mile = 1.6 kilometers, what is the value of <i>a<\/i> + <i>b<\/i>?", "ans": ["28.8", "144/5"], "sol": "<i>t<\/i> = 60<i>h<\/i>: <i>d<\/i> = 15<i>h<\/i> + 3 miles. Multiply by 1.6: <i>K<\/i> = 24<i>h<\/i> + 4.8. So <i>a<\/i> + <i>b<\/i> = 28.8. Answer: <b>28.8<\/b>"}, {"lo": "LO5", "diff": "X", "type": "mcq", "q": "Tank P holds 2,000 liters and drains at 60 liters per minute. At the same moment, tank Q, which holds 800 liters, begins filling at 20 liters per minute. Tank Q has a capacity of 1,000 liters and stops filling when it is full. After how many minutes do the tanks first hold equal volumes?", "opts": ["10", "15", "20", "<span class=\"fq\"><span>50<\/span><span>3<\/span><\/span>"], "ans": 3, "sol": "Solving 2,000 − 60<i>t<\/i> = 800 + 20<i>t<\/i> gives <i>t<\/i> = 15, but Q is full at <i>t<\/i> = 10, so its model stops there and Q stays at 1,000 L. Tank P (1,400 L at <i>t<\/i> = 10) reaches 1,000 L when 2,000 − 60<i>t<\/i> = 1,000, at <i>t<\/i> = <span class=\"fq\"><span>50<\/span><span>3<\/span><\/span> ≈ 16.7. Answer: <b><span class=\"fq\"><span>50<\/span><span>3<\/span><\/span><\/b>"}, {"lo": "LO1", "diff": "X", "type": "spr", "q": "A generator's fuel is modeled by a linear function of time. Every 8 hours, the fuel decreases by 14 liters, and 13 liters remain after 20 hours. According to the model, how many liters of fuel did the generator have at the start?", "ans": ["48"], "sol": "Rate = −<span class=\"fq\"><span>14<\/span><span>8<\/span><\/span> = −1.75 L per hour. Starting value: 13 + 1.75(20) = 48. Answer: <b>48<\/b>"}], "unit_no": 1, "topic_no": "3", "code": "3.3"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

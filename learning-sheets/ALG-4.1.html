@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4.1 Solving systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-4.1", "unit": "Algebra", "topic": "Systems of linear equations", "title": "Solving systems", "intro": "A system of linear equations is a pair of equations that must both be true at once, and its solution is the point where their two lines cross. The DSAT tests solving systems by substitution, elimination and graphing in almost every Math module, and often asks for a combination such as <i>x<\/i> + <i>y<\/i> instead of the variables themselves.", "los": [{"id": "LO1", "text": "Solve a system of two linear equations by substitution, including setting two expressions for y equal."}, {"id": "LO2", "text": "Solve a system of two linear equations by elimination, scaling one or both equations when needed."}, {"id": "LO3", "text": "Interpret the solution of a system as the intersection point of two lines and find it algebraically or with Desmos."}, {"id": "LO4", "text": "Determine the value of an expression such as x + y or 2x − y directly by combining the equations."}, {"id": "LO5", "text": "Solve systems whose equations contain fractions or decimals by clearing them first."}], "notes": [{"lo": "LO1", "h": "Substitution", "html": "<p>Substitution works best when one equation already gives a variable by itself, such as <i>y<\/i> = 3<i>x<\/i> − 1, or when a variable has coefficient 1 or −1, so it is easy to isolate.<\/p><div class=\"rule\"><b>Substitution in four moves<\/b><br>1. Isolate one variable in one equation.<br>2. Replace that variable in the <i>other<\/i> equation, inside parentheses.<br>3. Solve the resulting one-variable equation.<br>4. Put the value back into the isolated equation to get the second variable.<\/div><p>For example, with <i>y<\/i> = 3<i>x<\/i> − 1 and 2<i>x<\/i> + <i>y<\/i> = 14, write 2<i>x<\/i> + (3<i>x<\/i> − 1) = 14. Then 5<i>x<\/i> = 15, so <i>x<\/i> = 3, and <i>y<\/i> = 3(3) − 1 = 8. The solution is the ordered pair (3, 8): <i>x<\/i> first, then <i>y<\/i>.<\/p><p>If both equations start with <i>y<\/i> =, substitution simply means setting the two right sides equal to each other.<\/p>"}, {"lo": "LO2", "h": "Elimination", "html": "<p>Elimination adds or subtracts whole equations so that one variable cancels. It is usually fastest when both equations are in the form <i>a<\/i><i>x<\/i> + <i>b<\/i><i>y<\/i> = <i>c<\/i>.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>If the coefficients of one variable are…<\/th><th>then…<\/th><\/tr><tr><td>opposites, like 4<i>y<\/i> and −4<i>y<\/i><\/td><td>add the equations<\/td><\/tr><tr><td>equal, like 4<i>y<\/i> and 4<i>y<\/i><\/td><td>subtract the equations<\/td><\/tr><tr><td>neither<\/td><td>multiply one or both equations first so they match<\/td><\/tr><\/table><\/div><div class=\"rule\">When you multiply an equation, multiply <b>every<\/b> term, including the constant on the right. When you subtract, subtract <b>every<\/b> term, and watch the negative signs.<\/div><p>To cancel <i>x<\/i> in 3<i>x<\/i> + 2<i>y<\/i> = … and 4<i>x<\/i> − 5<i>y<\/i> = …, multiply the first equation by 4 and the second by 3 so both contain 12<i>x<\/i>, then subtract. Once one variable is known, substitute it into either original equation to find the other.<\/p>"}, {"lo": "LO3", "h": "Solutions as intersection points", "html": "<p>Every linear equation in <i>x<\/i> and <i>y<\/i> graphs as a line, and a point lies on a line exactly when its coordinates make the equation true. So the solution of a system is the point where the two lines cross: the one point that satisfies <b>both<\/b> equations.<\/p><div class=\"rule\">Solution of a system = intersection point (<i>x<\/i>, <i>y<\/i>) of the two lines. To test a point, substitute it into <b>both<\/b> equations. Passing only one is not enough.<\/div><p>When both lines are written as <i>y<\/i> = …, set the right sides equal, because the <i>y<\/i>-values match where the lines meet. If a line is described by two points, find its equation first, then solve.<\/p><div class=\"tip\"><b>Desmos tip:<\/b> Type each equation on its own line exactly as given; there is no need to rearrange. Tap the point where the lines cross, and Desmos shows its coordinates, including decimals for fractional answers. Zoom out if the crossing is off screen. This is a fast way to check an answer you found by hand.<\/div>"}, {"lo": "LO4", "h": "Finding x + y and similar expressions directly", "html": "<p>Many DSAT questions ask for an expression such as <i>x<\/i> + <i>y<\/i> or 2<i>x<\/i> − <i>y<\/i>, not for <i>x<\/i> and <i>y<\/i> separately. Before solving, compare the target with the equations. Adding or subtracting them often produces it in one step.<\/p><div class=\"eqs\">5<i>x<\/i> + 2<i>y<\/i> = 16<br>3<i>x<\/i> + 4<i>y<\/i> = 18<\/div><p>Adding gives 8<i>x<\/i> + 6<i>y<\/i> = 34, so 4<i>x<\/i> + 3<i>y<\/i> = 17. Subtracting gives 2<i>x<\/i> − 2<i>y<\/i> = −2, so <i>x<\/i> − <i>y<\/i> = −1.<\/p><div class=\"rule\">Look for numbers <i>m<\/i> and <i>n<\/i> so that <i>m<\/i> · (first equation) + <i>n<\/i> · (second equation) has the same coefficients as the target. Then the target equals <i>m<\/i> · (first constant) + <i>n<\/i> · (second constant).<\/div><p>Signals to look for: swapped coefficients (add, then divide), or coefficients that differ by exactly the target (subtract). If no quick combination appears, solving fully always works.<\/p>"}, {"lo": "LO5", "h": "Systems with fractions or decimals", "html": "<p>Fractions and decimals make the arithmetic error-prone, so clear them first. Multiply each equation by the least common denominator (LCD) of its own fractions. The two equations may need different multipliers.<\/p><div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> + <span class=\"fq\"><span><i>y<\/i><\/span><span>6<\/span><\/span> = 3   →  (× 12)   3<i>x<\/i> + 2<i>y<\/i> = 36<br>0.2<i>x<\/i> − 0.5<i>y<\/i> = 1.4   →  (× 10)   2<i>x<\/i> − 5<i>y<\/i> = 14<\/div><div class=\"rule\">Multiply <b>every<\/b> term on <b>both<\/b> sides. A fraction such as <span class=\"fq\"><span><i>x<\/i> + 1<\/span><span>3<\/span><\/span> becomes (<i>x<\/i> + 1) after multiplying by 3. Keep the parentheses, so that a minus sign in front reaches both terms.<\/div><p>After clearing, the system has whole-number coefficients, and you can use substitution or elimination as usual. You can also type the original equations, fractions and all, straight into Desmos to check.<\/p>"}, {"lo": "LO1", "h": "Choosing a method and checking", "html": "<div class=\"tscroll\"><table class=\"dtab\"><tr><th>The system looks like…<\/th><th>Best first move<\/th><\/tr><tr><td><i>y<\/i> = … or <i>x<\/i> = … in one equation<\/td><td>Substitution<\/td><\/tr><tr><td>both equations <i>y<\/i> = …<\/td><td>Set the right sides equal<\/td><\/tr><tr><td>both in <i>a<\/i><i>x<\/i> + <i>b<\/i><i>y<\/i> = <i>c<\/i> form<\/td><td>Elimination<\/td><\/tr><tr><td>the question asks for <i>x<\/i> + <i>y<\/i>, <i>x<\/i> − <i>y<\/i>, …<\/td><td>Add or subtract the equations first<\/td><\/tr><tr><td>fractions or decimals<\/td><td>Clear them, then eliminate<\/td><\/tr><tr><td>awkward numbers, or you want a check<\/td><td>Desmos intersection<\/td><\/tr><\/table><\/div><p>Always finish by rereading the question: does it want <i>x<\/i>, <i>y<\/i>, the ordered pair, or an expression? Then check your pair in the equation you did <b>not<\/b> use for back-substitution. A pair that satisfies only one equation is a favorite wrong option on the DSAT.<\/p>"}], "examples": [{"lo": "LO1", "q": "Solve the system.<div class=\"eqs\"><i>y<\/i> = 2<i>x<\/i> − 5<br>3<i>x<\/i> + 4<i>y<\/i> = 13<\/div>", "steps": ["The first equation gives <i>y<\/i> directly, so replace <i>y<\/i> in the second: 3<i>x<\/i> + 4(2<i>x<\/i> − 5) = 13.", "Distribute and combine: 3<i>x<\/i> + 8<i>x<\/i> − 20 = 13, so 11<i>x<\/i> = 33 and <i>x<\/i> = 3.", "Back-substitute: <i>y<\/i> = 2(3) − 5 = 1.", "Check in the second equation: 3(3) + 4(1) = 13 ✓."], "ans": "(3, 1)"}, {"lo": "LO2", "q": "Solve the system.<div class=\"eqs\">5<i>x<\/i> + 3<i>y<\/i> = 1<br>2<i>x<\/i> − 4<i>y<\/i> = 16<\/div>", "steps": ["Make the <i>y<\/i>-terms opposites: multiply the first equation by 4 and the second by 3, giving 20<i>x<\/i> + 12<i>y<\/i> = 4 and 6<i>x<\/i> − 12<i>y<\/i> = 48.", "Add the equations: 26<i>x<\/i> = 52, so <i>x<\/i> = 2.", "Substitute into the first equation: 5(2) + 3<i>y<\/i> = 1, so 3<i>y<\/i> = −9 and <i>y<\/i> = −3.", "Check: 2(2) − 4(−3) = 16 ✓."], "ans": "(2, −3)"}, {"lo": "LO3", "q": "At what point do the graphs of <i>y<\/i> = −<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 4 and <i>y<\/i> = <i>x<\/i> − 2 intersect in the <i>xy<\/i>-plane?", "steps": ["At the intersection the <i>y<\/i>-values are equal: −<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 4 = <i>x<\/i> − 2.", "Multiply by 2: −<i>x<\/i> + 8 = 2<i>x<\/i> − 4, so 12 = 3<i>x<\/i> and <i>x<\/i> = 4.", "Then <i>y<\/i> = 4 − 2 = 2.", "Desmos check: type both equations and tap the crossing; it shows (4, 2)."], "ans": "(4, 2)"}, {"lo": "LO4", "q": "If 7<i>x<\/i> + 3<i>y<\/i> = 25 and 3<i>x<\/i> + 7<i>y<\/i> = 15, what is the value of <i>x<\/i> + <i>y<\/i>?", "steps": ["The coefficients are swapped, so add the equations: 10<i>x<\/i> + 10<i>y<\/i> = 40.", "Divide by 10: <i>x<\/i> + <i>y<\/i> = 4.", "(Subtracting instead gives 4<i>x<\/i> − 4<i>y<\/i> = 10, so <i>x<\/i> − <i>y<\/i> = <span class=\"fq\"><span>5<\/span><span>2<\/span><\/span>, in case a question asks for that.)"], "ans": "4"}, {"lo": "LO5", "q": "Solve the system.<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> + <span class=\"fq\"><span><i>y<\/i><\/span><span>2<\/span><\/span> = 4<br><span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> − <span class=\"fq\"><span><i>y<\/i><\/span><span>6<\/span><\/span> = <span class=\"fq\"><span>5<\/span><span>6<\/span><\/span><\/div>", "steps": ["Clear fractions: multiply the first equation by 6 to get 2<i>x<\/i> + 3<i>y<\/i> = 24, and the second by 12 to get 3<i>x<\/i> − 2<i>y<\/i> = 10.", "Make the <i>y<\/i>-terms opposites: 4<i>x<\/i> + 6<i>y<\/i> = 48 and 9<i>x<\/i> − 6<i>y<\/i> = 30.", "Add: 13<i>x<\/i> = 78, so <i>x<\/i> = 6.", "Then 2(6) + 3<i>y<\/i> = 24, so <i>y<\/i> = 4."], "ans": "(6, 4)"}, {"lo": "LO4", "q": "If 3<i>x<\/i> − 2<i>y<\/i> = 11 and <i>x<\/i> + 4<i>y<\/i> = −1, what is the value of 5<i>x<\/i> + 6<i>y<\/i>?", "steps": ["Look for <i>m<\/i> and <i>n<\/i> with <i>m<\/i>(3<i>x<\/i> − 2<i>y<\/i>) + <i>n<\/i>(<i>x<\/i> + 4<i>y<\/i>) = 5<i>x<\/i> + 6<i>y<\/i>: this needs 3<i>m<\/i> + <i>n<\/i> = 5 and −2<i>m<\/i> + 4<i>n<\/i> = 6.", "From the first, <i>n<\/i> = 5 − 3<i>m<\/i>; then −2<i>m<\/i> + 20 − 12<i>m<\/i> = 6, so <i>m<\/i> = 1 and <i>n<\/i> = 2.", "So 5<i>x<\/i> + 6<i>y<\/i> = 1(11) + 2(−1) = 9.", "Check by solving: <i>x<\/i> = 3, <i>y<\/i> = −1 gives 15 − 6 = 9 ✓."], "ans": "9"}], "traps": ["Subtracting one equation from another but changing the sign of only the first term; every term, including a negative constant, must be subtracted.", "Multiplying an equation to set up elimination or to clear fractions but forgetting to multiply the constant on the right side.", "Stopping after finding <i>x<\/i> when the question asks for <i>y<\/i>, the ordered pair, or an expression such as <i>x<\/i> + <i>y<\/i>.", "Choosing an answer pair that satisfies only one of the equations; a solution must make both equations true.", "Dropping parentheses during substitution, so that −2(3<i>x<\/i> − 4) becomes −6<i>x<\/i> − 4 instead of −6<i>x<\/i> + 8."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "What is the solution (<i>x<\/i>, <i>y<\/i>) to the system of equations below?<div class=\"eqs\"><i>y<\/i> = <i>x<\/i> + 2<br>2<i>x<\/i> + <i>y<\/i> = 11<\/div>", "opts": ["(3, 5)", "(5, 3)", "(3, 8)", "(<span class=\"fq\"><span>13<\/span><span>3<\/span><\/span>, <span class=\"fq\"><span>19<\/span><span>3<\/span><\/span>)"], "ans": 0, "sol": "Substitute <i>x<\/i> + 2 for <i>y<\/i>: 2<i>x<\/i> + (<i>x<\/i> + 2) = 11, so 3<i>x<\/i> = 9 and <i>x<\/i> = 3. Then <i>y<\/i> = 3 + 2 = 5. Answer: <b>(3, 5)<\/b>", "hint": "The first equation already tells you what <i>y<\/i> equals. Put that expression in place of <i>y<\/i> in the second equation."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\"><i>x<\/i> + <i>y<\/i> = 10<br><i>x<\/i> − <i>y<\/i> = 4<\/div>What is the value of <i>x<\/i> in the solution to the system above?", "opts": ["3", "7", "14", "6"], "ans": 1, "sol": "The <i>y<\/i>-terms are opposites, so add the equations: 2<i>x<\/i> = 14. Divide by 2: <i>x<\/i> = 7. Answer: <b>7<\/b>", "hint": "Adding the two equations makes one variable disappear."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "The graphs of <i>y<\/i> = 2<i>x<\/i> − 1 and <i>y<\/i> = −<i>x<\/i> + 8 intersect at the point (<i>a<\/i>, <i>b<\/i>). What is the value of <i>a<\/i>?", "opts": ["5", "9", "3", "<span class=\"fq\"><span>7<\/span><span>3<\/span><\/span>"], "ans": 2, "sol": "At the intersection the <i>y<\/i>-values are equal: 2<i>x<\/i> − 1 = −<i>x<\/i> + 8. So 3<i>x<\/i> = 9 and <i>x<\/i> = 3 (and <i>b<\/i> = 5). Answer: <b>3<\/b>", "hint": "Where the lines meet, both equations give the same <i>y<\/i>. Set the right sides equal."}, {"lo": "LO4", "diff": "E", "type": "spr", "q": "<div class=\"eqs\">3<i>x<\/i> + <i>y<\/i> = 14<br><i>x<\/i> + 3<i>y<\/i> = 10<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + <i>y<\/i>?", "ans": ["6"], "sol": "Add the equations: 4<i>x<\/i> + 4<i>y<\/i> = 24. Divide by 4: <i>x<\/i> + <i>y<\/i> = 6. Answer: <b>6<\/b>", "hint": "Look at the coefficients. What do you get if you add the two equations?"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><i>y<\/i> = 3<i>x<\/i> − 4<br>5<i>x<\/i> − 2<i>y<\/i> = 3<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["5", "−37", "−19", "11"], "ans": 3, "sol": "Substitute: 5<i>x<\/i> − 2(3<i>x<\/i> − 4) = 3, so 5<i>x<\/i> − 6<i>x<\/i> + 8 = 3, giving −<i>x<\/i> = −5 and <i>x<\/i> = 5. Then <i>y<\/i> = 3(5) − 4 = 11. Answer: <b>11<\/b>", "hint": "Use parentheses when you substitute, and remember which variable the question asks for."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "What is the solution (<i>x<\/i>, <i>y<\/i>) to the system of equations below?<div class=\"eqs\">4<i>x<\/i> + 3<i>y<\/i> = 6<br>2<i>x<\/i> − 3<i>y<\/i> = 12<\/div>", "opts": ["(3, −2)", "(3, 2)", "(−2, 3)", "(3, −6)"], "ans": 0, "sol": "Add the equations; the <i>y<\/i>-terms cancel: 6<i>x<\/i> = 18, so <i>x<\/i> = 3. Then 4(3) + 3<i>y<\/i> = 6, so 3<i>y<\/i> = −6 and <i>y<\/i> = −2. Answer: <b>(3, −2)<\/b>", "hint": "The <i>y<\/i>-terms are already opposites. After you find <i>x<\/i>, finish the division when you solve for <i>y<\/i>."}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "What is the solution (<i>x<\/i>, <i>y<\/i>) to the system of equations below?<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + <i>y<\/i> = 5<br><i>x<\/i> − <span class=\"fq\"><span><i>y<\/i><\/span><span>3<\/span><\/span> = 3<\/div>", "opts": ["(3, 4)", "(4, 3)", "(2, 4)", "(6, 9)"], "ans": 1, "sol": "Multiply the first equation by 2 and the second by 3: <i>x<\/i> + 2<i>y<\/i> = 10 and 3<i>x<\/i> − <i>y<\/i> = 9. From the second, <i>y<\/i> = 3<i>x<\/i> − 9; substitute: <i>x<\/i> + 6<i>x<\/i> − 18 = 10, so <i>x<\/i> = 4 and <i>y<\/i> = 3. Answer: <b>(4, 3)<\/b>", "hint": "Clear each fraction by multiplying that whole equation by its denominator. Then make sure your pair fits both equations."}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "In the <i>xy<\/i>-plane, the lines 3<i>x<\/i> − <i>y<\/i> = 7 and <i>x<\/i> + 2<i>y<\/i> = 7 intersect at the point (<i>p<\/i>, <i>q<\/i>). What is the value of <i>q<\/i>?", "ans": ["2"], "sol": "From the first line, <i>y<\/i> = 3<i>x<\/i> − 7. Substitute into the second: <i>x<\/i> + 2(3<i>x<\/i> − 7) = 7, so 7<i>x<\/i> = 21 and <i>x<\/i> = 3. Then <i>y<\/i> = 3(3) − 7 = 2, so the point is (3, 2). Answer: <b>2<\/b>", "hint": "The intersection point satisfies both equations, so solve them together. Desmos can confirm it."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">5<i>x<\/i> − 2<i>y<\/i> = 17<br>3<i>x<\/i> − 4<i>y<\/i> = 13<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + <i>y<\/i>?", "opts": ["4", "15", "2", "−2"], "ans": 2, "sol": "Subtract the second equation from the first: (5<i>x<\/i> − 3<i>x<\/i>) + (−2<i>y<\/i> + 4<i>y<\/i>) = 17 − 13, so 2<i>x<\/i> + 2<i>y<\/i> = 4 and <i>x<\/i> + <i>y<\/i> = 2. Answer: <b>2<\/b>", "hint": "Try subtracting one equation from the other and see what is left."}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">0.4<i>x<\/i> + 0.3<i>y<\/i> = 2.6<br>0.2<i>x<\/i> − 0.5<i>y<\/i> = −2.6<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["2", "−6", "7.8", "6"], "ans": 3, "sol": "Multiply both equations by 10: 4<i>x<\/i> + 3<i>y<\/i> = 26 and 2<i>x<\/i> − 5<i>y<\/i> = −26. Double the second: 4<i>x<\/i> − 10<i>y<\/i> = −52. Subtract it from the first: 13<i>y<\/i> = 78, so <i>y<\/i> = 6. Answer: <b>6<\/b>", "hint": "Multiply by 10 to remove the decimals, then make the <i>x<\/i>-coefficients match."}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">2<i>x<\/i> + 5<i>y<\/i> = 19<br>4<i>x<\/i> + <i>y<\/i> = 11<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of 3<i>x<\/i> + 3<i>y<\/i>?", "ans": ["15"], "sol": "Adding gives 6<i>x<\/i> + 6<i>y<\/i> = 30. Half of that is 3<i>x<\/i> + 3<i>y<\/i> = 15. Answer: <b>15<\/b>", "hint": "You don't need <i>x<\/i> and <i>y<\/i> separately. Combine the equations so that the <i>x<\/i>- and <i>y<\/i>-coefficients become equal."}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">2<i>x<\/i> + <i>k<\/i><i>y<\/i> = 13<br><i>x<\/i> − <i>y<\/i> = 4<\/div>In the system above, <i>k<\/i> is a constant. If the solution of the system has <i>x<\/i> = 5, what is the value of <i>k<\/i>?", "opts": ["1", "−3", "<span class=\"fq\"><span>1<\/span><span>3<\/span><\/span>", "3"], "ans": 3, "sol": "Since <i>x<\/i> = 5, the second equation gives 5 − <i>y<\/i> = 4, so <i>y<\/i> = 1. Substitute into the first: 2(5) + <i>k<\/i>(1) = 13, so <i>k<\/i> = 3. Answer: <b>3<\/b>", "hint": "Use the equation without <i>k<\/i> to find <i>y<\/i> first."}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "What is the solution (<i>x<\/i>, <i>y<\/i>) to the system of equations below?<div class=\"eqs\"><i>x<\/i> = 2<i>y<\/i> + 1<br>3<i>x<\/i> − 4<i>y<\/i> = 9<\/div>", "opts": ["(7, 3)", "(3, 7)", "(9, 4)", "(1, 0)"], "ans": 0, "sol": "Substitute 2<i>y<\/i> + 1 for <i>x<\/i>: 3(2<i>y<\/i> + 1) − 4<i>y<\/i> = 9, so 2<i>y<\/i> + 3 = 9 and <i>y<\/i> = 3. Then <i>x<\/i> = 2(3) + 1 = 7. Answer: <b>(7, 3)<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">3<i>x<\/i> + 2<i>y<\/i> = 18<br>5<i>x<\/i> − 2<i>y<\/i> = 14<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["4", "3", "6", "−3"], "ans": 1, "sol": "Add: 8<i>x<\/i> = 32, so <i>x<\/i> = 4. Then 3(4) + 2<i>y<\/i> = 18, so 2<i>y<\/i> = 6 and <i>y<\/i> = 3. Answer: <b>3<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "At which point do the graphs of <i>y<\/i> = 4 and <i>y<\/i> = 2<i>x<\/i> − 6 intersect in the <i>xy<\/i>-plane?", "opts": ["(4, 5)", "(0, −6)", "(5, 4)", "(−1, 4)"], "ans": 2, "sol": "Set 2<i>x<\/i> − 6 = 4, so 2<i>x<\/i> = 10 and <i>x<\/i> = 5. Both lines have <i>y<\/i> = 4 there. Answer: <b>(5, 4)<\/b>"}, {"lo": "LO4", "diff": "E", "type": "spr", "q": "<div class=\"eqs\"><i>x<\/i> + 2<i>y<\/i> = 9<br>2<i>x<\/i> + <i>y<\/i> = 6<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + <i>y<\/i>?", "ans": ["5"], "sol": "Add: 3<i>x<\/i> + 3<i>y<\/i> = 15, so <i>x<\/i> + <i>y<\/i> = 5. Answer: <b>5<\/b>"}, {"lo": "LO5", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + <span class=\"fq\"><span><i>y<\/i><\/span><span>2<\/span><\/span> = 6<br><i>x<\/i> − <i>y<\/i> = 2<\/div>What is the value of <i>x<\/i> in the solution to the system above?", "opts": ["5", "4", "12", "7"], "ans": 3, "sol": "Multiply the first equation by 2: <i>x<\/i> + <i>y<\/i> = 12. Add it to <i>x<\/i> − <i>y<\/i> = 2: 2<i>x<\/i> = 14, so <i>x<\/i> = 7. Answer: <b>7<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "A gym offers two plans. The total cost <i>C<\/i>, in dollars, for <i>m<\/i> months is <i>C<\/i> = 25<i>m<\/i> + 40 for Plan P and <i>C<\/i> = 35<i>m<\/i> for Plan Q. For how many months is the total cost the same for both plans?", "opts": ["4", "140", "<span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>", "<span class=\"fq\"><span>8<\/span><span>5<\/span><\/span>"], "ans": 0, "sol": "Set the costs equal: 35<i>m<\/i> = 25<i>m<\/i> + 40. Then 10<i>m<\/i> = 40, so <i>m<\/i> = 4. Answer: <b>4<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">4<i>x<\/i> − <i>y<\/i> = 10<br>3<i>x<\/i> + 2<i>y<\/i> = 13<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["3", "2", "−2", "−<span class=\"fq\"><span>18<\/span><span>11<\/span><\/span>"], "ans": 1, "sol": "From the first equation, <i>y<\/i> = 4<i>x<\/i> − 10. Substitute: 3<i>x<\/i> + 2(4<i>x<\/i> − 10) = 13, so 11<i>x<\/i> − 20 = 13 and <i>x<\/i> = 3. Then <i>y<\/i> = 4(3) − 10 = 2. Answer: <b>2<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "What is the solution (<i>x<\/i>, <i>y<\/i>) to the system of equations below?<div class=\"eqs\">6<i>x<\/i> + 5<i>y<\/i> = 7<br>4<i>x<\/i> + 3<i>y<\/i> = 5<\/div>", "opts": ["(−1, 2)", "(2, 1)", "(2, −1)", "(−3, 5)"], "ans": 2, "sol": "Multiply the first equation by 2 and the second by 3: 12<i>x<\/i> + 10<i>y<\/i> = 14 and 12<i>x<\/i> + 9<i>y<\/i> = 15. Subtract: <i>y<\/i> = −1. Then 6<i>x<\/i> − 5 = 7, so <i>x<\/i> = 2. Answer: <b>(2, −1)<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "The heights <i>h<\/i>, in centimeters, of two plants <i>t<\/i> weeks after planting are modeled by <i>h<\/i> = 3<i>t<\/i> + 12 and <i>h<\/i> = 5<i>t<\/i> + 2. The graphs of the two models intersect at the point (<i>t<\/i>, <i>h<\/i>). Which point is it?", "opts": ["(27, 5)", "(−5, −3)", "(7, 33)", "(5, 27)"], "ans": 3, "sol": "Set the heights equal: 5<i>t<\/i> + 2 = 3<i>t<\/i> + 12, so 2<i>t<\/i> = 10 and <i>t<\/i> = 5. Then <i>h<\/i> = 3(5) + 12 = 27. Answer: <b>(5, 27)<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "<div class=\"eqs\">6<i>x<\/i> + 7<i>y<\/i> = 40<br>4<i>x<\/i> + 3<i>y<\/i> = 20<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + 2<i>y<\/i>?", "ans": ["10"], "sol": "Subtract the second equation from the first: 2<i>x<\/i> + 4<i>y<\/i> = 20. Divide by 2: <i>x<\/i> + 2<i>y<\/i> = 10. Answer: <b>10<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> − <span class=\"fq\"><span><i>y<\/i><\/span><span>4<\/span><\/span> = 1<br><span class=\"fq\"><span><i>x<\/i><\/span><span>6<\/span><\/span> + <span class=\"fq\"><span><i>y<\/i><\/span><span>2<\/span><\/span> = 3<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["4", "6", "12", "−4"], "ans": 0, "sol": "Multiply the first equation by 12 and the second by 6: 4<i>x<\/i> − 3<i>y<\/i> = 12 and <i>x<\/i> + 3<i>y<\/i> = 18. Add: 5<i>x<\/i> = 30, so <i>x<\/i> = 6. Then 6 + 3<i>y<\/i> = 18, so <i>y<\/i> = 4. Answer: <b>4<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Car A leaves a town and drives away from it, so its distance from the town, in miles, after <i>t<\/i> hours is <i>d<\/i> = 60<i>t<\/i>. At the same moment, car B is 200 miles from the town and drives toward it, so its distance is <i>d<\/i> = 200 − 40<i>t<\/i>. How far from the town, in miles, are the cars when they meet?", "opts": ["2", "120", "200", "80"], "ans": 1, "sol": "They meet when 60<i>t<\/i> = 200 − 40<i>t<\/i>, so 100<i>t<\/i> = 200 and <i>t<\/i> = 2. Then <i>d<\/i> = 60(2) = 120. Answer: <b>120<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "<div class=\"eqs\">7<i>x<\/i> + 2<i>y<\/i> = 3<br>3<i>x<\/i> − 5<i>y<\/i> = 13<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "ans": ["-2"], "sol": "Multiply the first equation by 5 and the second by 2: 35<i>x<\/i> + 10<i>y<\/i> = 15 and 6<i>x<\/i> − 10<i>y<\/i> = 26. Add: 41<i>x<\/i> = 41, so <i>x<\/i> = 1. Then 7 + 2<i>y<\/i> = 3, so <i>y<\/i> = −2. Answer: <b>−2<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which of the following systems of equations has the solution (2, −1)?", "opts": ["<i>x<\/i> + <i>y<\/i> = 1 and <i>x<\/i> − <i>y<\/i> = 1", "2<i>x<\/i> + <i>y<\/i> = 3 and <i>x<\/i> + 2<i>y<\/i> = 1", "3<i>x<\/i> + <i>y<\/i> = 5 and <i>x<\/i> − 2<i>y<\/i> = 4", "<i>x<\/i> − <i>y<\/i> = 3 and 2<i>x<\/i> − <i>y<\/i> = 3"], "ans": 2, "sol": "Test (2, −1) in both equations of each choice. In the third choice, 3(2) + (−1) = 5 ✓ and 2 − 2(−1) = 4 ✓. Every other choice fails its second equation. Answer: <b>3<i>x<\/i> + <i>y<\/i> = 5 and <i>x<\/i> − 2<i>y<\/i> = 4<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A bakery prices a muffin at <i>m<\/i> dollars and a scone at <i>s<\/i> dollars. The prices satisfy the system below.<div class=\"eqs\">3<i>m<\/i> + 2<i>s<\/i> = 13<br>2<i>m<\/i> + 3<i>s<\/i> = 12<\/div>What is the total price, in dollars, of 1 muffin and 1 scone?", "opts": ["25", "1", "3", "5"], "ans": 3, "sol": "Add the equations: 5<i>m<\/i> + 5<i>s<\/i> = 25. Divide by 5: <i>m<\/i> + <i>s<\/i> = 5. Answer: <b>5<\/b>"}, {"lo": "LO5", "diff": "H", "type": "spr", "q": "A lab technician mixes <i>a<\/i> milliliters of a 15% acid solution with <i>b<\/i> milliliters of a 40% acid solution. The system below describes the mixture.<div class=\"eqs\"><i>a<\/i> + <i>b<\/i> = 35<br>0.15<i>a<\/i> + 0.40<i>b<\/i> = 9<\/div>What is the value of <i>a<\/i>?", "ans": ["20"], "sol": "Multiply the second equation by 100: 15<i>a<\/i> + 40<i>b<\/i> = 900. Substitute <i>b<\/i> = 35 − <i>a<\/i>: 15<i>a<\/i> + 1400 − 40<i>a<\/i> = 900, so −25<i>a<\/i> = −500 and <i>a<\/i> = 20. Answer: <b>20<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "In the <i>xy<\/i>-plane, the lines <i>y<\/i> = 2<i>x<\/i> + <i>c<\/i> and 3<i>x<\/i> − <i>y<\/i> = 9, where <i>c<\/i> is a constant, intersect at a point with <i>x<\/i>-coordinate 7. What is the value of <i>c<\/i>?", "opts": ["−2", "12", "2", "16"], "ans": 0, "sol": "Put <i>x<\/i> = 7 into the second equation: 21 − <i>y<\/i> = 9, so <i>y<\/i> = 12. The point (7, 12) is on the first line: 12 = 14 + <i>c<\/i>, so <i>c<\/i> = −2. Answer: <b>−2<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">11<i>x<\/i> + 6<i>y<\/i> = 4<br>4<i>x<\/i> + 9<i>y<\/i> = −19<\/div>What is the value of <i>x<\/i> in the solution to the system above?", "opts": ["−3", "2", "50", "−<span class=\"fq\"><span>26<\/span><span>41<\/span><\/span>"], "ans": 1, "sol": "Multiply the first equation by 3 and the second by 2: 33<i>x<\/i> + 18<i>y<\/i> = 12 and 8<i>x<\/i> + 18<i>y<\/i> = −38. Subtract: 25<i>x<\/i> = 50, so <i>x<\/i> = 2. Answer: <b>2<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">5<i>x<\/i> + 3<i>y<\/i> = 23<br>3<i>x<\/i> + 5<i>y<\/i> = 17<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i><sup>2<\/sup> − <i>y<\/i><sup>2<\/sup>?", "opts": ["5", "3", "15", "240"], "ans": 2, "sol": "Add: 8<i>x<\/i> + 8<i>y<\/i> = 40, so <i>x<\/i> + <i>y<\/i> = 5. Subtract: 2<i>x<\/i> − 2<i>y<\/i> = 6, so <i>x<\/i> − <i>y<\/i> = 3. Then <i>x<\/i><sup>2<\/sup> − <i>y<\/i><sup>2<\/sup> = (<i>x<\/i> + <i>y<\/i>)(<i>x<\/i> − <i>y<\/i>) = 5(3) = 15. Answer: <b>15<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "On a park map drawn on a coordinate grid, one straight trail follows the line <i>y<\/i> = <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>x<\/i> + 1 and another follows the line <i>y<\/i> = −<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 8. The trails cross at the point (<i>a<\/i>, <i>b<\/i>). What is the value of <i>a<\/i> + <i>b<\/i>?", "ans": ["11"], "sol": "Set the <i>y<\/i>-values equal: <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>x<\/i> + 1 = −<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 8. Multiply by 6: 4<i>x<\/i> + 6 = −3<i>x<\/i> + 48, so 7<i>x<\/i> = 42 and <i>x<\/i> = 6. Then <i>y<\/i> = 4 + 1 = 5, so <i>a<\/i> + <i>b<\/i> = 11. Answer: <b>11<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><i>x<\/i> = 3 − 2<i>y<\/i><br>4<i>x<\/i> + 5<i>y<\/i> = 0<\/div>What is the value of <i>x<\/i> in the solution to the system above?", "opts": ["−5", "4", "11", "5"], "ans": 0, "sol": "Substitute: 4(3 − 2<i>y<\/i>) + 5<i>y<\/i> = 0, so 12 − 3<i>y<\/i> = 0 and <i>y<\/i> = 4. Then <i>x<\/i> = 3 − 2(4) = −5. Answer: <b>−5<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A café sells pizzas for <i>p<\/i> dollars each and quiches for <i>q<\/i> dollars each. Monday's sales satisfy 8<i>p<\/i> + 5<i>q<\/i> = 97, and Tuesday's sales satisfy 3<i>p<\/i> + 5<i>q<\/i> = 52. What is the price, in dollars, of one quiche?", "opts": ["9", "5", "45", "25"], "ans": 1, "sol": "Subtract the equations: 5<i>p<\/i> = 45, so <i>p<\/i> = 9. Then 27 + 5<i>q<\/i> = 52, so 5<i>q<\/i> = 25 and <i>q<\/i> = 5. Answer: <b>5<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "In the <i>xy<\/i>-plane, line ℓ passes through the points (0, 3) and (4, 11). Line <i>m<\/i> has equation <i>y<\/i> = −<i>x<\/i> + 9. At which point do lines ℓ and <i>m<\/i> intersect?", "opts": ["(7, 2)", "(4, 11)", "(2, 7)", "(6, 3)"], "ans": 2, "sol": "The slope of ℓ is <span class=\"fq\"><span>11 − 3<\/span><span>4 − 0<\/span><\/span> = 2, so ℓ is <i>y<\/i> = 2<i>x<\/i> + 3. Set equal: 2<i>x<\/i> + 3 = −<i>x<\/i> + 9, so <i>x<\/i> = 2 and <i>y<\/i> = 7. Answer: <b>(2, 7)<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "<div class=\"eqs\">4<i>x<\/i> − 3<i>y<\/i> = 10<br>2<i>x<\/i> − 7<i>y<\/i> = −6<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + 2<i>y<\/i>?", "ans": ["8"], "sol": "Subtract the second equation from the first: 2<i>x<\/i> + 4<i>y<\/i> = 16. Divide by 2: <i>x<\/i> + 2<i>y<\/i> = 8. Answer: <b>8<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span>2<i>x<\/i><\/span><span>5<\/span><\/span> + <span class=\"fq\"><span><i>y<\/i><\/span><span>3<\/span><\/span> = 4<br><span class=\"fq\"><span><i>x<\/i><\/span><span>10<\/span><\/span> − <span class=\"fq\"><span><i>y<\/i><\/span><span>4<\/span><\/span> = −1<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["5", "−6", "30", "6"], "ans": 3, "sol": "Multiply the first equation by 15 and the second by 20: 6<i>x<\/i> + 5<i>y<\/i> = 60 and 2<i>x<\/i> − 5<i>y<\/i> = −20. Add: 8<i>x<\/i> = 40, so <i>x<\/i> = 5. Then 30 + 5<i>y<\/i> = 60, so <i>y<\/i> = 6. Answer: <b>6<\/b>"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "Two candles are lit at the same time. After <i>t<\/i> hours, the height of the first candle, in centimeters, is <i>h<\/i> = 24 − 1.5<i>t<\/i>, and the height of the second is <i>h<\/i> = 18 − 0.75<i>t<\/i>. After how many hours will the two candles be the same height?", "ans": ["8"], "sol": "Set the heights equal: 24 − 1.5<i>t<\/i> = 18 − 0.75<i>t<\/i>. Then 6 = 0.75<i>t<\/i>, so <i>t<\/i> = 8. Answer: <b>8<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "If <i>a<\/i> = 2<i>b<\/i>, <i>b<\/i> = <i>c<\/i> + 3, and <i>a<\/i> + <i>b<\/i> + <i>c<\/i> = 25, what is the value of <i>a<\/i>?", "opts": ["14", "7", "4", "<span class=\"fq\"><span>25<\/span><span>2<\/span><\/span>"], "ans": 0, "sol": "Write everything in terms of <i>c<\/i>: <i>b<\/i> = <i>c<\/i> + 3 and <i>a<\/i> = 2(<i>c<\/i> + 3) = 2<i>c<\/i> + 6. Then (2<i>c<\/i> + 6) + (<i>c<\/i> + 3) + <i>c<\/i> = 25, so 4<i>c<\/i> = 16 and <i>c<\/i> = 4. So <i>b<\/i> = 7 and <i>a<\/i> = 14. Answer: <b>14<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><i>a<\/i><i>x<\/i> + <i>b<\/i><i>y<\/i> = 16<br><i>b<\/i><i>x<\/i> − <i>a<\/i><i>y<\/i> = −2<\/div>In the system above, <i>a<\/i> and <i>b<\/i> are constants. If the system has the solution (3, 2), what is the value of <i>a<\/i>?", "opts": ["2", "4", "<span class=\"fq\"><span>44<\/span><span>13<\/span><\/span>", "<span class=\"fq\"><span>16<\/span><span>3<\/span><\/span>"], "ans": 1, "sol": "Substitute (3, 2): 3<i>a<\/i> + 2<i>b<\/i> = 16 and −2<i>a<\/i> + 3<i>b<\/i> = −2. Multiply the first by 3 and the second by 2: 9<i>a<\/i> + 6<i>b<\/i> = 48 and −4<i>a<\/i> + 6<i>b<\/i> = −4. Subtract: 13<i>a<\/i> = 52, so <i>a<\/i> = 4 (and <i>b<\/i> = 2). Answer: <b>4<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Tank A holds 500 liters of water and starts draining at 12 liters per minute at time <i>t<\/i> = 0 minutes. Tank B holds 140 liters and starts filling at 18 liters per minute 5 minutes later. For <i>t<\/i> ≥ 5, the volumes, in liters, are <i>V<\/i> = 500 − 12<i>t<\/i> for tank A and <i>V<\/i> = 140 + 18(<i>t<\/i> − 5) for tank B. The graphs of these equations intersect at the point (<i>t<\/i>, <i>V<\/i>). What is the value of <i>V<\/i>?", "opts": ["15", "356", "320", "12"], "ans": 2, "sol": "Set equal: 500 − 12<i>t<\/i> = 140 + 18<i>t<\/i> − 90, so 450 = 30<i>t<\/i> and <i>t<\/i> = 15. Then <i>V<\/i> = 500 − 12(15) = 320. Answer: <b>320<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">3<i>x<\/i> + 5<i>y<\/i> = 2<br>7<i>x<\/i> + 9<i>y<\/i> = 10<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of <i>x<\/i> + <i>y<\/i>?", "ans": ["2"], "sol": "Subtract the first equation from the second: 4<i>x<\/i> + 4<i>y<\/i> = 8, so <i>x<\/i> + <i>y<\/i> = 2. Answer: <b>2<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">2<i>x<\/i> + 3<i>y<\/i> = 7<i>a<\/i><br>3<i>x<\/i> + 2<i>y<\/i> = 3<i>a<\/i><\/div>In the system above, <i>a<\/i> is a constant. Which expression is equal to <i>x<\/i> − <i>y<\/i>?", "opts": ["4<i>a<\/i>", "2<i>a<\/i>", "10<i>a<\/i>", "−4<i>a<\/i>"], "ans": 3, "sol": "Subtract the first equation from the second: <i>x<\/i> − <i>y<\/i> = 3<i>a<\/i> − 7<i>a<\/i> = −4<i>a<\/i>. Answer: <b>−4<i>a<\/i><\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "Ana invests a total of $10,000. She puts <i>x<\/i> dollars in an account earning 4% simple annual interest and <i>y<\/i> dollars in an account earning 6%. After one year she has earned $520 in interest, so<div class=\"eqs\"><i>x<\/i> + <i>y<\/i> = 10,000<br>0.04<i>x<\/i> + 0.06<i>y<\/i> = 520<\/div>How much did Ana invest at 6%?", "opts": ["$6,000", "$4,000", "$26,000", "$13,000"], "ans": 0, "sol": "Multiply the second equation by 100: 4<i>x<\/i> + 6<i>y<\/i> = 52,000. Subtract 4 times the first equation, 4<i>x<\/i> + 4<i>y<\/i> = 40,000: 2<i>y<\/i> = 12,000, so <i>y<\/i> = 6,000. Answer: <b>$6,000<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">24<i>x<\/i> − 35<i>y<\/i> = −9<br>18<i>x<\/i> − 28<i>y<\/i> = −12<\/div>What is the value of <i>y<\/i> in the solution to the system above?", "opts": ["4", "3", "21", "−3"], "ans": 1, "sol": "Multiply the first equation by 3 and the second by 4: 72<i>x<\/i> − 105<i>y<\/i> = −27 and 72<i>x<\/i> − 112<i>y<\/i> = −48. Subtract: 7<i>y<\/i> = 21, so <i>y<\/i> = 3. Answer: <b>3<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Line ℓ in the <i>xy<\/i>-plane passes through the points (−2, 1) and (2, 3). Line <i>k<\/i> has equation 2<i>x<\/i> + 3<i>y<\/i> = 27. Lines ℓ and <i>k<\/i> intersect at the point (<i>a<\/i>, <i>b<\/i>). What is the value of <i>b<\/i>?", "opts": ["6", "5", "8", "9"], "ans": 1, "sol": "The slope of ℓ is <span class=\"fq\"><span>3 − 1<\/span><span>2 − (−2)<\/span><\/span> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>, so ℓ is <i>y<\/i> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 2. Substitute into <i>k<\/i>: 2<i>x<\/i> + 3(<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>x<\/i> + 2) = 27, so <span class=\"fq\"><span>7<\/span><span>2<\/span><\/span><i>x<\/i> = 21, <i>x<\/i> = 6, and <i>y<\/i> = 3 + 2 = 5. Answer: <b>5<\/b>"}, {"lo": "LO1", "diff": "H", "type": "spr", "q": "The length <i>L<\/i> and width <i>W<\/i>, in centimeters, of a rectangle satisfy <i>L<\/i> = 2<i>W<\/i> − 3. The perimeter of the rectangle is 54 centimeters, so 2<i>L<\/i> + 2<i>W<\/i> = 54. What is the area of the rectangle, in square centimeters?", "ans": ["170"], "sol": "Substitute: 2(2<i>W<\/i> − 3) + 2<i>W<\/i> = 54, so 6<i>W<\/i> − 6 = 54 and <i>W<\/i> = 10. Then <i>L<\/i> = 17, and the area is 17 · 10 = 170. Answer: <b>170<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i> + <i>y<\/i><\/span><span>2<\/span><\/span> − <span class=\"fq\"><span><i>x<\/i> − <i>y<\/i><\/span><span>3<\/span><\/span> = 2<br><span class=\"fq\"><span><i>x<\/i> + 2<i>y<\/i><\/span><span>3<\/span><\/span> + <span class=\"fq\"><span><i>x<\/i> − <i>y<\/i><\/span><span>2<\/span><\/span> = 6<\/div>What is the value of <i>x<\/i> in the solution to the system above?", "opts": ["1", "6", "7", "<span class=\"fq\"><span>7<\/span><span>6<\/span><\/span>"], "ans": 2, "sol": "Multiply the first equation by 6: 3(<i>x<\/i> + <i>y<\/i>) − 2(<i>x<\/i> − <i>y<\/i>) = 12, so <i>x<\/i> + 5<i>y<\/i> = 12. Multiply the second by 6: 2(<i>x<\/i> + 2<i>y<\/i>) + 3(<i>x<\/i> − <i>y<\/i>) = 36, so 5<i>x<\/i> + <i>y<\/i> = 36. Substituting <i>x<\/i> = 12 − 5<i>y<\/i> gives 60 − 24<i>y<\/i> = 36, so <i>y<\/i> = 1 and <i>x<\/i> = 7. Answer: <b>7<\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "<div class=\"eqs\">3<i>x<\/i> + 4<i>y<\/i> = 2<i>k<\/i><br>5<i>x<\/i> − 2<i>y<\/i> = <i>k<\/i> − 4<\/div>In the system above, <i>k<\/i> is a constant. If the solution (<i>x<\/i>, <i>y<\/i>) of the system has <i>x<\/i> = <i>y<\/i>, what is the value of <i>k<\/i>?", "opts": ["8", "56", "24", "28"], "ans": 3, "sol": "Let <i>x<\/i> = <i>y<\/i> = <i>t<\/i>. Then 7<i>t<\/i> = 2<i>k<\/i> and 3<i>t<\/i> = <i>k<\/i> − 4, so <i>k<\/i> = 3<i>t<\/i> + 4. Substitute: 7<i>t<\/i> = 6<i>t<\/i> + 8, so <i>t<\/i> = 8 and <i>k<\/i> = 3(8) + 4 = 28. Answer: <b>28<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "<div class=\"eqs\">4<i>x<\/i> + 7<i>y<\/i> = 31<br>6<i>x<\/i> + 5<i>y<\/i> = 27<\/div>If (<i>x<\/i>, <i>y<\/i>) is the solution to the system above, what is the value of 5<i>x<\/i> + 6<i>y<\/i>?", "ans": ["29"], "sol": "Adding the equations gives 10<i>x<\/i> + 12<i>y<\/i> = 58, which is exactly twice the target. So 5<i>x<\/i> + 6<i>y<\/i> = 29. Answer: <b>29<\/b>"}, {"lo": "LO3", "diff": "X", "type": "mcq", "q": "In the <i>xy<\/i>-plane, the line <i>y<\/i> = <i>k<\/i><i>x<\/i> + 4, where <i>k<\/i> is a constant, intersects the line <i>y<\/i> = −<i>x<\/i> + 10 at a point whose <i>x<\/i>-coordinate is twice its <i>y<\/i>-coordinate. What is the value of <i>k<\/i>?", "opts": ["−<span class=\"fq\"><span>1<\/span><span>10<\/span><\/span>", "<span class=\"fq\"><span>4<\/span><span>5<\/span><\/span>", "<span class=\"fq\"><span>1<\/span><span>10<\/span><\/span>", "<span class=\"fq\"><span>10<\/span><span>3<\/span><\/span>"], "ans": 0, "sol": "On the second line with <i>x<\/i> = 2<i>y<\/i>: <i>y<\/i> = −2<i>y<\/i> + 10, so <i>y<\/i> = <span class=\"fq\"><span>10<\/span><span>3<\/span><\/span> and <i>x<\/i> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span>. This point is on the first line: <span class=\"fq\"><span>10<\/span><span>3<\/span><\/span> = <span class=\"fq\"><span>20<\/span><span>3<\/span><\/span><i>k<\/i> + 4. Multiply by 3: 10 = 20<i>k<\/i> + 12, so <i>k<\/i> = −<span class=\"fq\"><span>1<\/span><span>10<\/span><\/span>. Answer: <b>−<span class=\"fq\"><span>1<\/span><span>10<\/span><\/span><\/b>"}, {"lo": "LO5", "diff": "X", "type": "mcq", "q": "A hiker walks a trail that is 13 kilometers long. She walks <i>a<\/i> kilometers at 4 kilometers per hour and the remaining <i>b<\/i> kilometers at 6 kilometers per hour. The whole walk takes 2.75 hours, so<div class=\"eqs\"><i>a<\/i> + <i>b<\/i> = 13<br><span class=\"fq\"><span><i>a<\/i><\/span><span>4<\/span><\/span> + <span class=\"fq\"><span><i>b<\/i><\/span><span>6<\/span><\/span> = 2.75<\/div>For how many minutes did the hiker walk at 4 kilometers per hour?", "opts": ["60", "7", "105", "165"], "ans": 2, "sol": "Multiply the second equation by 12: 3<i>a<\/i> + 2<i>b<\/i> = 33. Subtract 2 times the first equation, 2<i>a<\/i> + 2<i>b<\/i> = 26: <i>a<\/i> = 7. The time at 4 kilometers per hour is <span class=\"fq\"><span>7<\/span><span>4<\/span><\/span> = 1.75 hours, or 1.75 · 60 = 105 minutes. Answer: <b>105<\/b>"}], "unit_no": 1, "topic_no": "4", "code": "4.1"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

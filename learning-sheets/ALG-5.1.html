@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5.1 Solving one-variable and compound inequalities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-5.1", "unit": "Algebra", "topic": "Linear inequalities", "title": "Solving one-variable and compound inequalities", "intro": "A linear inequality is solved almost exactly like a linear equation, except that the answer is a whole range of values instead of a single number. On the DSAT you will solve inequalities, combine them with “and” or “or,” turn absolute-value conditions into ranges, and decide which values or how many integers satisfy them.", "los": [{"id": "LO1", "text": "Solve one-variable linear inequalities, reversing the inequality sign when multiplying or dividing by a negative number, including inequalities with fractions or a constant parameter."}, {"id": "LO2", "text": "Solve compound “and” and “or” inequalities and describe the resulting solution set."}, {"id": "LO3", "text": "Solve absolute-value inequalities of the form |<i>x<\/i> − <i>a<\/i>| &lt; <i>b<\/i> or |<i>x<\/i> − <i>a<\/i>| &gt; <i>b<\/i>, and write an interval as an absolute-value inequality."}, {"id": "LO4", "text": "Determine integer solutions of an inequality and identify which given values satisfy it."}], "notes": [{"lo": "LO1", "h": "The one rule that differs from equations", "html": "You may add or subtract any number on both sides of an inequality, and you may multiply or divide both sides by a <b>positive<\/b> number, and the sign stays the same. Multiplying or dividing by a <b>negative<\/b> number reverses the order of the two sides, so the sign must flip.<div class=\"rule\">If <i>a<\/i> &lt; <i>b<\/i> and <i>c<\/i> &gt; 0, then <i>ac<\/i> &lt; <i>bc<\/i>.<br>If <i>a<\/i> &lt; <i>b<\/i> and <i>c<\/i> &lt; 0, then <i>ac<\/i> &gt; <i>bc<\/i>.<\/div>Why? 2 &lt; 5 is true, but after multiplying by −1 we get −2 and −5, and −2 &gt; −5.<div class=\"tscroll\"><table class=\"dtab\"><tr><th>Step<\/th><th>Flip the sign?<\/th><\/tr><tr><td>Add or subtract any number<\/td><td>No<\/td><\/tr><tr><td>Multiply or divide by a positive<\/td><td>No<\/td><\/tr><tr><td>Multiply or divide by a negative<\/td><td>Yes<\/td><\/tr><tr><td>Swap the two sides<\/td><td>Yes (5 &gt; <i>x<\/i> means <i>x<\/i> &lt; 5)<\/td><\/tr><\/table><\/div>A negative number on the other side does not cause a flip: 3<i>x<\/i> &lt; −12 gives <i>x<\/i> &lt; −4."}, {"lo": "LO1", "h": "Variables on both sides, fractions and parameters", "html": "Collect the variable terms on one side and the constants on the other. A useful habit is to move the variable to the side where its coefficient stays positive, so you never divide by a negative. For example, 4 − 2<i>x<\/i> &gt; 3<i>x<\/i> − 11 becomes 15 &gt; 5<i>x<\/i>, so 3 &gt; <i>x<\/i>, that is, <i>x<\/i> &lt; 3.<br>If there are fractions, multiply every term by the least common denominator first. Because the denominator is positive, the sign does not change.<br>When a letter such as <i>a<\/i> or <i>k<\/i> appears as a coefficient, its sign decides the direction. If <i>a<\/i> &lt; 0, then <i>a<\/i><i>x<\/i> &gt; 6 gives <i>x<\/i> &lt; <span class=\"fq\"><span>6<\/span><span><i>a<\/i><\/span><\/span>. To find a constant from a given solution set, solve in terms of the constant and set the boundary equal to the given number.<div class=\"tip\">Desmos tip: type the inequality exactly as written, for example 4 − 2x &gt; 3x − 11. Desmos shades the solution region, and clicking its edge shows the boundary value.<\/div>"}, {"lo": "LO2", "h": "“And” inequalities (sandwiches)", "html": "An “and” inequality is true only when <b>both<\/b> parts are true, so its solution is the overlap of the two pieces. It is often written as a sandwich, such as −5 &lt; 2<i>x<\/i> + 3 ≤ 11.<div class=\"rule\">Do the same operation to all three parts at once. If you multiply or divide by a negative, flip both signs, then rewrite the result in increasing order.<\/div>Example: 1 ≤ 7 − 3<i>x<\/i> &lt; 13 → subtract 7: −6 ≤ −3<i>x<\/i> &lt; 6 → divide by −3 and flip: 2 ≥ <i>x<\/i> &gt; −2, which reads −2 &lt; <i>x<\/i> ≤ 2.<br>When the two pieces are written separately (“<i>x<\/i> &gt; 1 and <i>x<\/i> ≤ 6”), solve each one, then keep only the values that work for both. If the pieces do not overlap, such as <i>x<\/i> &lt; 2 and <i>x<\/i> &gt; 5, the inequality has no solution."}, {"lo": "LO2", "h": "“Or” inequalities", "html": "An “or” inequality is true when <b>at least one<\/b> part is true, so its solution is everything covered by either piece. Solve each piece on its own and keep both answers. Do not combine them into a sandwich.<div class=\"rule\">“<i>x<\/i> &lt; <i>p<\/i> or <i>x<\/i> &gt; <i>q<\/i>” (with <i>p<\/i> &lt; <i>q<\/i>) is two separate rays pointing away from each other. It is never written as <i>p<\/i> &gt; <i>x<\/i> &gt; <i>q<\/i>.<\/div><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Pieces<\/th><th>“and”<\/th><th>“or”<\/th><\/tr><tr><td><i>x<\/i> &gt; 1, <i>x<\/i> &lt; 6<\/td><td>1 &lt; <i>x<\/i> &lt; 6<\/td><td>all real numbers<\/td><\/tr><tr><td><i>x<\/i> &lt; 1, <i>x<\/i> &gt; 6<\/td><td>no solution<\/td><td><i>x<\/i> &lt; 1 or <i>x<\/i> &gt; 6<\/td><\/tr><tr><td><i>x<\/i> &gt; 1, <i>x<\/i> &gt; 6<\/td><td><i>x<\/i> &gt; 6<\/td><td><i>x<\/i> &gt; 1<\/td><\/tr><\/table><\/div>Sketching both pieces on one number line is the quickest way to see the overlap (“and”) or the union (“or”)."}, {"lo": "LO3", "h": "Absolute value as distance", "html": "|<i>x<\/i> − <i>a<\/i>| is the distance between <i>x<\/i> and <i>a<\/i> on the number line. So |<i>x<\/i> − 6| &lt; 2 means “<i>x<\/i> is less than 2 units from 6,” which gives 4 &lt; <i>x<\/i> &lt; 8.<div class=\"rule\">For <i>b<\/i> &gt; 0:<br>|<i>x<\/i> − <i>a<\/i>| &lt; <i>b<\/i> ⇔ <i>a<\/i> − <i>b<\/i> &lt; <i>x<\/i> &lt; <i>a<\/i> + <i>b<\/i> (one interval, an “and”)<br>|<i>x<\/i> − <i>a<\/i>| &gt; <i>b<\/i> ⇔ <i>x<\/i> &lt; <i>a<\/i> − <i>b<\/i> or <i>x<\/i> &gt; <i>a<\/i> + <i>b<\/i> (two rays, an “or”)<\/div>The same holds with ≤ and ≥. Since |<i>x<\/i> + 3| = |<i>x<\/i> − (−3)|, its center is −3. For |2<i>x<\/i> − 5| &lt; 9, write −9 &lt; 2<i>x<\/i> − 5 &lt; 9 and solve the sandwich.<br><b>Going backward:<\/b> <i>p<\/i> ≤ <i>x<\/i> ≤ <i>q<\/i> is |<i>x<\/i> − center| ≤ half-width, with center <span class=\"fq\"><span><i>p<\/i> + <i>q<\/i><\/span><span>2<\/span><\/span> and half-width <span class=\"fq\"><span><i>q<\/i> − <i>p<\/i><\/span><span>2<\/span><\/span>.<br>|<i>x<\/i> − 4| &lt; −1 has no solution; |<i>x<\/i> − 4| &gt; −1 holds for every <i>x<\/i>."}, {"lo": "LO4", "h": "Integer solutions and checking values", "html": "Many DSAT questions ask for the greatest or least integer, or how many integers, that satisfy an inequality. First solve, then look carefully at each endpoint.<div class=\"rule\">The integers from <i>m<\/i> to <i>n<\/i>, including both, number <i>n<\/i> − <i>m<\/i> + 1. A strict sign (&lt; or &gt;) excludes an endpoint that is itself an integer.<\/div>Example: −2.5 &lt; <i>x<\/i> ≤ 4 contains the integers −2, −1, 0, 1, 2, 3, 4, which is 7 integers. For <i>x<\/i> ≤ 6.6, the greatest integer is 6, not 7.<br>For “which value satisfies” questions, either solve the inequality once and compare, or substitute each option. Substituting is safest when the answer choices sit near a boundary. A value that makes the two sides equal does <b>not<\/b> satisfy a strict inequality.<div class=\"tip\">Desmos tip: after typing the inequality, enter an option as x = 7 and see whether the vertical line falls inside the shaded region. For counting, a table of x-values helps you check endpoints.<\/div>"}], "examples": [{"lo": "LO1", "q": "Solve 7 − 3<i>x<\/i> ≥ 19.", "steps": ["Subtract 7 from both sides: −3<i>x<\/i> ≥ 12.", "Divide both sides by −3. Because you are dividing by a negative, flip the sign: <i>x<\/i> ≤ −4.", "Check with <i>x<\/i> = −5: 7 + 15 = 22 ≥ 19, which is true."], "ans": "<i>x<\/i> ≤ −4"}, {"lo": "LO2", "q": "Solve −5 &lt; 2<i>x<\/i> + 3 ≤ 11.", "steps": ["Subtract 3 from all three parts: −8 &lt; 2<i>x<\/i> ≤ 8.", "Divide all three parts by 2. It is positive, so the signs stay: −4 &lt; <i>x<\/i> ≤ 4."], "ans": "−4 &lt; <i>x<\/i> ≤ 4"}, {"lo": "LO3", "q": "Solve |<i>x<\/i> − 6| &gt; 2.5.", "steps": ["“Greater than” means more than 2.5 units from 6, so there are two pieces: <i>x<\/i> − 6 &gt; 2.5 or <i>x<\/i> − 6 &lt; −2.5.", "Solve each piece: <i>x<\/i> &gt; 8.5 or <i>x<\/i> &lt; 3.5."], "ans": "<i>x<\/i> &lt; 3.5 or <i>x<\/i> &gt; 8.5"}, {"lo": "LO3", "q": "Write an absolute-value inequality whose solution is −3 ≤ <i>x<\/i> ≤ 11.", "steps": ["The center is the midpoint: <span class=\"fq\"><span>−3 + 11<\/span><span>2<\/span><\/span> = 4.", "The half-width is <span class=\"fq\"><span>11 − (−3)<\/span><span>2<\/span><\/span> = 7.", "Every <i>x<\/i> in the interval is at most 7 units from 4, and the endpoints are included, so use ≤."], "ans": "|<i>x<\/i> − 4| ≤ 7"}, {"lo": "LO4", "q": "How many integers <i>n<\/i> satisfy |2<i>n<\/i> − 7| &lt; 9?", "steps": ["Write the sandwich: −9 &lt; 2<i>n<\/i> − 7 &lt; 9.", "Add 7: −2 &lt; 2<i>n<\/i> &lt; 16. Divide by 2: −1 &lt; <i>n<\/i> &lt; 8.", "Both signs are strict, so −1 and 8 are excluded. The integers are 0, 1, 2, …, 7.", "Count: 7 − 0 + 1 = 8."], "ans": "8"}], "traps": ["Forgetting to flip the sign after multiplying or dividing by a negative, for example turning −4<i>x<\/i> &lt; 20 into <i>x<\/i> &lt; −5 instead of <i>x<\/i> &gt; −5.", "Flipping the sign when it is not needed: 3<i>x<\/i> &lt; −12 has a negative constant but a positive coefficient, so the answer is <i>x<\/i> &lt; −4.", "Treating an “or” inequality as an “and” inequality, writing −3 &lt; <i>x<\/i> &lt; 6 when the answer is <i>x<\/i> &lt; −3 or <i>x<\/i> &gt; 6.", "Turning |<i>x<\/i> − <i>a<\/i>| &gt; <i>b<\/i> into a single interval, or reading the center of |<i>x<\/i> + 3| as +3 instead of −3.", "Counting integers carelessly at the endpoints: including an endpoint that a strict inequality excludes, or forgetting to add 1 when counting from one integer to another."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to <i>x<\/i> + 8 &gt; 3?", "opts": ["<i>x<\/i> &gt; −5", "<i>x<\/i> &gt; 11", "<i>x<\/i> &lt; −5", "<i>x<\/i> &gt; 5"], "ans": 0, "sol": "Subtract 8 from both sides: <i>x<\/i> &gt; 3 − 8 = −5. No multiplying or dividing happened, so the sign stays. Answer: <b><i>x<\/i> &gt; −5<\/b>", "hint": "Undo the +8 the same way you would in an equation."}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to −4<i>x<\/i> &lt; 20?", "opts": ["<i>x<\/i> &lt; −5", "<i>x<\/i> &gt; 5", "<i>x<\/i> &gt; −5", "<i>x<\/i> &lt; 5"], "ans": 2, "sol": "Divide both sides by −4. Dividing by a negative flips the sign: <i>x<\/i> &gt; <span class=\"fq\"><span>20<\/span><span>−4<\/span><\/span> = −5. Answer: <b><i>x<\/i> &gt; −5<\/b>", "hint": "You must divide by a negative number. What does that do to the sign?"}, {"lo": "LO4", "diff": "E", "type": "spr", "q": "What is the greatest integer <i>x<\/i> that satisfies 5<i>x<\/i> − 2 ≤ 31?", "ans": ["6"], "sol": "Add 2: 5<i>x<\/i> ≤ 33. Divide by 5: <i>x<\/i> ≤ 6.6. The greatest integer that is at most 6.6 is 6. Answer: <b>6<\/b>", "hint": "Solve first, then look for the largest whole number that does not pass the boundary."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to −1 ≤ <i>x<\/i> − 4 &lt; 6?", "opts": ["−5 ≤ <i>x<\/i> &lt; 2", "3 ≤ <i>x<\/i> &lt; 10", "3 &lt; <i>x<\/i> ≤ 10", "−3 ≤ <i>x<\/i> &lt; 10"], "ans": 1, "sol": "Add 4 to all three parts: −1 + 4 ≤ <i>x<\/i> &lt; 6 + 4, so 3 ≤ <i>x<\/i> &lt; 10. Adding does not change either sign. Answer: <b>3 ≤ <i>x<\/i> &lt; 10<\/b>", "hint": "Whatever you do to the middle, do to the left and right parts too."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Which of the following is equivalent to |<i>x<\/i> − 2| &lt; 5?", "opts": ["<i>x<\/i> &lt; 7", "−7 &lt; <i>x<\/i> &lt; 3", "−3 &lt; <i>x<\/i> &lt; 7", "<i>x<\/i> &lt; −3 or <i>x<\/i> &gt; 7"], "ans": 2, "sol": "The values of <i>x<\/i> are less than 5 units from 2: 2 − 5 &lt; <i>x<\/i> &lt; 2 + 5, so −3 &lt; <i>x<\/i> &lt; 7. Answer: <b>−3 &lt; <i>x<\/i> &lt; 7<\/b>", "hint": "Think of |<i>x<\/i> − 2| as the distance from <i>x<\/i> to 2."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to 2(<i>x<\/i> − 3) &gt; 5<i>x<\/i> + 9?", "opts": ["<i>x<\/i> &lt; −4", "<i>x<\/i> &gt; −5", "<i>x<\/i> &lt; 5", "<i>x<\/i> &lt; −5"], "ans": 3, "sol": "Distribute: 2<i>x<\/i> − 6 &gt; 5<i>x<\/i> + 9.<br>Subtract 5<i>x<\/i> and add 6: −3<i>x<\/i> &gt; 15.<br>Divide by −3 and flip: <i>x<\/i> &lt; −5. Answer: <b><i>x<\/i> &lt; −5<\/b>", "hint": "Distribute the 2 to both terms in the parentheses first."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to 3<i>x<\/i> + 1 &lt; −8 or 2<i>x<\/i> − 5 &gt; 7?", "opts": ["<i>x<\/i> &lt; −3 or <i>x<\/i> &gt; 6", "−3 &lt; <i>x<\/i> &lt; 6", "<i>x<\/i> &lt; −<span class=\"fq\"><span>7<\/span><span>3<\/span><\/span> or <i>x<\/i> &gt; 6", "<i>x<\/i> &lt; −3 or <i>x<\/i> &gt; 1"], "ans": 0, "sol": "First piece: 3<i>x<\/i> &lt; −9, so <i>x<\/i> &lt; −3. Second piece: 2<i>x<\/i> &gt; 12, so <i>x<\/i> &gt; 6.<br>The word “or” keeps both pieces; they are not combined into a sandwich. Answer: <b><i>x<\/i> &lt; −3 or <i>x<\/i> &gt; 6<\/b>", "hint": "Solve each piece separately. Does “or” mean overlap or union?"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "The solution to |<i>x<\/i> − 9| ≤ 4 is <i>a<\/i> ≤ <i>x<\/i> ≤ <i>b<\/i>. What is the value of <i>b<\/i> − <i>a<\/i>?", "ans": ["8"], "sol": "|<i>x<\/i> − 9| ≤ 4 gives 9 − 4 ≤ <i>x<\/i> ≤ 9 + 4, so 5 ≤ <i>x<\/i> ≤ 13. Then <i>b<\/i> − <i>a<\/i> = 13 − 5 = 8. Answer: <b>8<\/b>", "hint": "Find both endpoints from the center and the distance. How do they compare to the number 4?"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Which of the following values of <i>x<\/i> satisfies 4 − 2<i>x<\/i> &gt; 3<i>x<\/i> − 11?", "opts": ["7", "3", "4", "2"], "ans": 3, "sol": "Add 2<i>x<\/i> and 11 to both sides: 15 &gt; 5<i>x<\/i>, so <i>x<\/i> &lt; 3. Only 2 is less than 3. At <i>x<\/i> = 3 both sides equal −2, so 3 does not satisfy the strict inequality. Answer: <b>2<\/b>", "hint": "Solve once, then compare. Be careful with any option that makes both sides equal."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which inequality has the solution <i>x<\/i> &lt; −1 or <i>x<\/i> &gt; 9?", "opts": ["|<i>x<\/i> − 4| &lt; 5", "|<i>x<\/i> − 4| &gt; 5", "|<i>x<\/i> + 4| &gt; 5", "|<i>x<\/i> − 5| &gt; 4"], "ans": 1, "sol": "Two rays pointing outward mean a “greater than” absolute value. The center is the midpoint of −1 and 9, which is 4, and each boundary is 5 from 4. So the inequality is |<i>x<\/i> − 4| &gt; 5. Answer: <b>|<i>x<\/i> − 4| &gt; 5<\/b>", "hint": "Find the point halfway between the two boundaries and the distance from it to each boundary."}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "How many integers satisfy −7 &lt; 3<i>x<\/i> + 2 ≤ 14?", "ans": ["7"], "sol": "Subtract 2: −9 &lt; 3<i>x<\/i> ≤ 12. Divide by 3: −3 &lt; <i>x<\/i> ≤ 4.<br>−3 is excluded and 4 is included, so the integers are −2, −1, 0, 1, 2, 3, 4, which is 7 integers. Answer: <b>7<\/b>", "hint": "Solve the sandwich, then check which endpoints are included before counting."}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "Which of the following values of <i>x<\/i> satisfies both 5 − <i>x<\/i> &lt; 2 and 3<i>x<\/i> − 1 ≤ 14?", "opts": ["5", "3", "6", "2"], "ans": 0, "sol": "First: −<i>x<\/i> &lt; −3, so <i>x<\/i> &gt; 3. Second: 3<i>x<\/i> ≤ 15, so <i>x<\/i> ≤ 5. Together 3 &lt; <i>x<\/i> ≤ 5. Only 5 works: 3 fails the strict sign, 6 is too large and 2 is too small. Answer: <b>5<\/b>", "hint": "Find the overlap of the two solution sets. Which endpoints are included?"}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to 6<i>x<\/i> − 1 ≤ 17?", "opts": ["<i>x<\/i> ≤ 3", "<i>x<\/i> ≥ 3", "<i>x<\/i> ≤ <span class=\"fq\"><span>8<\/span><span>3<\/span><\/span>", "<i>x<\/i> ≤ 18"], "ans": 0, "sol": "Add 1: 6<i>x<\/i> ≤ 18. Divide by 6: <i>x<\/i> ≤ 3. Answer: <b><i>x<\/i> ≤ 3<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to −<span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> &gt; 2?", "opts": ["<i>x<\/i> &gt; −6", "<i>x<\/i> &lt; −6", "<i>x<\/i> &lt; −<span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>", "<i>x<\/i> &gt; 6"], "ans": 1, "sol": "Multiply both sides by −3 and flip the sign: <i>x<\/i> &lt; −6. Answer: <b><i>x<\/i> &lt; −6<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "Which of the following is the solution to 4 &lt; <i>x<\/i> + 7 &lt; 12?", "opts": ["11 &lt; <i>x<\/i> &lt; 19", "3 &lt; <i>x<\/i> &lt; 5", "−3 &lt; <i>x<\/i> &lt; 5", "−3 &lt; <i>x<\/i> &lt; 19"], "ans": 2, "sol": "Subtract 7 from all three parts: 4 − 7 &lt; <i>x<\/i> &lt; 12 − 7, so −3 &lt; <i>x<\/i> &lt; 5. Answer: <b>−3 &lt; <i>x<\/i> &lt; 5<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Which of the following is equivalent to |<i>x<\/i> + 1| ≤ 3?", "opts": ["−2 ≤ <i>x<\/i> ≤ 4", "<i>x<\/i> ≤ 2", "<i>x<\/i> ≤ −4 or <i>x<\/i> ≥ 2", "−4 ≤ <i>x<\/i> ≤ 2"], "ans": 3, "sol": "|<i>x<\/i> + 1| = |<i>x<\/i> − (−1)|, so the center is −1. Within 3 of −1: −1 − 3 ≤ <i>x<\/i> ≤ −1 + 3, so −4 ≤ <i>x<\/i> ≤ 2. Answer: <b>−4 ≤ <i>x<\/i> ≤ 2<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "Which of the following values of <i>x<\/i> satisfies 3<i>x<\/i> + 4 &gt; 25?", "opts": ["8", "7", "6", "5"], "ans": 0, "sol": "3<i>x<\/i> &gt; 21, so <i>x<\/i> &gt; 7. Only 8 is greater than 7; at <i>x<\/i> = 7 the two sides are equal. Answer: <b>8<\/b>"}, {"lo": "LO1", "diff": "E", "type": "spr", "q": "The solution to 5<i>x<\/i> + 3 &lt; 2<i>x<\/i> + 21 is <i>x<\/i> &lt; <i>c<\/i>. What is the value of <i>c<\/i>?", "ans": ["6"], "sol": "Subtract 2<i>x<\/i> and 3: 3<i>x<\/i> &lt; 18, so <i>x<\/i> &lt; 6. Thus <i>c<\/i> = 6. Answer: <b>6<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to <span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> − 3 ≥ <span class=\"fq\"><span><i>x<\/i><\/span><span>5<\/span><\/span>?", "opts": ["<i>x<\/i> ≤ 10", "<i>x<\/i> ≥ 10", "<i>x<\/i> ≥ <span class=\"fq\"><span>30<\/span><span>7<\/span><\/span>", "<i>x<\/i> ≥ 3"], "ans": 1, "sol": "Multiply every term by 10: 5<i>x<\/i> − 30 ≥ 2<i>x<\/i>.<br>Then 3<i>x<\/i> ≥ 30, so <i>x<\/i> ≥ 10. Answer: <b><i>x<\/i> ≥ 10<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Two water tanks are being filled. The inequality 3.2<i>t<\/i> − 14 ≤ 2.4<i>t<\/i> + 6 is true exactly when tank A holds no more water than tank B, <i>t<\/i> minutes after a timer starts. Which of the following describes all values of <i>t<\/i> for which this is true?", "opts": ["<i>t<\/i> ≥ 25", "<i>t<\/i> ≤ 10", "<i>t<\/i> ≤ 25", "<i>t<\/i> ≥ 10"], "ans": 2, "sol": "Subtract 2.4<i>t<\/i> and add 14: 0.8<i>t<\/i> ≤ 20.<br>Divide by 0.8, which is positive: <i>t<\/i> ≤ 25. Answer: <b><i>t<\/i> ≤ 25<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to −3 ≤ 5 − 2<i>x<\/i> &lt; 9?", "opts": ["−2 &lt; <i>x<\/i> ≤ 4", "−2 ≤ <i>x<\/i> &lt; 4", "<i>x<\/i> ≤ −2 or <i>x<\/i> &gt; 4", "−4 ≤ <i>x<\/i> &lt; 2"], "ans": 0, "sol": "Subtract 5: −8 ≤ −2<i>x<\/i> &lt; 4.<br>Divide by −2 and flip both signs: 4 ≥ <i>x<\/i> &gt; −2.<br>In increasing order: −2 &lt; <i>x<\/i> ≤ 4. Answer: <b>−2 &lt; <i>x<\/i> ≤ 4<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "An oven setting <i>F<\/i>, in degrees Fahrenheit, is acceptable for a recipe if 2<i>F<\/i> − 50 ≥ 600 and <i>F<\/i> + 40 ≤ 400. Which of the following settings is acceptable?", "opts": ["315", "362", "400", "350"], "ans": 3, "sol": "First: 2<i>F<\/i> ≥ 650, so <i>F<\/i> ≥ 325. Second: <i>F<\/i> ≤ 360. Together 325 ≤ <i>F<\/i> ≤ 360. Only 350 is in this range. Answer: <b>350<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A machined rod passes inspection if its length <i>L<\/i>, in millimeters, satisfies |<i>L<\/i> − 120| ≤ 0.8. Which of the following describes all lengths that pass?", "opts": ["119.2 &lt; <i>L<\/i> &lt; 120.8", "119.2 ≤ <i>L<\/i> ≤ 120.8", "<i>L<\/i> ≤ 120.8", "119.6 ≤ <i>L<\/i> ≤ 120.4"], "ans": 1, "sol": "The length is at most 0.8 mm from 120: 120 − 0.8 ≤ <i>L<\/i> ≤ 120 + 0.8, so 119.2 ≤ <i>L<\/i> ≤ 120.8. The sign ≤ includes the endpoints. Answer: <b>119.2 ≤ <i>L<\/i> ≤ 120.8<\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "The solution to |2<i>x<\/i> − 5| &lt; 9 is <i>a<\/i> &lt; <i>x<\/i> &lt; <i>b<\/i>. What is the value of <i>a<\/i> + <i>b<\/i>?", "ans": ["5"], "sol": "−9 &lt; 2<i>x<\/i> − 5 &lt; 9. Add 5: −4 &lt; 2<i>x<\/i> &lt; 14. Divide by 2: −2 &lt; <i>x<\/i> &lt; 7.<br><i>a<\/i> + <i>b<\/i> = −2 + 7 = 5. Answer: <b>5<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "How many integers <i>x<\/i> satisfy |<i>x<\/i> − 3| ≤ 6?", "ans": ["13"], "sol": "3 − 6 ≤ <i>x<\/i> ≤ 3 + 6, so −3 ≤ <i>x<\/i> ≤ 9. Both ends are included: 9 − (−3) + 1 = 13. Answer: <b>13<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "Which of the following values of <i>x<\/i> is <b>not<\/b> a solution to 7 − 4<i>x<\/i> &lt; 2<i>x<\/i> + 31?", "opts": ["−3", "0", "−4", "5"], "ans": 2, "sol": "Subtract 2<i>x<\/i> and 7: −6<i>x<\/i> &lt; 24. Divide by −6 and flip: <i>x<\/i> &gt; −4.<br>−4 is not greater than −4 (both sides equal 23), so it is not a solution. Answer: <b>−4<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "A storage shelf can safely hold <i>b<\/i> boxes when 12<i>b<\/i> + 150 ≤ 900. What is the greatest number of boxes the shelf can safely hold?", "ans": ["62"], "sol": "12<i>b<\/i> ≤ 750, so <i>b<\/i> ≤ 62.5. The number of boxes must be a whole number, so the greatest is 62. Answer: <b>62<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "Which of the following describes all values of <i>x<\/i> that satisfy 2<i>x<\/i> − 3 &gt; 7 or 4 − <i>x<\/i> ≥ 6?", "opts": ["<i>x<\/i> &gt; 5 or <i>x<\/i> ≥ −2", "−2 ≤ <i>x<\/i> &lt; 5", "<i>x<\/i> &gt; 2 or <i>x<\/i> ≤ −2", "<i>x<\/i> &gt; 5 or <i>x<\/i> ≤ −2"], "ans": 3, "sol": "First piece: 2<i>x<\/i> &gt; 10, so <i>x<\/i> &gt; 5.<br>Second piece: −<i>x<\/i> ≥ 2, so <i>x<\/i> ≤ −2 (flip when dividing by −1).<br>“Or” keeps both pieces. Answer: <b><i>x<\/i> &gt; 5 or <i>x<\/i> ≤ −2<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Which inequality describes all numbers <i>x<\/i> that are within 4.5 units of −2 on the number line?", "opts": ["|<i>x<\/i> + 2| ≤ 4.5", "|<i>x<\/i> − 2| ≤ 4.5", "|<i>x<\/i> + 4.5| ≤ 2", "|<i>x<\/i> + 2| ≥ 4.5"], "ans": 0, "sol": "The distance from <i>x<\/i> to −2 is |<i>x<\/i> − (−2)| = |<i>x<\/i> + 2|. “Within 4.5” means this distance is at most 4.5. Answer: <b>|<i>x<\/i> + 2| ≤ 4.5<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "A thermostat keeps a room's temperature <i>T<\/i>, in degrees Fahrenheit, from 66 to 74, inclusive. Which inequality describes all possible values of <i>T<\/i>?", "opts": ["|<i>T<\/i> − 70| ≤ 8", "|<i>T<\/i> − 4| ≤ 70", "|<i>T<\/i> − 70| ≤ 4", "|<i>T<\/i> − 70| ≥ 4"], "ans": 2, "sol": "Center: <span class=\"fq\"><span>66 + 74<\/span><span>2<\/span><\/span> = 70. Half-width: <span class=\"fq\"><span>74 − 66<\/span><span>2<\/span><\/span> = 4. Inclusive endpoints use ≤, so |<i>T<\/i> − 70| ≤ 4. Answer: <b>|<i>T<\/i> − 70| ≤ 4<\/b>"}, {"lo": "LO1", "diff": "H", "type": "spr", "q": "In the inequality 3(2<i>x<\/i> − <i>k<\/i>) &lt; 4<i>x<\/i> + 10, <i>k<\/i> is a constant. If the solution to the inequality is <i>x<\/i> &lt; 8, what is the value of <i>k<\/i>?", "ans": ["2"], "sol": "Distribute: 6<i>x<\/i> − 3<i>k<\/i> &lt; 4<i>x<\/i> + 10, so 2<i>x<\/i> &lt; 10 + 3<i>k<\/i> and <i>x<\/i> &lt; <span class=\"fq\"><span>10 + 3<i>k<\/i><\/span><span>2<\/span><\/span>.<br>Set <span class=\"fq\"><span>10 + 3<i>k<\/i><\/span><span>2<\/span><\/span> = 8: 10 + 3<i>k<\/i> = 16, so <i>k<\/i> = 2. Answer: <b>2<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A designer needs a whole-number side length <i>s<\/i>, in centimeters, for a box that satisfies both 3<i>s<\/i> − 10 &gt; 41 and |<i>s<\/i> − 20| &lt; 5. How many values of <i>s<\/i> are possible?", "opts": ["9", "7", "8", "11"], "ans": 1, "sol": "First: 3<i>s<\/i> &gt; 51, so <i>s<\/i> &gt; 17. Second: 15 &lt; <i>s<\/i> &lt; 25.<br>Both together: 17 &lt; <i>s<\/i> &lt; 25, so <i>s<\/i> = 18, 19, …, 24, which is 7 values. Answer: <b>7<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to <span class=\"fq\"><span>3 − 2<i>x<\/i><\/span><span>4<\/span><\/span> ≥ <i>x<\/i> + 6?", "opts": ["<i>x<\/i> ≥ −<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span>", "<i>x<\/i> ≤ −<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>", "<i>x<\/i> ≤ −<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span>", "<i>x<\/i> ≤ <span class=\"fq\"><span>7<\/span><span>2<\/span><\/span>"], "ans": 2, "sol": "Multiply both sides by 4: 3 − 2<i>x<\/i> ≥ 4<i>x<\/i> + 24.<br>Subtract 4<i>x<\/i> and 3: −6<i>x<\/i> ≥ 21.<br>Divide by −6 and flip: <i>x<\/i> ≤ −<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span>. Answer: <b><i>x<\/i> ≤ −<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span><\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which of the following is the solution to <i>x<\/i> − 4 ≤ 3<i>x<\/i> + 2 &lt; <i>x<\/i> + 12?", "opts": ["−3 ≤ <i>x<\/i> &lt; 5", "−3 &lt; <i>x<\/i> ≤ 5", "<i>x<\/i> ≥ −3", "−1 ≤ <i>x<\/i> &lt; 5"], "ans": 0, "sol": "Split into two pieces. Left: <i>x<\/i> − 4 ≤ 3<i>x<\/i> + 2 gives −6 ≤ 2<i>x<\/i>, so <i>x<\/i> ≥ −3.<br>Right: 3<i>x<\/i> + 2 &lt; <i>x<\/i> + 12 gives 2<i>x<\/i> &lt; 10, so <i>x<\/i> &lt; 5.<br>Both must hold: −3 ≤ <i>x<\/i> &lt; 5. Answer: <b>−3 ≤ <i>x<\/i> &lt; 5<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which of the following is equivalent to |3 − <i>x<\/i>| &gt; 7?", "opts": ["−4 &lt; <i>x<\/i> &lt; 10", "<i>x<\/i> &lt; −4 or <i>x<\/i> &gt; 10", "<i>x<\/i> &lt; −10 or <i>x<\/i> &gt; 4", "<i>x<\/i> &gt; 10"], "ans": 1, "sol": "|3 − <i>x<\/i>| = |<i>x<\/i> − 3|, the distance from <i>x<\/i> to 3. More than 7 away: <i>x<\/i> &lt; 3 − 7 or <i>x<\/i> &gt; 3 + 7, so <i>x<\/i> &lt; −4 or <i>x<\/i> &gt; 10. Answer: <b><i>x<\/i> &lt; −4 or <i>x<\/i> &gt; 10<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "In a savings challenge, Priya's balance is greater than Omar's balance exactly when 2<i>n<\/i> − 26 &gt; 11 − 3<i>n<\/i>, where <i>n<\/i> is the number of whole weeks since the challenge began. What is the least number of weeks for which Priya's balance is greater?", "opts": ["8", "7", "37", "−8"], "ans": 0, "sol": "Add 3<i>n<\/i> and 26: 5<i>n<\/i> &gt; 37, so <i>n<\/i> &gt; 7.4. The least whole number greater than 7.4 is 8. Answer: <b>8<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A bag of rice labeled 5 kilograms is acceptable if its actual weight <i>w<\/i>, in kilograms, satisfies |<i>w<\/i> − 5| ≤ 0.15. Which of the following weights is <b>not<\/b> acceptable?", "opts": ["4.85", "5.12", "4.83", "5.15"], "ans": 2, "sol": "Acceptable weights satisfy 4.85 ≤ <i>w<\/i> ≤ 5.15. The weight 4.83 is 0.17 kg below 5, which is more than 0.15. Answer: <b>4.83<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A pressure gauge reading <i>r<\/i> is in the safe zone when both 2<i>r<\/i> + 7 ≥ 31 and 3<i>r<\/i> − 5 ≤ 58. What is the greatest reading in the safe zone?", "ans": ["21"], "sol": "First: 2<i>r<\/i> ≥ 24, so <i>r<\/i> ≥ 12. Second: 3<i>r<\/i> ≤ 63, so <i>r<\/i> ≤ 21. The safe zone is 12 ≤ <i>r<\/i> ≤ 21, and its greatest value is 21. Answer: <b>21<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "If <i>a<\/i> is a negative constant, which of the following is the solution to <i>a<\/i><i>x<\/i> + 5 &gt; 2<i>a<\/i> + 5?", "opts": ["<i>x<\/i> &gt; 2", "<i>x<\/i> &lt; 2", "<i>x<\/i> &lt; −2", "<i>x<\/i> &gt; 2<i>a<\/i>"], "ans": 1, "sol": "Subtract 5: <i>a<\/i><i>x<\/i> &gt; 2<i>a<\/i>.<br>Divide by <i>a<\/i>. Since <i>a<\/i> &lt; 0, flip the sign: <i>x<\/i> &lt; 2. Answer: <b><i>x<\/i> &lt; 2<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "For which of the following values of <i>c<\/i> does the inequality “<i>x<\/i> &lt; <i>c<\/i> and <i>x<\/i> &gt; 2<i>c<\/i> − 5” have no solution?", "opts": ["6", "4", "3", "−5"], "ans": 0, "sol": "The solution is the overlap 2<i>c<\/i> − 5 &lt; <i>x<\/i> &lt; <i>c<\/i>. It is empty when 2<i>c<\/i> − 5 ≥ <i>c<\/i>, that is, when <i>c<\/i> ≥ 5.<br>Only 6 qualifies; for example, <i>c<\/i> = 4 gives 3 &lt; <i>x<\/i> &lt; 4. Answer: <b>6<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "The solution to |<i>x<\/i> − <i>a<\/i>| &lt; <i>b<\/i>, where <i>a<\/i> and <i>b<\/i> are constants, is −11 &lt; <i>x<\/i> &lt; 3. What is the value of <i>ab<\/i>?", "ans": ["-28"], "sol": "The center is <i>a<\/i> = <span class=\"fq\"><span>−11 + 3<\/span><span>2<\/span><\/span> = −4. The half-width is <i>b<\/i> = <span class=\"fq\"><span>3 − (−11)<\/span><span>2<\/span><\/span> = 7.<br><i>ab<\/i> = (−4)(7) = −28. Answer: <b>−28<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "What is the sum of all integer solutions to −4 ≤ <span class=\"fq\"><span>5 − 3<i>x<\/i><\/span><span>2<\/span><\/span> &lt; 7?", "opts": ["4", "7", "10", "9"], "ans": 1, "sol": "Multiply by 2: −8 ≤ 5 − 3<i>x<\/i> &lt; 14. Subtract 5: −13 ≤ −3<i>x<\/i> &lt; 9.<br>Divide by −3 and flip: −3 &lt; <i>x<\/i> ≤ <span class=\"fq\"><span>13<\/span><span>3<\/span><\/span>, about 4.33.<br>Integers: −2, −1, 0, 1, 2, 3, 4. Their sum is 7. Answer: <b>7<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Two candles are lit at the same time. The inequality 24 − 1.6<i>t<\/i> &gt; 18 − 0.9<i>t<\/i> is true exactly when candle A is taller than candle B, <i>t<\/i> hours after they are lit. Which of the following describes all values of <i>t<\/i> for which candle A is taller?", "opts": ["<i>t<\/i> &lt; <span class=\"fq\"><span>12<\/span><span>5<\/span><\/span>", "<i>t<\/i> &gt; <span class=\"fq\"><span>60<\/span><span>7<\/span><\/span>", "<i>t<\/i> &lt; <span class=\"fq\"><span>60<\/span><span>7<\/span><\/span>", "<i>t<\/i> &gt; <span class=\"fq\"><span>12<\/span><span>5<\/span><\/span>"], "ans": 2, "sol": "Add 1.6<i>t<\/i> and subtract 18: 6 &gt; 0.7<i>t<\/i>.<br>Divide by 0.7, which is positive: <i>t<\/i> &lt; <span class=\"fq\"><span>6<\/span><span>0.7<\/span><\/span> = <span class=\"fq\"><span>60<\/span><span>7<\/span><\/span>. Answer: <b><i>t<\/i> &lt; <span class=\"fq\"><span>60<\/span><span>7<\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Which inequality has the same solution set as <i>x<\/i> ≤ −3 or <i>x<\/i> ≥ 9?", "opts": ["|<i>x<\/i> − 3| ≤ 6", "|<i>x<\/i> − 6| ≥ 3", "|<i>x<\/i> + 3| ≥ 6", "|<i>x<\/i> − 3| ≥ 6"], "ans": 3, "sol": "Two outward rays with included endpoints mean |<i>x<\/i> − center| ≥ half-width.<br>Center: <span class=\"fq\"><span>−3 + 9<\/span><span>2<\/span><\/span> = 3. Half-width: <span class=\"fq\"><span>9 − (−3)<\/span><span>2<\/span><\/span> = 6. So |<i>x<\/i> − 3| ≥ 6. Answer: <b>|<i>x<\/i> − 3| ≥ 6<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A delivery drone may continue flying only while its battery level satisfies 100 − 2.75<i>m<\/i> ≥ 15, where <i>m<\/i> is the number of minutes it has been flying. What is the greatest whole number of minutes for which the drone may continue flying?", "ans": ["30"], "sol": "Subtract 100: −2.75<i>m<\/i> ≥ −85. Divide by −2.75 and flip: <i>m<\/i> ≤ 30.9…. The greatest whole number is 30. Answer: <b>30<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "If 3 ≤ 2<i>x<\/i> − 1 ≤ 13, which of the following describes all possible values of 5 − <i>x<\/i>?", "opts": ["2 ≤ 5 − <i>x<\/i> ≤ 7", "−3 ≤ 5 − <i>x<\/i> ≤ 2", "−<span class=\"fq\"><span>3<\/span><span>2<\/span><\/span> ≤ 5 − <i>x<\/i> ≤ <span class=\"fq\"><span>7<\/span><span>2<\/span><\/span>", "−2 ≤ 5 − <i>x<\/i> ≤ 3"], "ans": 3, "sol": "Add 1 and divide by 2: 2 ≤ <i>x<\/i> ≤ 7.<br>Multiply by −1 and flip: −7 ≤ −<i>x<\/i> ≤ −2. Add 5: −2 ≤ 5 − <i>x<\/i> ≤ 3. Answer: <b>−2 ≤ 5 − <i>x<\/i> ≤ 3<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Biologists tag fish whose length <i>L<\/i>, in centimeters, satisfies |2<i>L<\/i> − 70| ≤ 9. Which of the following describes the lengths of the fish that are tagged?", "opts": ["61 ≤ <i>L<\/i> ≤ 79", "30.5 ≤ <i>L<\/i> ≤ 39.5", "26 ≤ <i>L<\/i> ≤ 44", "<i>L<\/i> ≤ 39.5"], "ans": 1, "sol": "−9 ≤ 2<i>L<\/i> − 70 ≤ 9. Add 70: 61 ≤ 2<i>L<\/i> ≤ 79. Divide by 2: 30.5 ≤ <i>L<\/i> ≤ 39.5. Answer: <b>30.5 ≤ <i>L<\/i> ≤ 39.5<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "Which of the following values of <i>x<\/i> satisfies both <span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> + 1 &gt; <span class=\"fq\"><span><i>x<\/i> − 2<\/span><span>2<\/span><\/span> and <i>x<\/i> &gt; 4?", "opts": ["12", "4", "15", "9"], "ans": 3, "sol": "Multiply the first inequality by 6: 2<i>x<\/i> + 6 &gt; 3<i>x<\/i> − 6, so 12 &gt; <i>x<\/i>.<br>Together with <i>x<\/i> &gt; 4: 4 &lt; <i>x<\/i> &lt; 12. Only 9 works; 4 and 12 are excluded endpoints. Answer: <b>9<\/b>"}, {"lo": "LO1", "diff": "X", "type": "spr", "q": "In the inequality <i>k<\/i>(<i>x<\/i> − 3) ≥ 2<i>x<\/i> + 6, <i>k<\/i> is a constant. If the solution to the inequality is <i>x<\/i> ≤ −6, what is the value of <i>k<\/i>?", "ans": ["2/3", ".6666", ".6667", "0.666", "0.667"], "sol": "Rearrange: <i>k<\/i><i>x<\/i> − 2<i>x<\/i> ≥ 3<i>k<\/i> + 6, so (<i>k<\/i> − 2)<i>x<\/i> ≥ 3<i>k<\/i> + 6.<br>The answer has ≤, so the sign flipped: <i>k<\/i> − 2 &lt; 0 and <i>x<\/i> ≤ <span class=\"fq\"><span>3<i>k<\/i> + 6<\/span><span><i>k<\/i> − 2<\/span><\/span>.<br>Set <span class=\"fq\"><span>3<i>k<\/i> + 6<\/span><span><i>k<\/i> − 2<\/span><\/span> = −6: 3<i>k<\/i> + 6 = −6<i>k<\/i> + 12, so 9<i>k<\/i> = 6 and <i>k<\/i> = <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>. Check: <i>k<\/i> − 2 = −<span class=\"fq\"><span>4<\/span><span>3<\/span><\/span> &lt; 0. Answer: <b>2/3<\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "The inequality “2<i>x<\/i> + 1 &lt; 9 and <i>x<\/i> &gt; <i>m<\/i>” has exactly 3 integer solutions. Which of the following could be the value of <i>m<\/i>?", "opts": ["−0.5", "1", "0.5", "1.5"], "ans": 2, "sol": "The first piece gives <i>x<\/i> &lt; 4, so the solutions are <i>m<\/i> &lt; <i>x<\/i> &lt; 4.<br>Exactly 3 integers means they are 1, 2 and 3, so 0 ≤ <i>m<\/i> &lt; 1.<br>Check: <i>m<\/i> = −0.5 allows 0, 1, 2, 3 (four integers); <i>m<\/i> = 1 allows only 2 and 3. Only 0.5 works. Answer: <b>0.5<\/b>"}, {"lo": "LO3", "diff": "X", "type": "mcq", "q": "If |<i>x<\/i> − 5| &lt; 3, which of the following must be true?", "opts": ["|2<i>x<\/i> − 7| &lt; 9", "|2<i>x<\/i> − 7| &lt; 3", "|2<i>x<\/i> − 7| &gt; 3", "|2<i>x<\/i> − 7| &lt; 6"], "ans": 0, "sol": "From |<i>x<\/i> − 5| &lt; 3: 2 &lt; <i>x<\/i> &lt; 8. Then 4 &lt; 2<i>x<\/i> &lt; 16 and −3 &lt; 2<i>x<\/i> − 7 &lt; 9, so |2<i>x<\/i> − 7| &lt; 9 always.<br>The others can fail: <i>x<\/i> = 7.5 gives |2<i>x<\/i> − 7| = 8, and <i>x<\/i> = 3.5 gives 0. Answer: <b>|2<i>x<\/i> − 7| &lt; 9<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "How many integers <i>n<\/i> satisfy both |<i>n<\/i> − 4| &gt; 2 and |<i>n<\/i> + 1| &lt; 9?", "ans": ["12"], "sol": "|<i>n<\/i> − 4| &gt; 2 gives <i>n<\/i> &lt; 2 or <i>n<\/i> &gt; 6. |<i>n<\/i> + 1| &lt; 9 gives −10 &lt; <i>n<\/i> &lt; 8.<br>Overlap: −10 &lt; <i>n<\/i> &lt; 2 (integers −9 to 1, which is 11) or 6 &lt; <i>n<\/i> &lt; 8 (the integer 7).<br>Total: 11 + 1 = 12. Answer: <b>12<\/b>"}], "unit_no": 1, "topic_no": "5", "code": "5.1"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

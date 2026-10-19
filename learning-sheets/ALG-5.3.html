@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5.3 Inequality word problems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-5.3", "unit": "Algebra", "topic": "Linear inequalities", "title": "Inequality word problems", "intro": "Inequality word problems turn phrases such as “at least,” “no more than” and “fewer than” into inequalities, then solve them to answer questions about budgets, limits and requirements. On the DSAT they appear as model-the-situation questions, greatest or least whole-number questions, and systems of constraints in real-world settings.", "los": [{"id": "LO1", "text": "Write an inequality that models a situation, translating phrases such as “at least,” “at most,” “more than” and “no more than” into the correct symbol."}, {"id": "LO2", "text": "Solve inequalities that model budgets and constraints, and interpret the solution set in context."}, {"id": "LO3", "text": "Determine the maximum or minimum whole-number value that satisfies a constraint, rounding in the correct direction."}, {"id": "LO4", "text": "Write and interpret systems of inequalities that model several constraints at once, and test whether a combination satisfies all of them."}], "notes": [{"lo": "LO1", "h": "From words to symbols", "html": "<p>Every inequality word problem hides a comparison phrase. Find it first, because it decides the symbol; then build the two sides.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Phrase in the problem<\/th><th>Symbol<\/th><th>Example<\/th><\/tr><tr><td>at least, no less than, a minimum of<\/td><td>≥<\/td><td>at least 30 people: <i>p<\/i> ≥ 30<\/td><\/tr><tr><td>at most, no more than, a maximum of, cannot exceed<\/td><td>≤<\/td><td>cannot exceed $50: <i>c<\/i> ≤ 50<\/td><\/tr><tr><td>more than, greater than, exceeds, above<\/td><td>&gt;<\/td><td>more than 12 hours: <i>h<\/i> &gt; 12<\/td><\/tr><tr><td>less than, fewer than, below<\/td><td>&lt;<\/td><td>fewer than 8 errors: <i>e<\/i> &lt; 8<\/td><\/tr><tr><td>between 5 and 9, inclusive<\/td><td>≤ … ≤<\/td><td>5 ≤ <i>x<\/i> ≤ 9<\/td><\/tr><\/table><\/div><div class=\"rule\">“At least 30” means 30 or more, so use ≥. “At most 30” means 30 or less, so use ≤. Strict words such as “more than” and “fewer than” never include the boundary number.<\/div><p>Do not be fooled by the word “least”: it names the smallest allowed value, so everything allowed is <b>bigger<\/b> than or equal to it.<\/p>"}, {"lo": "LO1", "h": "Building the model", "html": "<p>Most budget and capacity problems have the shape <b>starting amount + rate × quantity<\/b>, compared with a limit.<\/p><ul><li>Name the variable and its units (for example, <i>r<\/i> = number of rides).<\/li><li>Write the total: a $25 entry fee plus $4 per ride is 25 + 4<i>r<\/i>.<\/li><li>Compare with the limit: “spend no more than $65” gives 25 + 4<i>r<\/i> ≤ 65.<\/li><\/ul><p>Quantities that shrink use subtraction: a 500-gallon tank draining 15 gallons per minute holds 500 − 15<i>t<\/i> gallons. A 20% discount multiplies the price by 0.80, and 6% tax multiplies by 1.06.<\/p><div class=\"rule\">Check a model by substituting an easy value: if 3 rides should cost $37, then 25 + 4(3) must equal 37.<\/div>"}, {"lo": "LO2", "h": "Solving and interpreting", "html": "<p>Solve an inequality exactly like an equation, with one extra rule: multiplying or dividing both sides by a negative number reverses the symbol.<\/p><div class=\"eqs\">25 + 4<i>r<\/i> ≤ 65<br>4<i>r<\/i> ≤ 40<br><i>r<\/i> ≤ 10<\/div><p>Then interpret. The solution lists the values that work, but the context may add limits: counts cannot be negative, and a time cannot run past the moment something burns out or empties. When two options are compared (two plans, two tanks), set one expression less than or greater than the other and solve; the boundary is the break-even point.<\/p><div class=\"tip\">Desmos tip: type each side as its own function, such as <i>y<\/i> = 40 + 0.1<i>x<\/i> and <i>y<\/i> = 25 + 0.16<i>x<\/i>. Click the intersection to get the break-even value, then read which graph is lower on each side of it.<\/div>"}, {"lo": "LO3", "h": "Greatest and least whole numbers", "html": "<p>People, tickets, buses and boxes come in whole numbers, so a decimal solution must be turned into an integer, and the direction matters.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Question<\/th><th>Solved inequality<\/th><th>Answer<\/th><\/tr><tr><td>Most $15 tickets with $70<\/td><td><i>t<\/i> ≤ 4.67…<\/td><td>4 (round down)<\/td><\/tr><tr><td>Fewest 12-seat vans for 50 students<\/td><td><i>v<\/i> ≥ 4.17…<\/td><td>5 (round up)<\/td><\/tr><tr><td>Fewest visits when <i>n<\/i> &gt; 11<\/td><td><i>n<\/i> &gt; 11<\/td><td>12 (11 fails)<\/td><\/tr><\/table><\/div><div class=\"rule\">If the solution is “<i>x<\/i> ≤ decimal,” round <b>down<\/b>. If it is “<i>x<\/i> ≥ decimal,” round <b>up<\/b>. Ordinary rounding is never the rule. With a strict symbol and a whole-number boundary, step past the boundary.<\/div><p>Finish by testing your answer and the next integer in the original condition: one should work and the other should fail.<\/p>"}, {"lo": "LO4", "h": "Systems of constraints", "html": "<p>When a situation has several requirements that must all hold, write one inequality per requirement. Together they form a system.<\/p><p>Example: a dock rents <i>k<\/i> kayaks for $25 and <i>c<\/i> canoes for $40. It has at most 30 boats and needs at least $600 in rentals:<\/p><div class=\"eqs\"><i>k<\/i> + <i>c<\/i> ≤ 30<br>25<i>k<\/i> + 40<i>c<\/i> ≥ 600<\/div><p>A combination works only if it satisfies <b>every<\/b> inequality. To test a point, substitute it into each one. Answer choices are often built so that each wrong choice breaks exactly one constraint, so never stop after the first check.<\/p><div class=\"tip\">Desmos tip: enter each inequality on its own line. The region where all the shadings overlap is the solution set. Type a point such as (12, 10) to see whether it sits in the overlap.<\/div>"}, {"lo": "LO4", "h": "Getting the most or the least", "html": "<p>Many system questions ask for the greatest or least possible amount of something.<\/p><ul><li><b>Most of one item:<\/b> give the other variable its smallest allowed value (often set by an “at least” constraint or a ratio), substitute, solve, then round in the right direction.<\/li><li><b>Best total (profit or cost):<\/b> the best value of a linear total occurs at a corner of the overlap region. Find corners by solving pairs of boundary lines; if the variables must be whole numbers, check whole-number points near the best corner.<\/li><\/ul><p>Example: a workshop builds printers (4 hours each) and scanners (6 hours each), with at most 70 hours and at least 5 scanners. The most printers come from building exactly 5 scanners: 4<i>p<\/i> + 30 ≤ 70, so <i>p<\/i> ≤ 10.<\/p>"}], "examples": [{"lo": "LO1", "q": "A babysitter earns $14 per hour plus a $10 travel allowance for each job. She wants to earn more than $120 from one job. Write an inequality for the number of hours, <i>h<\/i>, she must work.", "steps": ["Earnings for the job: 14<i>h<\/i> + 10.", "“More than” is strict, so the symbol is &gt;.", "Model: 14<i>h<\/i> + 10 &gt; 120. (Solving gives <i>h<\/i> &gt; <span class=\"fq\"><span>110<\/span><span>14<\/span><\/span> ≈ 7.86.)"], "ans": "14<i>h<\/i> + 10 &gt; 120"}, {"lo": "LO2", "q": "A young tree is 4.2 meters tall and grows 0.35 meters per year. For which numbers of years, <i>t<\/i>, from now will the tree be at most 7 meters tall?", "steps": ["Height after <i>t<\/i> years: 4.2 + 0.35<i>t<\/i>.", "At most 7: 4.2 + 0.35<i>t<\/i> ≤ 7.", "Subtract 4.2: 0.35<i>t<\/i> ≤ 2.8, so <i>t<\/i> ≤ 8.", "Time cannot be negative, so 0 ≤ <i>t<\/i> ≤ 8."], "ans": "0 ≤ <i>t<\/i> ≤ 8"}, {"lo": "LO3", "q": "A club has $500 for a museum trip. The bus costs $140, and each student ticket costs $23. (a) What is the greatest number of students who can go? (b) If parents' cars hold 4 students each, what is the least number of cars needed for that many students?", "steps": ["(a) 140 + 23<i>n<\/i> ≤ 500, so 23<i>n<\/i> ≤ 360 and <i>n<\/i> ≤ <span class=\"fq\"><span>360<\/span><span>23<\/span><\/span> ≈ 15.65.", "A “greatest” answer from a ≤ inequality rounds down: 15 students. Check: 140 + 23(15) = 485 ≤ 500, but 140 + 23(16) = 508 &gt; 500.", "(b) 4<i>c<\/i> ≥ 15, so <i>c<\/i> ≥ 3.75. A ≥ inequality rounds up: 4 cars."], "ans": "(a) 15 students (b) 4 cars"}, {"lo": "LO4", "q": "A juice stand sells small cups for $3 and large cups for $5. It has supplies for at most 120 cups and needs revenue of at least $450. Let <i>s<\/i> and <i>l<\/i> be the numbers of small and large cups sold. Write the system, and decide whether selling 80 small and 35 large cups meets both requirements.", "steps": ["Supplies: <i>s<\/i> + <i>l<\/i> ≤ 120. Revenue: 3<i>s<\/i> + 5<i>l<\/i> ≥ 450.", "Test the supply constraint: 80 + 35 = 115 ≤ 120. True.", "Test the revenue constraint: 3(80) + 5(35) = 240 + 175 = 415, and 415 ≥ 450 is false.", "The combination fails one constraint, so it does not meet both requirements."], "ans": "<i>s<\/i> + <i>l<\/i> ≤ 120 and 3<i>s<\/i> + 5<i>l<\/i> ≥ 450; no, revenue is only $415"}, {"lo": "LO4", "q": "An event planner rents round tables that seat 8 for $12 each and long tables that seat 12 for $20 each. She needs seats for at least 180 guests and can spend at most $300. What is the least possible cost?", "steps": ["Constraints: 8<i>r<\/i> + 12<i>l<\/i> ≥ 180 and 12<i>r<\/i> + 20<i>l<\/i> ≤ 300, with whole numbers.", "Cost per seat: round tables $1.50, long tables about $1.67, so use mostly round tables. All round: 8<i>r<\/i> ≥ 180 gives <i>r<\/i> ≥ 22.5, so 23 tables cost $276.", "But 23 round tables waste 4 seats. With 1 long table: 8<i>r<\/i> ≥ 168, so <i>r<\/i> = 21 seats exactly 180 and costs 21(12) + 20 = $272.", "Checking other numbers of long tables (2 gives $280, 3 gives $276, and so on) never beats $272."], "ans": "$272 (21 round tables and 1 long table)"}], "traps": ["Writing ≤ for “at least” because “least” sounds like “less”: “at least 30” means 30 or more, so it is ≥ 30.", "Rounding a “greatest” answer up (4.67 tickets becomes 5) breaks the budget; round down for ≤ results and up for ≥ results.", "Ignoring a strict symbol: if <i>n<\/i> &gt; 11, then 11 itself does not work, so the least whole number is 12.", "Attaching the rate to the fixed fee, as in 30<i>m<\/i> + 22 instead of 22<i>m<\/i> + 30, or adding a fee to the limit instead of subtracting it.", "Checking a combination against only one inequality in a system; it must satisfy every constraint."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "A parking garage can hold at most 240 cars. If <i>c<\/i> is the number of cars in the garage, which inequality must be true?", "opts": ["<i>c<\/i> ≥ 240", "<i>c<\/i> ≤ 240", "<i>c<\/i> &lt; 240", "<i>c<\/i> &gt; 240"], "ans": 1, "sol": "“At most 240” allows 240 itself and anything less. Answer: <b><i>c<\/i> ≤ 240<\/b>", "hint": "Can the garage hold exactly 240 cars? Can it hold more?"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "A number <i>n<\/i> decreased by 6 is at least 15. Which inequality represents this statement?", "opts": ["<i>n<\/i> − 6 ≤ 15", "6 − <i>n<\/i> ≥ 15", "<i>n<\/i> − 6 ≥ 15", "<i>n<\/i> − 6 &gt; 15"], "ans": 2, "sol": "“<i>n<\/i> decreased by 6” is <i>n<\/i> − 6, and “at least” is ≥. Answer: <b><i>n<\/i> − 6 ≥ 15<\/b>", "hint": "Write the expression first, in the order the words give it, then choose the symbol."}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "A plumber charges a $65 call-out fee plus $48 per hour. A customer's bill can be at most $305. What is the greatest number of hours the plumber can work?", "ans": ["5"], "sol": "65 + 48<i>h<\/i> ≤ 305, so 48<i>h<\/i> ≤ 240 and <i>h<\/i> ≤ 5. Answer: <b>5<\/b>", "hint": "Subtract the fixed fee from the limit before dividing by the hourly rate."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Concert tickets cost $12 each. Jamal has $100. What is the greatest number of tickets he can buy?", "opts": ["7", "8", "9", "12"], "ans": 1, "sol": "12<i>t<\/i> ≤ 100 gives <i>t<\/i> ≤ 8.33. Round down: 9 tickets would cost $108. Answer: <b>8<\/b>", "hint": "Does 9 tickets fit inside $100? Check before rounding."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A gym charges a one-time $30 sign-up fee plus $22 per month. Leo wants to spend no more than $250 in total. Which inequality can be used to find the number of months, <i>m<\/i>, he can be a member?", "opts": ["22<i>m<\/i> + 30 ≤ 250", "30<i>m<\/i> + 22 ≤ 250", "22<i>m<\/i> + 30 ≥ 250", "22(<i>m<\/i> + 30) ≤ 250"], "ans": 0, "sol": "The $22 is charged every month, so it multiplies <i>m<\/i>; the $30 is charged once. “No more than” is ≤. Answer: <b>22<i>m<\/i> + 30 ≤ 250<\/b>", "hint": "Which amount is paid every month, and which is paid only once?"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "A school van can carry at most 9 students. What is the least number of vans needed to take 70 students on a field trip?", "ans": ["8"], "sol": "9<i>v<\/i> ≥ 70 gives <i>v<\/i> ≥ 7.78. Seven vans carry only 63, so round up. Answer: <b>8<\/b>", "hint": "Every student needs a seat, so ask whether 7 vans are enough."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A bakery sells cakes for $18 each. Its weekly costs are $240 plus $6 for each cake it makes. If <i>c<\/i> cakes are made and sold, which inequality gives all values of <i>c<\/i> for which the bakery makes a profit?", "opts": ["<i>c<\/i> &gt; 20", "<i>c<\/i> &lt; 20", "<i>c<\/i> &gt; 13.3", "<i>c<\/i> ≥ 20"], "ans": 0, "sol": "Profit means revenue &gt; cost: 18<i>c<\/i> &gt; 240 + 6<i>c<\/i>, so 12<i>c<\/i> &gt; 240 and <i>c<\/i> &gt; 20. At <i>c<\/i> = 20 the bakery only breaks even. Answer: <b><i>c<\/i> &gt; 20<\/b>", "hint": "Profit means revenue is greater than cost. Include the $6 per cake in the cost."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A theater has at most 200 seats. Adult tickets cost $15 and child tickets cost $8, and tonight's show needs at least $2,400 in ticket sales. Which combination of tickets meets both requirements?", "opts": ["100 adult and 90 child", "120 adult and 70 child", "140 adult and 50 child", "150 adult and 60 child"], "ans": 2, "sol": "Check seats and revenue for each. 100 and 90: $2,220, too little. 120 and 70: $2,360, too little. 140 and 50: 190 seats and $2,500, both true. 150 and 60: 210 seats, too many. Answer: <b>140 adult and 50 child<\/b>", "hint": "Test each choice in both the seat condition and the revenue condition."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A farmer will plant <i>x<\/i> acres of corn and <i>y<\/i> acres of wheat. She has at most 120 acres, and the wheat area must be at least twice the corn area. Which system models these conditions?", "opts": ["<i>x<\/i> + <i>y<\/i> ≤ 120 and <i>x<\/i> ≥ 2<i>y<\/i>", "<i>x<\/i> + <i>y<\/i> ≥ 120 and <i>y<\/i> ≥ 2<i>x<\/i>", "<i>x<\/i> + <i>y<\/i> ≤ 120 and 2<i>y<\/i> ≥ <i>x<\/i>", "<i>x<\/i> + <i>y<\/i> ≤ 120 and <i>y<\/i> ≥ 2<i>x<\/i>"], "ans": 3, "sol": "Land: <i>x<\/i> + <i>y<\/i> ≤ 120. “Wheat is at least twice corn” means <i>y<\/i> ≥ 2<i>x<\/i>. Answer: <b><i>x<\/i> + <i>y<\/i> ≤ 120 and <i>y<\/i> ≥ 2<i>x<\/i><\/b>", "hint": "Test the ratio sentence with numbers: if corn is 10 acres, how much wheat is allowed?"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "Kai's phone plan includes 5 GB of data per month, and he has already used 1.8 GB. Streaming video uses 0.35 GB per hour. What is the greatest whole number of hours of video he can stream this month without going over 5 GB?", "ans": ["9"], "sol": "1.8 + 0.35<i>h<\/i> ≤ 5 gives 0.35<i>h<\/i> ≤ 3.2 and <i>h<\/i> ≤ 9.14. Round down. Answer: <b>9<\/b>", "hint": "Find how much data is left first, then decide which way to round."}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A hot-air balloon at 1,200 feet descends at 45 feet per minute. A second balloon at 300 feet rises at 30 feet per minute. Which inequality gives the times <i>t<\/i>, in minutes, for which the first balloon is higher than the second?", "opts": ["<i>t<\/i> &gt; 12", "<i>t<\/i> &lt; 20", "<i>t<\/i> &gt; 20", "<i>t<\/i> &lt; 12"], "ans": 3, "sol": "1,200 − 45<i>t<\/i> &gt; 300 + 30<i>t<\/i>, so 900 &gt; 75<i>t<\/i> and <i>t<\/i> &lt; 12. Answer: <b><i>t<\/i> &lt; 12<\/b>", "hint": "Write each balloon's height after t minutes, then compare the two expressions."}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A carpenter makes chairs and tables. Each chair takes 3 hours and each table takes 5 hours. This week she can work at most 60 hours, and she must make at least 4 tables. What is the greatest number of chairs she can make?", "opts": ["12", "13", "14", "20"], "ans": 1, "sol": "Most chairs means fewest tables: 4 tables use 20 hours. Then 3<i>c<\/i> ≤ 40, so <i>c<\/i> ≤ 13.3. Round down. Answer: <b>13<\/b>", "hint": "To leave the most hours for chairs, how many tables should she make?"}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "The temperature <i>t<\/i>, in degrees Celsius, inside a greenhouse must stay above 18. Which inequality describes <i>t<\/i>?", "opts": ["<i>t<\/i> ≥ 18", "<i>t<\/i> &gt; 18", "<i>t<\/i> &lt; 18", "<i>t<\/i> ≤ 18"], "ans": 1, "sol": "“Above 18” is strict and allows only larger values. Answer: <b><i>t<\/i> &gt; 18<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Twice a number <i>x<\/i>, plus 5, is no more than 41. Which inequality represents this statement?", "opts": ["2<i>x<\/i> + 5 &lt; 41", "2(<i>x<\/i> + 5) ≤ 41", "2<i>x<\/i> + 5 ≤ 41", "2<i>x<\/i> + 5 ≥ 41"], "ans": 2, "sol": "“Twice a number, plus 5” is 2<i>x<\/i> + 5, and “no more than” is ≤. Answer: <b>2<i>x<\/i> + 5 ≤ 41<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "To go on a ride, a rider's height <i>h<\/i>, in inches, must be at least 48 and less than 76. Which inequality describes <i>h<\/i>?", "opts": ["48 &lt; <i>h<\/i> ≤ 76", "48 ≤ <i>h<\/i> ≤ 76", "48 ≤ <i>h<\/i> &lt; 76", "<i>h<\/i> ≤ 48 or <i>h<\/i> ≥ 76"], "ans": 2, "sol": "“At least 48” includes 48 (≤); “less than 76” excludes 76 (&lt;). Answer: <b>48 ≤ <i>h<\/i> &lt; 76<\/b>"}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "A taxi charges $3.50 plus $2.25 per mile. Dana's fare must be at most $26. What is the greatest number of miles she can ride?", "ans": ["10"], "sol": "3.50 + 2.25<i>m<\/i> ≤ 26, so 2.25<i>m<\/i> ≤ 22.50 and <i>m<\/i> ≤ 10. Answer: <b>10<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Each bracelet uses 14 beads. What is the greatest number of complete bracelets that can be made from 200 beads?", "opts": ["14", "15", "28", "186"], "ans": 0, "sol": "14<i>b<\/i> ≤ 200 gives <i>b<\/i> ≤ 14.29; 15 bracelets would need 210 beads. Answer: <b>14<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "Sam works <i>x<\/i> hours at a café and <i>y<\/i> hours tutoring each week. He works at most 20 hours in total and tutors at least 6 hours. Which combination is possible?", "opts": ["<i>x<\/i> = 14, <i>y<\/i> = 4", "<i>x<\/i> = 12, <i>y<\/i> = 9", "<i>x<\/i> = 13, <i>y<\/i> = 6", "<i>x<\/i> = 16, <i>y<\/i> = 5"], "ans": 2, "sol": "Need total ≤ 20 and tutoring ≥ 6. 14 and 4: tutoring too low. 12 and 9: 21 hours. 13 and 6: 19 hours and 6 tutoring, both true. 16 and 5: fails both. Answer: <b><i>x<\/i> = 13, <i>y<\/i> = 6<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A club sells T-shirts for $15 each. It has already raised $320 and wants its total to be at least $1,000. Which inequality can be used to find the number of T-shirts, <i>t<\/i>, the club must sell?", "opts": ["15<i>t<\/i> ≥ 1,320", "320<i>t<\/i> + 15 ≥ 1,000", "15<i>t<\/i> + 320 ≤ 1,000", "15<i>t<\/i> + 320 ≥ 1,000"], "ans": 3, "sol": "Total raised = 320 + 15<i>t<\/i>, and “at least $1,000” is ≥ 1,000. Answer: <b>15<i>t<\/i> + 320 ≥ 1,000<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A charity needs to raise at least $5,000. It has already raised $1,240 and will sell dinner tickets for $45 each. What is the least number of tickets it must sell?", "opts": ["83", "84", "111", "112"], "ans": 1, "sol": "1,240 + 45<i>t<\/i> ≥ 5,000 gives 45<i>t<\/i> ≥ 3,760 and <i>t<\/i> ≥ 83.56. Round up: 83 tickets bring only $4,975. Answer: <b>84<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A salesperson earns $600 per month plus 5% of her sales, <i>s<\/i> dollars. Which inequality describes the sales for which she earns more than $2,100 in a month?", "opts": ["<i>s<\/i> &gt; 1,500", "<i>s<\/i> &gt; 42,000", "<i>s<\/i> &gt; 30,000", "<i>s<\/i> &lt; 30,000"], "ans": 2, "sol": "600 + 0.05<i>s<\/i> &gt; 2,100, so 0.05<i>s<\/i> &gt; 1,500 and <i>s<\/i> &gt; 30,000. Answer: <b><i>s<\/i> &gt; 30,000<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A caterer will prepare <i>v<\/i> vegetarian meals at $9 each and <i>m<\/i> meat meals at $12 each. She needs at least 150 meals and can spend at most $1,800. Which system models this situation?", "opts": ["<i>v<\/i> + <i>m<\/i> ≥ 150 and 9<i>v<\/i> + 12<i>m<\/i> ≤ 1,800", "<i>v<\/i> + <i>m<\/i> ≤ 150 and 9<i>v<\/i> + 12<i>m<\/i> ≥ 1,800", "<i>v<\/i> + <i>m<\/i> ≥ 150 and 12<i>v<\/i> + 9<i>m<\/i> ≤ 1,800", "<i>v<\/i> + <i>m<\/i> ≥ 150 and 9<i>v<\/i> + 12<i>m<\/i> ≥ 1,800"], "ans": 0, "sol": "Meals: <i>v<\/i> + <i>m<\/i> ≥ 150. Cost: 9<i>v<\/i> + 12<i>m<\/i> ≤ 1,800. Answer: <b><i>v<\/i> + <i>m<\/i> ≥ 150 and 9<i>v<\/i> + 12<i>m<\/i> ≤ 1,800<\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "A pickup truck can carry at most 2,500 pounds. It already holds 340 pounds of equipment. What is the greatest number of 68-pound crates that can be added?", "ans": ["31"], "sol": "340 + 68<i>c<\/i> ≤ 2,500 gives 68<i>c<\/i> ≤ 2,160 and <i>c<\/i> ≤ 31.76. Round down. Answer: <b>31<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A water tank holds 900 liters and drains at 12 liters per minute. Which inequality gives the times <i>t<\/i>, in minutes, for which the tank still contains more than 300 liters?", "opts": ["12<i>t<\/i> − 900 &gt; 300", "900 − 12<i>t<\/i> &gt; 300", "900 − 12<i>t<\/i> &lt; 300", "300 − 12<i>t<\/i> &gt; 900"], "ans": 1, "sol": "Water left after <i>t<\/i> minutes: 900 − 12<i>t<\/i>. “More than 300” is &gt; 300. Answer: <b>900 − 12<i>t<\/i> &gt; 300<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "A car rental costs $45 per day plus $0.20 per mile. Ana rents a car for 3 days and can spend at most $210. What is the greatest number of miles she can drive?", "ans": ["375"], "sol": "3(45) + 0.20<i>m<\/i> ≤ 210, so 0.20<i>m<\/i> ≤ 75 and <i>m<\/i> ≤ 375. Answer: <b>375<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A copy shop charges $0.25 per color page and $0.08 per black-and-white page. Ravi needs at least 80 pages in total and can spend at most $12. Which combination meets both conditions?", "opts": ["20 color, 50 black-and-white", "30 color, 60 black-and-white", "40 color, 45 black-and-white", "25 color, 70 black-and-white"], "ans": 3, "sol": "20 and 50: only 70 pages. 30 and 60: $12.30. 40 and 45: $13.60. 25 and 70: 95 pages and $6.25 + $5.60 = $11.85, both true. Answer: <b>25 color, 70 black-and-white<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A rectangular garden's length is 3 times its width. The gardener has at most 150 feet of fencing to go around it. What is the greatest whole-number width, in feet?", "opts": ["18", "19", "37", "50"], "ans": 0, "sol": "Perimeter = 2(3<i>w<\/i>) + 2<i>w<\/i> = 8<i>w<\/i>. 8<i>w<\/i> ≤ 150 gives <i>w<\/i> ≤ 18.75. Round down. Answer: <b>18<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A lab must keep a room between 18°C and 24°C, inclusive. Temperature in Celsius is <i>C<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> − 32), where <i>F<\/i> is degrees Fahrenheit. Which inequality describes the allowed Fahrenheit temperatures?", "opts": ["32.4 ≤ <i>F<\/i> ≤ 43.2", "64.4 ≤ <i>F<\/i> ≤ 75.2", "42 ≤ <i>F<\/i> ≤ 45.3", "<i>F<\/i> ≤ 64.4 or <i>F<\/i> ≥ 75.2"], "ans": 1, "sol": "18 ≤ <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> − 32) ≤ 24. Multiply by <span class=\"fq\"><span>9<\/span><span>5<\/span><\/span>: 32.4 ≤ <i>F<\/i> − 32 ≤ 43.2. Add 32. Answer: <b>64.4 ≤ <i>F<\/i> ≤ 75.2<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A shipping company accepts a box only if its length plus its girth is at most 108 inches. A box is 40 inches long, and its end is a square with side <i>x<\/i> inches, so the girth is the perimeter of that square. Which inequality must <i>x<\/i> satisfy?", "opts": ["40 + 2<i>x<\/i> ≤ 108", "4(40 + <i>x<\/i>) ≤ 108", "40 + 4<i>x<\/i> ≥ 108", "40 + 4<i>x<\/i> ≤ 108"], "ans": 3, "sol": "Girth = perimeter of the square end = 4<i>x<\/i>. Length + girth = 40 + 4<i>x<\/i>, at most 108. Answer: <b>40 + 4<i>x<\/i> ≤ 108<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "Amir has $150. He buys headphones for $34.99 and some songs for $1.29 each, and a 6% sales tax is added to his whole purchase. What is the greatest number of songs he can buy?", "ans": ["82"], "sol": "1.06(34.99 + 1.29<i>n<\/i>) ≤ 150 gives 34.99 + 1.29<i>n<\/i> ≤ 141.51, so <i>n<\/i> ≤ 82.57. Check: 82 songs total $149.22; 83 songs total $150.58. Answer: <b>82<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A factory makes <i>x<\/i> small boxes and <i>y<\/i> large boxes. A small box takes 2 minutes of machine time and a large box takes 5 minutes, with at most 480 minutes available. The factory must make at least 3 times as many small boxes as large boxes. What is the greatest number of large boxes it can make?", "opts": ["43", "44", "53", "96"], "ans": 0, "sol": "Constraints: 2<i>x<\/i> + 5<i>y<\/i> ≤ 480 and <i>x<\/i> ≥ 3<i>y<\/i>. Use the fewest small boxes, <i>x<\/i> = 3<i>y<\/i>: 6<i>y<\/i> + 5<i>y<\/i> ≤ 480, so <i>y<\/i> ≤ 43.6. Round down; 43 large and 129 small use 473 minutes. Answer: <b>43<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A meal combines servings of food A (4 g protein, 2 g fat) and food B (6 g protein, 5 g fat). It must have at least 36 g of protein and at most 25 g of fat. Using only whole servings, what is the least total number of servings?", "ans": ["8"], "sol": "Constraints: 4<i>a<\/i> + 6<i>b<\/i> ≥ 36 and 2<i>a<\/i> + 5<i>b<\/i> ≤ 25. Six or fewer servings reach 36 g protein only with 6 of B, but that is 30 g fat. With 7 servings, protein needs <i>b<\/i> ≥ 4 but fat needs <i>b<\/i> ≤ 3.67, impossible. With 8, 6 of A and 2 of B give 36 g protein and 22 g fat. Answer: <b>8<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "A recipe uses <i>f<\/i> cups of flour and <i>s<\/i> cups of sugar. The flour must be at least 2.5 cups more than three times the sugar. Which inequality represents this condition?", "opts": ["<i>f<\/i> + 2.5 ≥ 3<i>s<\/i>", "<i>f<\/i> ≥ 3<i>s<\/i> + 2.5", "3<i>f<\/i> ≥ <i>s<\/i> + 2.5", "<i>f<\/i> ≤ 3<i>s<\/i> + 2.5"], "ans": 1, "sol": "“2.5 more than three times the sugar” is 3<i>s<\/i> + 2.5, and the flour is at least that. Answer: <b><i>f<\/i> ≥ 3<i>s<\/i> + 2.5<\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "A printer needs 45 seconds to warm up and then prints 18 pages per minute. What is the greatest number of complete pages it can print within 10 minutes of being switched on?", "ans": ["166"], "sol": "Printing time = 600 − 45 = 555 seconds = 9.25 minutes. 18(9.25) = 166.5, so <i>p<\/i> ≤ 166.5. Round down. Answer: <b>166<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A company's cost to make <i>n<\/i> lamps is 1,200 + 14<i>n<\/i> dollars, and its revenue from selling them is 22<i>n<\/i> dollars. For which values of <i>n<\/i> is the revenue at least 1.5 times the cost?", "opts": ["<i>n<\/i> ≥ 82", "<i>n<\/i> ≥ 150", "<i>n<\/i> ≥ 1,800", "<i>n<\/i> ≤ 1,800"], "ans": 2, "sol": "22<i>n<\/i> ≥ 1.5(1,200 + 14<i>n<\/i>) = 1,800 + 21<i>n<\/i>, so <i>n<\/i> ≥ 1,800. Answer: <b><i>n<\/i> ≥ 1,800<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A hiker packs <i>x<\/i> energy bars (250 calories, 60 grams each) and <i>y<\/i> bags of trail mix (400 calories, 110 grams each). She wants at least 3,000 calories, and the food can weigh at most 900 grams. Which system models this?", "opts": ["250<i>x<\/i> + 60<i>y<\/i> ≥ 3,000 and 400<i>x<\/i> + 110<i>y<\/i> ≤ 900", "250<i>x<\/i> + 400<i>y<\/i> ≤ 3,000 and 60<i>x<\/i> + 110<i>y<\/i> ≥ 900", "250<i>x<\/i> + 400<i>y<\/i> ≥ 3,000 and 60<i>x<\/i> + 110<i>y<\/i> ≥ 900", "250<i>x<\/i> + 400<i>y<\/i> ≥ 3,000 and 60<i>x<\/i> + 110<i>y<\/i> ≤ 900"], "ans": 3, "sol": "Calories: 250<i>x<\/i> + 400<i>y<\/i> ≥ 3,000. Weight: 60<i>x<\/i> + 110<i>y<\/i> ≤ 900. Answer: <b>250<i>x<\/i> + 400<i>y<\/i> ≥ 3,000 and 60<i>x<\/i> + 110<i>y<\/i> ≤ 900<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A coat with original price <i>p<\/i> dollars is marked 30% off, and then an $8 coupon is applied. The final price must be less than $90. Which inequality represents this?", "opts": ["0.7<i>p<\/i> − 8 &lt; 90", "0.3<i>p<\/i> − 8 &lt; 90", "0.7(<i>p<\/i> − 8) &lt; 90", "<i>p<\/i> − 0.3 − 8 &lt; 90"], "ans": 0, "sol": "30% off leaves 70%: 0.7<i>p<\/i>. The coupon comes after: 0.7<i>p<\/i> − 8 &lt; 90. Answer: <b>0.7<i>p<\/i> − 8 &lt; 90<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A teacher orders pizzas cut into 8 slices each. Each of 27 students must get at least 3 slices. What is the least number of pizzas she must order?", "opts": ["4", "10", "11", "81"], "ans": 2, "sol": "8<i>p<\/i> ≥ 27(3) = 81, so <i>p<\/i> ≥ 10.125. Ten pizzas give only 80 slices. Answer: <b>11<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "Candle A is 30 cm tall and burns 1.5 cm per hour. Candle B is 22 cm tall and burns 0.7 cm per hour. Both are lit at the same time. While both candles are burning, for which times <i>t<\/i>, in hours, is candle A taller than candle B?", "opts": ["0 ≤ <i>t<\/i> &lt; 10", "10 &lt; <i>t<\/i> ≤ 20", "0 ≤ <i>t<\/i> &lt; 20", "0 ≤ <i>t<\/i> &lt; 40"], "ans": 0, "sol": "30 − 1.5<i>t<\/i> &gt; 22 − 0.7<i>t<\/i> gives 8 &gt; 0.8<i>t<\/i>, so <i>t<\/i> &lt; 10. Candle A burns out at 20 hours, so this is within the burning time. Answer: <b>0 ≤ <i>t<\/i> &lt; 10<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "A movie club membership costs $60 per year, and members pay $7.50 per movie. Non-members pay $11.25 per movie. What is the least number of movies a person must see in a year for membership to cost less than not joining?", "ans": ["17"], "sol": "60 + 7.5<i>n<\/i> &lt; 11.25<i>n<\/i> gives 60 &lt; 3.75<i>n<\/i>, so <i>n<\/i> &gt; 16. At 16 movies the costs are equal ($180), so 16 does not work. Answer: <b>17<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "For a school dance, <i>s<\/i> student tickets cost $8 and <i>g<\/i> guest tickets cost $12. The gym holds at most 350 people, there must be at least 3 students for every guest, and ticket sales must be at least $3,000. Which combination satisfies all three conditions?", "opts": ["<i>s<\/i> = 260, <i>g<\/i> = 90", "<i>s<\/i> = 240, <i>g<\/i> = 50", "<i>s<\/i> = 300, <i>g<\/i> = 60", "<i>s<\/i> = 270, <i>g<\/i> = 80"], "ans": 3, "sol": "Conditions: <i>s<\/i> + <i>g<\/i> ≤ 350, <i>s<\/i> ≥ 3<i>g<\/i>, 8<i>s<\/i> + 12<i>g<\/i> ≥ 3,000. 260 and 90: 260 &lt; 270. 240 and 50: $2,520. 300 and 60: 360 people. 270 and 80: 350 people, 270 ≥ 240, $3,120. Answer: <b><i>s<\/i> = 270, <i>g<\/i> = 80<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A pool already contains 4,000 gallons. A hose adds 350 gallons per hour, while a leak loses 20 gallons per hour. Which inequality gives the numbers of hours <i>h<\/i> after which the pool contains at least 12,000 gallons?", "opts": ["330<i>h<\/i> ≥ 12,000", "4,000 + 370<i>h<\/i> ≥ 12,000", "4,000 + 330<i>h<\/i> ≥ 12,000", "4,000 + 350<i>h<\/i> − 20 ≥ 12,000"], "ans": 2, "sol": "Net gain per hour is 350 − 20 = 330 gallons, added to the starting 4,000. Answer: <b>4,000 + 330<i>h<\/i> ≥ 12,000<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "An airline's checked bag can weigh at most 50 pounds. Lena's empty suitcase weighs 9.4 pounds, and she packs 2.6 pounds of toiletries. What is the greatest number of 1.35-pound books she can add?", "opts": ["28", "29", "30", "37"], "ans": 0, "sol": "9.4 + 2.6 + 1.35<i>b<\/i> ≤ 50 gives 1.35<i>b<\/i> ≤ 38 and <i>b<\/i> ≤ 28.1. Round down. Answer: <b>28<\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "A cyclist must average at least 18 miles per hour over a 72-mile route. She has ridden the first 40 miles in 2.5 hours. What is the greatest number of hours she can take for the remaining 32 miles?", "ans": ["1.5", "3/2"], "sol": "Average ≥ 18 means total time ≤ <span class=\"fq\"><span>72<\/span><span>18<\/span><\/span> = 4 hours. So 2.5 + <i>t<\/i> ≤ 4 and <i>t<\/i> ≤ 1.5. Answer: <b>1.5<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "A bakery makes <i>x<\/i> loaves of bread and <i>y<\/i> cakes each day. The oven fits at most 40 items. A loaf needs 10 minutes of prep and a cake needs 30 minutes, with at most 900 minutes of prep available. Profit is $3 per loaf and $8 per cake. What is the greatest possible daily profit?", "opts": ["$120", "$240", "$245", "$320"], "ans": 2, "sol": "Constraints: <i>x<\/i> + <i>y<\/i> ≤ 40 and 10<i>x<\/i> + 30<i>y<\/i> ≤ 900. Corners: (40, 0) gives $120; (0, 30) gives $240; the lines meet at <i>x<\/i> = 15, <i>y<\/i> = 25, giving 3(15) + 8(25) = $245. Answer: <b>$245<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A juice maker mixes <i>x<\/i> liters of orange juice that is 10% sugar with 5 liters of apple juice that is 14% sugar. The mixture must be at most 12% sugar. Which inequality represents this?", "opts": ["0.10<i>x<\/i> + 0.70 ≤ 0.12(<i>x<\/i> + 5)", "0.10<i>x<\/i> + 0.70 ≤ 0.12", "0.10<i>x<\/i> + 0.70 ≤ 0.12<i>x<\/i>", "0.10<i>x<\/i> + 0.70 ≥ 0.12(<i>x<\/i> + 5)"], "ans": 0, "sol": "Sugar: 0.10<i>x<\/i> + 0.14(5) = 0.10<i>x<\/i> + 0.70. The total volume is <i>x<\/i> + 5, and the sugar must be at most 12% of it. Answer: <b>0.10<i>x<\/i> + 0.70 ≤ 0.12(<i>x<\/i> + 5)<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "A course grade is 25% homework and 75% exam average. Mia's homework score is 88. Her exam average will include scores of 71, 78 and 80 plus a final exam that counts as two exams. What is the least whole-number final exam score that gives her a course grade of at least 80?", "opts": ["78", "79", "81", "86"], "ans": 1, "sol": "Exam average = <span class=\"fq\"><span>229 + 2<i>f<\/i><\/span><span>5<\/span><\/span>. 0.25(88) + 0.75 · <span class=\"fq\"><span>229 + 2<i>f<\/i><\/span><span>5<\/span><\/span> ≥ 80 gives <span class=\"fq\"><span>229 + 2<i>f<\/i><\/span><span>5<\/span><\/span> ≥ 77.33, so 2<i>f<\/i> ≥ 157.67 and <i>f<\/i> ≥ 78.83. Round up. Answer: <b>79<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A school buys <i>x<\/i> laptops at $450 each and <i>y<\/i> tablets at $280 each. It can spend at most $14,000 and needs at least 35 devices. What is the greatest number of laptops it can buy?", "ans": ["24"], "sol": "Use the fewest tablets: <i>y<\/i> = 35 − <i>x<\/i>. 450<i>x<\/i> + 280(35 − <i>x<\/i>) ≤ 14,000 gives 170<i>x<\/i> ≤ 4,200, so <i>x<\/i> ≤ 24.7. Round down; 24 laptops and 11 tablets cost $13,880. Answer: <b>24<\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "Gym P charges a sign-up fee of <i>k<\/i> dollars plus $25 per month. Gym Q charges $40 per month with no fee. Gym P costs less than Gym Q for every whole number of months greater than 8, but not for 8 months or fewer. Which could be the value of <i>k<\/i>?", "opts": ["110", "125", "135", "150"], "ans": 1, "sol": "<i>k<\/i> + 25<i>m<\/i> &lt; 40<i>m<\/i> means <i>m<\/i> &gt; <span class=\"fq\"><span><i>k<\/i><\/span><span>15<\/span><\/span>. This must first hold at <i>m<\/i> = 9, so 8 ≤ <span class=\"fq\"><span><i>k<\/i><\/span><span>15<\/span><\/span> &lt; 9, which gives 120 ≤ <i>k<\/i> &lt; 135. Answer: <b>125<\/b>"}, {"lo": "LO3", "diff": "X", "type": "spr", "q": "A camp needs at least 2 granola bars per camper per day for 38 campers over 5 days. A box of 24 bars costs $15.60, and a value pack of 3 boxes costs $42. What is the least amount, in dollars, the camp can spend?", "ans": ["225.6"], "sol": "Bars needed: 2(38)(5) = 380, so at least <span class=\"fq\"><span>380<\/span><span>24<\/span><\/span> ≈ 15.8, or 16 boxes. Value packs cost $14 per box, so buy 5 packs (15 boxes, $210) plus 1 single box ($15.60). Six packs would cost $252. Answer: <b>225.6<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "A camp schedules <i>x<\/i> hours of swimming and <i>y<\/i> hours of hiking each week. The total is at most 30 hours, hiking is at least 12 hours, and swimming is at least 1.5 times hiking. How many pairs (<i>x<\/i>, <i>y<\/i>) of real numbers satisfy all three conditions?", "opts": ["None", "Exactly one", "Exactly two", "Infinitely many"], "ans": 1, "sol": "<i>x<\/i> ≥ 1.5<i>y<\/i> gives <i>x<\/i> + <i>y<\/i> ≥ 2.5<i>y<\/i> ≥ 2.5(12) = 30. Combined with <i>x<\/i> + <i>y<\/i> ≤ 30, every inequality must be an equality: <i>y<\/i> = 12 and <i>x<\/i> = 18. Answer: <b>Exactly one<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A phone battery starts at 100%. It drops 6 percentage points per hour of video and 2 percentage points per hour on standby. Over a 14-hour day, the phone plays video for <i>v<\/i> hours and is on standby the rest of the time. Which inequality represents the condition that the battery never falls below 20%?", "opts": ["100 − 6<i>v<\/i> − 28 ≥ 20", "100 − 8<i>v<\/i> ≥ 20", "100 − 6<i>v<\/i> − 2(14 − <i>v<\/i>) ≤ 20", "100 − 6<i>v<\/i> − 2(14 − <i>v<\/i>) ≥ 20"], "ans": 3, "sol": "Standby time is 14 − <i>v<\/i> hours, which uses 2(14 − <i>v<\/i>) points. The charge only goes down, so it is lowest at the end of the day, and that value must be at least 20. Answer: <b>100 − 6<i>v<\/i> − 2(14 − <i>v<\/i>) ≥ 20<\/b>"}], "unit_no": 1, "topic_no": "5", "code": "5.3"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

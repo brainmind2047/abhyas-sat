@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1.3 Percentages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .concept .rule{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0; font-weight:600;}
+  .concept .tip{border-left:3px solid var(--accent-text); padding:4px 0 4px 12px; margin:10px 0; color:var(--ink-soft);}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "PSDA-1.3", "unit": "Problem-Solving and Data Analysis", "topic": "Ratios, rates and percentages", "title": "Percentages", "intro": "A percent is a ratio that compares a quantity with 100, so 35% means 35 out of every 100. The Digital SAT uses percentages in discounts and sales tax, population and price changes, survey tables, interest and solution strength, and many questions hide a trap about which amount is the whole or about how several changes combine.", "los": [{"id": "LO1", "text": "Calculate a percent of a quantity, and determine what percent one quantity is of another, including values read from tables and graphs."}, {"id": "LO2", "text": "Calculate percent increase and percent decrease, and apply a single percent change with a multiplier in contexts such as discounts, tax and markups."}, {"id": "LO3", "text": "Apply successive percent changes by multiplying their multipliers, including repeated changes and interest."}, {"id": "LO4", "text": "Determine an original amount from a value after one or more percent changes."}, {"id": "LO5", "text": "Distinguish percentage points from percent change, and solve concentration and mixture problems that use percentages."}], "notes": [{"lo": "LO1", "h": "Percent means per hundred", "html": "<p>Percent means \"per hundred,\" so 35% = <span class=\"fq\"><span>35<\/span><span>100<\/span><\/span> = 0.35. To use a percent in a calculation, change it to a decimal by moving the decimal point two places to the left: 6% = 0.06, 0.4% = 0.004 and 125% = 1.25.<\/p><div class=\"rule\">part = (percent as a decimal) × whole<\/div><p>Almost every basic percent question is this one equation with a different unknown:<\/p><ul><li><b>Percent of a quantity:<\/b> 35% of 260 is 0.35 × 260 = 91.<\/li><li><b>What percent:<\/b> 18 is what percent of 72? 18 ÷ 72 = 0.25, which is 25%.<\/li><li><b>Find the whole:<\/b> 12 is 40% of what number? 12 ÷ 0.40 = 30.<\/li><\/ul><p>Translate word by word: \"is\" means =, \"of\" means ×, and \"what percent\" means <span class=\"fq\"><span><i>p<\/i><\/span><span>100<\/span><\/span>. So \"15 is what percent of 60?\" becomes 15 = <span class=\"fq\"><span><i>p<\/i><\/span><span>100<\/span><\/span> × 60, which gives <i>p<\/i> = 25.<\/p><div class=\"tip\">DSAT tip: a percent greater than 100% gives a part larger than the whole. For example, 150% of 40 is 60.<\/div>"}, {"lo": "LO1", "h": "Choosing the whole in a table", "html": "<p>With a table, the hardest step is choosing the correct <b>whole<\/b>. The group named after \"of\" or \"of those who\" is the group you divide by. The table shows the drink preferences of 200 people in a survey.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th><\/th><th>Tea<\/th><th>Coffee<\/th><th>Total<\/th><\/tr><tr><th>Under 30<\/th><td>30<\/td><td>50<\/td><td>80<\/td><\/tr><tr><th>30 and over<\/th><td>72<\/td><td>48<\/td><td>120<\/td><\/tr><tr><th>Total<\/th><td>102<\/td><td>98<\/td><td>200<\/td><\/tr><\/table><\/div><ul><li>What percent of all the people prefer tea? 102 ÷ 200 = 51%.<\/li><li>What percent of the people under 30 prefer tea? 30 ÷ 80 = 37.5%.<\/li><li>What percent of the tea drinkers are under 30? 30 ÷ 102 ≈ 29.4%.<\/li><\/ul><div class=\"rule\">The whole is the total of the group named after \"of.\" Find that row or column total first, then divide the part by it.<\/div><p>All three questions use the cell 30, but each has a different whole, so each answer is different. The wrong choices on the DSAT are usually the results of dividing by the other totals.<\/p>"}, {"lo": "LO2", "h": "Percent increase and decrease", "html": "<p>A percent change compares the size of a change with the <b>original<\/b> value.<\/p><div class=\"eqs\">percent change = <span class=\"fq\"><span>new − original<\/span><span>original<\/span><\/span> × 100%<\/div><p>If a price rises from $50 to $65, the change is $15, and 15 ÷ 50 = 0.30, a 30% increase. If the price then falls from $65 back to $50, the change is still $15, but now the original value is 65, so the decrease is 15 ÷ 65 ≈ 23.1%.<\/p><div class=\"rule\">Always divide by the starting value, the value <b>before<\/b> the change, whether the change is an increase or a decrease.<\/div><p>With a graph or table, the phrase \"from A to B\" tells you that A is the original value. A positive result is an increase and a negative result is a decrease.<\/p><div class=\"tip\">DSAT tip: if one answer choice is the change divided by the new value, it is there to catch students who used the wrong base.<\/div>"}, {"lo": "LO2", "h": "Multipliers for one change", "html": "<p>A faster way to apply a percent change is to multiply by a single number, the <b>multiplier<\/b>.<\/p><div class=\"rule\">Increase by <i>r<\/i>%: multiply by 1 + <span class=\"fq\"><span><i>r<\/i><\/span><span>100<\/span><\/span>. Decrease by <i>r<\/i>%: multiply by 1 − <span class=\"fq\"><span><i>r<\/i><\/span><span>100<\/span><\/span>.<\/div><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Change<\/th><th>Multiplier<\/th><\/tr><tr><td>15% increase (or 15% markup)<\/td><td>1.15<\/td><\/tr><tr><td>8% sales tax added<\/td><td>1.08<\/td><\/tr><tr><td>30% discount<\/td><td>0.70<\/td><\/tr><tr><td>2.5% decrease<\/td><td>0.975<\/td><\/tr><tr><td>100% increase (doubling)<\/td><td>2<\/td><\/tr><\/table><\/div><p>So a $64 item with 8% tax costs 64 × 1.08 = $69.12, and a 30% discount on <i>p<\/i> dollars leaves 0.7<i>p<\/i> dollars.<\/p><div class=\"tip\">DSAT tip: \"<i>y<\/i> is 150% <b>of<\/b> <i>x<\/i>\" means <i>y<\/i> = 1.5<i>x<\/i>, but \"<i>y<\/i> is 150% <b>more than<\/b> <i>x<\/i>\" means <i>y<\/i> = <i>x<\/i> + 1.5<i>x<\/i> = 2.5<i>x<\/i>.<\/div>"}, {"lo": "LO3", "h": "Successive changes multiply", "html": "<p>When one percent change follows another, the second change acts on the <b>new<\/b> amount, not on the original. So you multiply the multipliers; you never add or subtract the percents.<\/p><div class=\"eqs\">20% increase, then 15% decrease: 1.20 × 0.85 = 1.02<br>20% increase, then 20% decrease: 1.20 × 0.80 = 0.96<\/div><p>The first pair gives an overall 2% increase, not 5%. The second pair does not cancel out: the result is a 4% decrease. The order of the changes does not matter, because multiplication is commutative.<\/p><div class=\"rule\">Overall multiplier = product of the individual multipliers. The same change repeated <i>n<\/i> times has multiplier (1 + <span class=\"fq\"><span><i>r<\/i><\/span><span>100<\/span><\/span>)<sup><i>n<\/i><\/sup>.<\/div><p>For example, a 10% discount followed by an extra 10% off is 0.9 × 0.9 = 0.81, a total discount of 19%, not 20%.<\/p><div class=\"tip\">DSAT tip: to compare several chains of changes, compute each overall multiplier and compare those numbers.<\/div>"}, {"lo": "LO3", "h": "Simple and compound interest", "html": "<p>Interest is a percent of money, paid for each time period. There are two kinds.<\/p><ul><li><b>Simple interest<\/b> is always a percent of the original deposit, so the same amount is added every year: interest = <i>P<\/i> × <i>r<\/i> × <i>t<\/i>.<\/li><li><b>Compound interest<\/b> is a percent of the current balance, so each year is a successive percent increase: balance = <i>P<\/i>(1 + <i>r<\/i>)<sup><i>t<\/i><\/sup>, with <i>r<\/i> written as a decimal.<\/li><\/ul><div class=\"tscroll\"><table class=\"dtab\"><tr><th>$1,000 at 5% per year<\/th><th>After 1 year<\/th><th>After 2 years<\/th><th>After 3 years<\/th><\/tr><tr><td>Simple<\/td><td>$1,050<\/td><td>$1,100<\/td><td>$1,150<\/td><\/tr><tr><td>Compounded annually<\/td><td>$1,050<\/td><td>$1,102.50<\/td><td>$1,157.63<\/td><\/tr><\/table><\/div><div class=\"rule\">Compounded annually at <i>r<\/i>%: multiply by 1 + <span class=\"fq\"><span><i>r<\/i><\/span><span>100<\/span><\/span> once for each year.<\/div><p>The two kinds agree after one year and then separate, because compound interest also earns interest on earlier interest.<\/p>"}, {"lo": "LO4", "h": "Working backward to the original", "html": "<p>Sometimes you know the amount <b>after<\/b> a percent change and need the amount before it. Write the change as a multiplier and undo it by dividing.<\/p><div class=\"rule\">new = original × multiplier, so original = new ÷ multiplier.<\/div><p>After a 20% discount, a game costs $56. The multiplier is 0.80, so the original price is 56 ÷ 0.80 = $70. Check by going forward: 20% of 70 is 14, and 70 − 14 = 56 ✓.<\/p><p>A common mistake is to add 20% of $56 back on: 56 × 1.20 = $67.20. That is wrong because the 20% was a percent of the original price, not of $56.<\/p><p>For several changes, divide by the overall multiplier. If a price rose 10% and then rose another 20% to reach $264, the original was 264 ÷ (1.10 × 1.20) = 264 ÷ 1.32 = $200.<\/p><div class=\"tip\">DSAT tip: if you know only the size of the change, divide it by the percent. For example, if a 15% raise was $600, the original salary was 600 ÷ 0.15 = $4,000.<\/div>"}, {"lo": "LO5", "h": "Percentage points and concentration", "html": "<p>When a <b>percent itself<\/b> changes, there are two ways to describe the change. If a rate rises from 8% to 10%, it rises by 10 − 8 = 2 <b>percentage points<\/b>, but by <span class=\"fq\"><span>2<\/span><span>8<\/span><\/span> = 25% <b>as a percent change<\/b>.<\/p><div class=\"rule\">Percentage points: subtract the percents. Percent change: divide that difference by the original percent.<\/div><p>The <b>concentration<\/b> of a mixture is the percent of the total amount that is one substance. A 300 mL solution that is 12% acid contains 0.12 × 300 = 36 mL of acid.<\/p><div class=\"rule\">amount of substance = concentration × total amount. When you mix, add the amounts of the substance and add the totals, then divide.<\/div><p>Mixing 40 mL at 15% with 60 mL at 25% gives (6 + 15) ÷ 100 = 21%, not the simple average 20%. Adding pure water raises only the total; adding the pure substance raises both the amount and the total.<\/p>"}], "examples": [{"lo": "LO1", "q": "52 is what percent of 160?", "steps": ["Divide the part by the whole: 52 ÷ 160 = 0.325.", "Change the decimal to a percent by multiplying by 100: 0.325 × 100 = 32.5.", "Check: 0.325 × 160 = 52 ✓."], "ans": "32.5%"}, {"lo": "LO1", "q": "<p>A school surveyed 250 students about how they prefer to study for exams. The results are shown in the table.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th><\/th><th>Online<\/th><th>In person<\/th><th>Total<\/th><\/tr><tr><th>Grade 11<\/th><td>54<\/td><td>66<\/td><td>120<\/td><\/tr><tr><th>Grade 12<\/th><td>36<\/td><td>94<\/td><td>130<\/td><\/tr><tr><th>Total<\/th><td>90<\/td><td>160<\/td><td>250<\/td><\/tr><\/table><\/div><p>What percent of the students who prefer to study online are in grade 11?<\/p>", "steps": ["The group after \"of\" is the students who prefer to study online, so the whole is the Online column total, 90.", "The part is the number of grade 11 students in that column, 54.", "54 ÷ 90 = 0.6, which is 60%. Dividing by 250 (21.6%) or by the grade 11 total, 120 (45%), uses the wrong whole."], "ans": "60%"}, {"lo": "LO2", "q": "<p>The bar graph shows the number of bicycles a shop sold each year from 2021 to 2024.<\/p><svg class=\"fig\" viewBox=\"0 0 320 240\" role=\"img\" aria-label=\"Bar graph of bicycles sold per year: 200 in 2021, 260 in 2022, 240 in 2023 and 300 in 2024\"><g class=\"fg-grid\" stroke=\"currentColor\" stroke-opacity=\"0.15\" stroke-width=\"1\"><line x1=\"56\" y1=\"172.0\" x2=\"308\" y2=\"172.0\"/><line x1=\"56\" y1=\"150.0\" x2=\"308\" y2=\"150.0\"/><line x1=\"56\" y1=\"128.0\" x2=\"308\" y2=\"128.0\"/><line x1=\"56\" y1=\"106.0\" x2=\"308\" y2=\"106.0\"/><line x1=\"56\" y1=\"84.0\" x2=\"308\" y2=\"84.0\"/><line x1=\"56\" y1=\"62.0\" x2=\"308\" y2=\"62.0\"/><line x1=\"56\" y1=\"40.0\" x2=\"308\" y2=\"40.0\"/><line x1=\"56\" y1=\"18.0\" x2=\"308\" y2=\"18.0\"/><\/g><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"69.9\" y=\"84.0\" width=\"35.3\" height=\"110.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"132.9\" y=\"51.0\" width=\"35.3\" height=\"143.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"195.9\" y=\"62.0\" width=\"35.3\" height=\"132.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"258.9\" y=\"29.0\" width=\"35.3\" height=\"165.0\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"194\" x2=\"308\" y2=\"194\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"12\" x2=\"56\" y2=\"194\"/><g class=\"fg-lab\" fill=\"currentColor\" font-size=\"11\"><text class=\"fg-tick\" x=\"50\" y=\"198.0\" text-anchor=\"end\">0<\/text><text class=\"fg-tick\" x=\"50\" y=\"176.0\" text-anchor=\"end\">40<\/text><text class=\"fg-tick\" x=\"50\" y=\"154.0\" text-anchor=\"end\">80<\/text><text class=\"fg-tick\" x=\"50\" y=\"132.0\" text-anchor=\"end\">120<\/text><text class=\"fg-tick\" x=\"50\" y=\"110.0\" text-anchor=\"end\">160<\/text><text class=\"fg-tick\" x=\"50\" y=\"88.0\" text-anchor=\"end\">200<\/text><text class=\"fg-tick\" x=\"50\" y=\"66.0\" text-anchor=\"end\">240<\/text><text class=\"fg-tick\" x=\"50\" y=\"44.0\" text-anchor=\"end\">280<\/text><text class=\"fg-tick\" x=\"50\" y=\"22.0\" text-anchor=\"end\">320<\/text><text class=\"fg-cat\" x=\"87.5\" y=\"209\" text-anchor=\"middle\">2021<\/text><text class=\"fg-val\" x=\"87.5\" y=\"80.0\" text-anchor=\"middle\">200<\/text><text class=\"fg-cat\" x=\"150.5\" y=\"209\" text-anchor=\"middle\">2022<\/text><text class=\"fg-val\" x=\"150.5\" y=\"47.0\" text-anchor=\"middle\">260<\/text><text class=\"fg-cat\" x=\"213.5\" y=\"209\" text-anchor=\"middle\">2023<\/text><text class=\"fg-val\" x=\"213.5\" y=\"58.0\" text-anchor=\"middle\">240<\/text><text class=\"fg-cat\" x=\"276.5\" y=\"209\" text-anchor=\"middle\">2024<\/text><text class=\"fg-val\" x=\"276.5\" y=\"25.0\" text-anchor=\"middle\">300<\/text><text class=\"fg-xt\" x=\"182.0\" y=\"232\" text-anchor=\"middle\">Year<\/text><text class=\"fg-yt\" transform=\"rotate(-90)\" x=\"-106.0\" y=\"14\" text-anchor=\"middle\">Number of bicycles sold<\/text><\/g><\/svg><p>By what percent did the number of bicycles sold increase from 2023 to 2024?<\/p>", "steps": ["Read the bars: 240 bicycles in 2023 and 300 in 2024.", "The change is 300 − 240 = 60. Divide by the original (earlier) value: 60 ÷ 240 = 0.25.", "The increase is 25%. Dividing by 300 instead gives 20%, which is a common wrong answer."], "ans": "25%"}, {"lo": "LO3", "q": "The population of a town was 18,000. It increased by 20% in one year and then decreased by 15% in the next year. What was the population after the two years, and what was the overall percent change?", "steps": ["Write each change as a multiplier: a 20% increase is × 1.20, and a 15% decrease is × 0.85.", "Multiply: 18,000 × 1.20 × 0.85 = 18,000 × 1.02 = 18,360.", "The overall multiplier 1.02 means a 2% increase, not the 5% you would get by subtracting 15 from 20."], "ans": "18,360 people, an overall increase of 2%"}, {"lo": "LO4", "q": "After a 12% discount, a bicycle helmet sells for $44. What was the price of the helmet, in dollars, before the discount?", "steps": ["A 12% discount leaves 88% of the price, so 0.88 × (original price) = 44.", "Divide: original price = 44 ÷ 0.88 = 50.", "Check: 12% of 50 is 6, and 50 − 6 = 44 ✓. The answer is not 44 × 1.12 = 49.28, because the 12% is a percent of the original price, not of $44."], "ans": "$50"}, {"lo": "LO5", "q": "The percent of a city's commuters who cycle to work rose from 8% to 10%. Describe this change in percentage points and as a percent change.", "steps": ["Percentage points: subtract the two percents. 10 − 8 = 2 percentage points.", "Percent change: compare the change with the original rate. 2 ÷ 8 = 0.25, which is 25%.", "So the rate rose by 2 percentage points, which is a 25% increase in the rate."], "ans": "2 percentage points, a 25% increase"}, {"lo": "LO5", "q": "A lab technician mixes 40 milliliters of a 15% salt solution with 60 milliliters of a 25% salt solution. What percent of the mixture is salt? (Disregard the % sign when entering your answer.)", "steps": ["Find the salt in each solution: 0.15 × 40 = 6 mL and 0.25 × 60 = 15 mL.", "Add the salt and add the volumes: 6 + 15 = 21 mL of salt in 40 + 60 = 100 mL of mixture.", "21 ÷ 100 = 0.21, which is 21%. The simple average of 15% and 25% is 20%, which is wrong because the two volumes are not equal."], "ans": "21"}], "traps": ["Dividing by the new value when finding a percent change. The base is always the original value, the one before the change.", "Adding percents from successive changes. A 20% increase followed by a 20% decrease is 1.2 × 0.8 = 0.96, an overall 4% decrease, not 0%.", "Working backward by applying the opposite percent to the final amount. After a 20% discount to $56, the original price is 56 ÷ 0.8 = $70, not 56 × 1.2 = $67.20.", "Mixing up percentage points and percent change. A rate that goes from 8% to 10% rises by 2 percentage points, which is a 25% increase.", "Choosing the wrong whole in a two-way table. Divide by the total of the group named after \"of\" or \"of those who,\" not by the grand total.", "Averaging two concentrations when the amounts are different. Add the amounts of the substance and the total amounts, then divide."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "What is 35% of 260?", "opts": ["9.1", "91", "169", "910"], "ans": 1, "sol": "Write 35% as a decimal: 0.35.<br>Multiply: 0.35 × 260 = 91.<br>Answer: <b>91<\/b>", "hint": "Change the percent to a decimal before you multiply."}, {"lo": "LO1", "diff": "E", "type": "spr", "q": "What percent of 80 is 104? (Disregard the % sign when entering your answer.)", "ans": ["130"], "sol": "Divide the part by the whole: 104 ÷ 80 = 1.3.<br>1.3 × 100 = 130, so 104 is 130% of 80.<br>Answer: <b>130<\/b>", "hint": "The part is larger than the whole, so expect an answer greater than 100."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "The price of a concert ticket increased from $40 to $46. By what percent did the price increase?", "opts": ["1.15%", "6%", "13.04%", "15%"], "ans": 3, "sol": "The change in price is 46 − 40 = 6 dollars.<br>Divide by the original price: 6 ÷ 40 = 0.15.<br>Answer: <b>15%<\/b>", "hint": "Percent change compares the change with the original value, not with the new value."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "Which expression represents the result of decreasing a positive number <i>n<\/i> by 30%?", "opts": ["0.7<i>n<\/i>", "0.3<i>n<\/i>", "1.3<i>n<\/i>", "<i>n<\/i> − 0.3"], "ans": 0, "sol": "A 30% decrease leaves 100% − 30% = 70% of the number.<br>70% of <i>n<\/i> is 0.7<i>n<\/i>.<br>Answer: <b>0.7<i>n<\/i><\/b>", "hint": "After a 30% decrease, what percent of the number is left?"}, {"lo": "LO5", "diff": "E", "type": "mcq", "q": "A bottle contains 750 milliliters of a drink that is 6% fruit juice by volume. How many milliliters of fruit juice are in the bottle?", "opts": ["4.5", "45", "125", "705"], "ans": 1, "sol": "Amount of juice = concentration × total volume.<br>0.06 × 750 = 45.<br>Answer: <b>45<\/b>", "hint": "The concentration is a percent of the total volume of the drink."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "The number <i>p<\/i> is 60% of <i>q<\/i>, and <i>q<\/i> is 40% of <i>r<\/i>. The number <i>p<\/i> is what percent of <i>r<\/i>?", "opts": ["2.4%", "20%", "24%", "150%"], "ans": 2, "sol": "Write <i>q<\/i> = 0.4<i>r<\/i>.<br>Then <i>p<\/i> = 0.6<i>q<\/i> = 0.6(0.4<i>r<\/i>) = 0.24<i>r<\/i>.<br>Answer: <b>24%<\/b>", "hint": "Write <i>q<\/i> in terms of <i>r<\/i>, then substitute into <i>p<\/i> = 0.6<i>q<\/i>."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A watch is priced at $250. It is discounted by 20%, and then a sales tax of 8% is applied to the discounted price. What is the final cost of the watch?", "opts": ["$200", "$216", "$220", "$270"], "ans": 1, "sol": "The discount multiplies by 0.80 and the tax multiplies by 1.08.<br>250 × 0.80 × 1.08 = 200 × 1.08 = 216.<br>Answer: <b>$216<\/b>", "hint": "Apply the two changes one after the other, as multipliers. Do not combine 20% and 8% into one percent."}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "The value of a car decreases by 10% each year. After 2 years, its value is what percent of its original value? (Disregard the % sign when entering your answer.)", "ans": ["81"], "sol": "Each year multiplies the value by 0.90.<br>After 2 years: 0.90 × 0.90 = 0.81, which is 81%.<br>Answer: <b>81<\/b>", "hint": "The second 10% is taken from the reduced value, not from the original value."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "After a 15% increase, a book club has 92 members. How many members did the club have before the increase?", "opts": ["77", "78", "80", "106"], "ans": 2, "sol": "A 15% increase multiplies by 1.15, so 1.15<i>m<\/i> = 92, where <i>m<\/i> is the original number.<br><i>m<\/i> = 92 ÷ 1.15 = 80.<br>Check: 80 × 1.15 = 92 ✓.<br>Answer: <b>80<\/b>", "hint": "Let <i>m<\/i> be the original number of members. Write an equation that uses the multiplier for a 15% increase."}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "A chemist has 300 milliliters of a solution that is 12% acid. How many milliliters of pure water must be added to make a solution that is 9% acid?", "opts": ["100", "300", "400", "1,200"], "ans": 0, "sol": "Acid present: 0.12 × 300 = 36 mL. Adding water does not change this amount.<br>New total volume <i>T<\/i>: 0.09<i>T<\/i> = 36, so <i>T<\/i> = 400 mL.<br>Water added: 400 − 300 = 100 mL.<br>Answer: <b>100<\/b>", "hint": "The amount of acid stays the same; only the total volume grows."}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A price was increased by 20%, and then the new price was decreased by 10%. The final price was $162. What was the original price, in dollars?", "ans": ["150"], "sol": "Overall multiplier: 1.20 × 0.90 = 1.08.<br>Original × 1.08 = 162, so original = 162 ÷ 1.08 = 150.<br>Answer: <b>150<\/b>", "hint": "Combine the two changes into one multiplier, then work backward."}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "In a town of 40,000 adults, 15% were library members. One year later, the number of adults had increased by 10%, and the percent of adults who were library members had increased by 3 percentage points. By what percent did the number of library members increase?", "opts": ["13%", "20%", "30%", "32%"], "ans": 3, "sol": "Members at first: 0.15 × 40,000 = 6,000.<br>One year later there are 1.10 × 40,000 = 44,000 adults, and 15 + 3 = 18% of them are members: 0.18 × 44,000 = 7,920.<br>Percent increase: (7,920 − 6,000) ÷ 6,000 = 0.32.<br>Answer: <b>32%<\/b>", "hint": "Find the number of members in each year before you compute a percent change."}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "What is 120% of 45?", "opts": ["5.4", "9", "37.5", "54"], "ans": 3, "sol": "120% = 1.2.<br>1.2 × 45 = 54.<br>Answer: <b>54<\/b>"}, {"lo": "LO1", "diff": "E", "type": "spr", "q": "The fraction <span class=\"fq\"><span>7<\/span><span>20<\/span><\/span> is equivalent to what percent? (Disregard the % sign when entering your answer.)", "ans": ["35"], "sol": "Divide: 7 ÷ 20 = 0.35.<br>0.35 × 100 = 35, so <span class=\"fq\"><span>7<\/span><span>20<\/span><\/span> = 35%.<br>Answer: <b>35<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "What is the result when 80 is increased by 35%?", "opts": ["28", "52", "80.35", "108"], "ans": 3, "sol": "A 35% increase multiplies by 1.35.<br>80 × 1.35 = 108.<br>Answer: <b>108<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "<p>The bar graph shows the number of trees of each type in a park.<\/p><svg class=\"fig\" viewBox=\"0 0 320 240\" role=\"img\" aria-label=\"Bar graph of trees in a park: 40 oak, 60 maple, 70 pine and 30 birch\"><g class=\"fg-grid\" stroke=\"currentColor\" stroke-opacity=\"0.15\" stroke-width=\"1\"><line x1=\"56\" y1=\"172.0\" x2=\"308\" y2=\"172.0\"/><line x1=\"56\" y1=\"150.0\" x2=\"308\" y2=\"150.0\"/><line x1=\"56\" y1=\"128.0\" x2=\"308\" y2=\"128.0\"/><line x1=\"56\" y1=\"106.0\" x2=\"308\" y2=\"106.0\"/><line x1=\"56\" y1=\"84.0\" x2=\"308\" y2=\"84.0\"/><line x1=\"56\" y1=\"62.0\" x2=\"308\" y2=\"62.0\"/><line x1=\"56\" y1=\"40.0\" x2=\"308\" y2=\"40.0\"/><line x1=\"56\" y1=\"18.0\" x2=\"308\" y2=\"18.0\"/><\/g><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"69.9\" y=\"106.0\" width=\"35.3\" height=\"88.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"132.9\" y=\"62.0\" width=\"35.3\" height=\"132.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"195.9\" y=\"40.0\" width=\"35.3\" height=\"154.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"258.9\" y=\"128.0\" width=\"35.3\" height=\"66.0\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"194\" x2=\"308\" y2=\"194\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"12\" x2=\"56\" y2=\"194\"/><g class=\"fg-lab\" fill=\"currentColor\" font-size=\"11\"><text class=\"fg-tick\" x=\"50\" y=\"198.0\" text-anchor=\"end\">0<\/text><text class=\"fg-tick\" x=\"50\" y=\"176.0\" text-anchor=\"end\">10<\/text><text class=\"fg-tick\" x=\"50\" y=\"154.0\" text-anchor=\"end\">20<\/text><text class=\"fg-tick\" x=\"50\" y=\"132.0\" text-anchor=\"end\">30<\/text><text class=\"fg-tick\" x=\"50\" y=\"110.0\" text-anchor=\"end\">40<\/text><text class=\"fg-tick\" x=\"50\" y=\"88.0\" text-anchor=\"end\">50<\/text><text class=\"fg-tick\" x=\"50\" y=\"66.0\" text-anchor=\"end\">60<\/text><text class=\"fg-tick\" x=\"50\" y=\"44.0\" text-anchor=\"end\">70<\/text><text class=\"fg-tick\" x=\"50\" y=\"22.0\" text-anchor=\"end\">80<\/text><text class=\"fg-cat\" x=\"87.5\" y=\"209\" text-anchor=\"middle\">Oak<\/text><text class=\"fg-val\" x=\"87.5\" y=\"102.0\" text-anchor=\"middle\">40<\/text><text class=\"fg-cat\" x=\"150.5\" y=\"209\" text-anchor=\"middle\">Maple<\/text><text class=\"fg-val\" x=\"150.5\" y=\"58.0\" text-anchor=\"middle\">60<\/text><text class=\"fg-cat\" x=\"213.5\" y=\"209\" text-anchor=\"middle\">Pine<\/text><text class=\"fg-val\" x=\"213.5\" y=\"36.0\" text-anchor=\"middle\">70<\/text><text class=\"fg-cat\" x=\"276.5\" y=\"209\" text-anchor=\"middle\">Birch<\/text><text class=\"fg-val\" x=\"276.5\" y=\"124.0\" text-anchor=\"middle\">30<\/text><text class=\"fg-xt\" x=\"182.0\" y=\"232\" text-anchor=\"middle\">Type of tree<\/text><text class=\"fg-yt\" transform=\"rotate(-90)\" x=\"-106.0\" y=\"14\" text-anchor=\"middle\">Number of trees<\/text><\/g><\/svg><p>What percent of the trees in the park are maple trees?<\/p>", "opts": ["30%", "42.9%", "60%", "70%"], "ans": 0, "sol": "Total number of trees: 40 + 60 + 70 + 30 = 200.<br>Maple trees: 60 ÷ 200 = 0.30.<br>Answer: <b>30%<\/b>"}, {"lo": "LO5", "diff": "E", "type": "mcq", "q": "A rate is 12%. The rate then increases by 50% (not by 50 percentage points). What is the new rate?", "opts": ["6%", "18%", "24%", "62%"], "ans": 1, "sol": "An increase of 50% multiplies the rate by 1.5.<br>12% × 1.5 = 18%.<br>Answer: <b>18%<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "A number <i>n<\/i> is decreased by 25%, and the result is 63. Which equation can be used to find <i>n<\/i>?", "opts": ["0.25<i>n<\/i> = 63", "<i>n<\/i> − 0.25 = 63", "0.75<i>n<\/i> = 63", "<i>n<\/i> = 1.25(63)"], "ans": 2, "sol": "A 25% decrease leaves 75% of the number.<br>So 0.75<i>n<\/i> = 63, which gives <i>n<\/i> = 84.<br>Answer: <b>0.75<i>n<\/i> = 63<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "<p>The bar graph shows the number of members of a hiking club at the end of each month.<\/p><svg class=\"fig\" viewBox=\"0 0 320 240\" role=\"img\" aria-label=\"Bar graph of hiking club members at the end of each month: 50 in January, 60 in February, 75 in March and 48 in April\"><g class=\"fg-grid\" stroke=\"currentColor\" stroke-opacity=\"0.15\" stroke-width=\"1\"><line x1=\"56\" y1=\"172.0\" x2=\"308\" y2=\"172.0\"/><line x1=\"56\" y1=\"150.0\" x2=\"308\" y2=\"150.0\"/><line x1=\"56\" y1=\"128.0\" x2=\"308\" y2=\"128.0\"/><line x1=\"56\" y1=\"106.0\" x2=\"308\" y2=\"106.0\"/><line x1=\"56\" y1=\"84.0\" x2=\"308\" y2=\"84.0\"/><line x1=\"56\" y1=\"62.0\" x2=\"308\" y2=\"62.0\"/><line x1=\"56\" y1=\"40.0\" x2=\"308\" y2=\"40.0\"/><line x1=\"56\" y1=\"18.0\" x2=\"308\" y2=\"18.0\"/><\/g><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"69.9\" y=\"84.0\" width=\"35.3\" height=\"110.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"132.9\" y=\"62.0\" width=\"35.3\" height=\"132.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"195.9\" y=\"29.0\" width=\"35.3\" height=\"165.0\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"258.9\" y=\"88.4\" width=\"35.3\" height=\"105.6\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"194\" x2=\"308\" y2=\"194\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"12\" x2=\"56\" y2=\"194\"/><g class=\"fg-lab\" fill=\"currentColor\" font-size=\"11\"><text class=\"fg-tick\" x=\"50\" y=\"198.0\" text-anchor=\"end\">0<\/text><text class=\"fg-tick\" x=\"50\" y=\"176.0\" text-anchor=\"end\">10<\/text><text class=\"fg-tick\" x=\"50\" y=\"154.0\" text-anchor=\"end\">20<\/text><text class=\"fg-tick\" x=\"50\" y=\"132.0\" text-anchor=\"end\">30<\/text><text class=\"fg-tick\" x=\"50\" y=\"110.0\" text-anchor=\"end\">40<\/text><text class=\"fg-tick\" x=\"50\" y=\"88.0\" text-anchor=\"end\">50<\/text><text class=\"fg-tick\" x=\"50\" y=\"66.0\" text-anchor=\"end\">60<\/text><text class=\"fg-tick\" x=\"50\" y=\"44.0\" text-anchor=\"end\">70<\/text><text class=\"fg-tick\" x=\"50\" y=\"22.0\" text-anchor=\"end\">80<\/text><text class=\"fg-cat\" x=\"87.5\" y=\"209\" text-anchor=\"middle\">Jan<\/text><text class=\"fg-val\" x=\"87.5\" y=\"80.0\" text-anchor=\"middle\">50<\/text><text class=\"fg-cat\" x=\"150.5\" y=\"209\" text-anchor=\"middle\">Feb<\/text><text class=\"fg-val\" x=\"150.5\" y=\"58.0\" text-anchor=\"middle\">60<\/text><text class=\"fg-cat\" x=\"213.5\" y=\"209\" text-anchor=\"middle\">Mar<\/text><text class=\"fg-val\" x=\"213.5\" y=\"25.0\" text-anchor=\"middle\">75<\/text><text class=\"fg-cat\" x=\"276.5\" y=\"209\" text-anchor=\"middle\">Apr<\/text><text class=\"fg-val\" x=\"276.5\" y=\"84.4\" text-anchor=\"middle\">48<\/text><text class=\"fg-xt\" x=\"182.0\" y=\"232\" text-anchor=\"middle\">Month (end of month)<\/text><text class=\"fg-yt\" transform=\"rotate(-90)\" x=\"-106.0\" y=\"14\" text-anchor=\"middle\">Number of members<\/text><\/g><\/svg><p>What was the percent decrease in the number of members from the end of March to the end of April?<\/p>", "opts": ["27%", "36%", "56.25%", "64%"], "ans": 1, "sol": "March: 75 members. April: 48 members. The decrease is 75 − 48 = 27.<br>Divide by the original (March) value: 27 ÷ 75 = 0.36.<br>Answer: <b>36%<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which expression represents the result of increasing a positive number <i>x<\/i> by 30% and then decreasing the result by 10%?", "opts": ["0.27<i>x<\/i>", "1.17<i>x<\/i>", "1.2<i>x<\/i>", "1.3<i>x<\/i> − 0.1"], "ans": 1, "sol": "Increasing by 30% multiplies by 1.3, and decreasing by 10% multiplies by 0.9.<br>1.3 × 0.9 = 1.17, so the result is 1.17<i>x<\/i>.<br>Answer: <b>1.17<i>x<\/i><\/b>"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "If 30% of a number is 27, what is 70% of the number?", "ans": ["63"], "sol": "The number is 27 ÷ 0.30 = 90.<br>70% of 90 is 0.70 × 90 = 63.<br>Answer: <b>63<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A restaurant bill, including a 15% tip on the cost of the meal, came to $46. How much was the tip?", "opts": ["$6.00", "$6.90", "$39.10", "$40.00"], "ans": 0, "sol": "Let <i>m<\/i> be the cost of the meal. Then 1.15<i>m<\/i> = 46, so <i>m<\/i> = 40.<br>Tip = 46 − 40 = 6.<br>Answer: <b>$6.00<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "A rate increased by 6 percentage points. This was a 40% increase in the rate. What is the new rate?", "opts": ["9%", "15%", "21%", "46%"], "ans": 2, "sol": "Let the original rate be <i>p<\/i>%. A 40% increase means the rate rose by 0.4<i>p<\/i> points.<br>0.4<i>p<\/i> = 6, so <i>p<\/i> = 15.<br>The new rate is 15 + 6 = 21%.<br>Answer: <b>21%<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Meera deposits $2,500 in a savings account that earns 4% interest compounded annually. If she makes no other deposits or withdrawals, how much money is in the account after 2 years?", "opts": ["$200", "$2,600", "$2,700", "$2,704"], "ans": 3, "sol": "Each year multiplies the balance by 1.04.<br>2,500 × 1.04 × 1.04 = 2,500 × 1.0816 = 2,704.<br>Answer: <b>$2,704<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "When a number is decreased by 18, the result is 54. By what percent was the number decreased? (Disregard the % sign when entering your answer.)", "ans": ["25"], "sol": "The original number is 54 + 18 = 72.<br>Percent decrease: 18 ÷ 72 = 0.25.<br>Answer: <b>25<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "When 6 is added to a positive number, the result is 120% of the number. What is the result?", "opts": ["5", "30", "36", "50"], "ans": 2, "sol": "Let the number be <i>n<\/i>. Then <i>n<\/i> + 6 = 1.2<i>n<\/i>, so 0.2<i>n<\/i> = 6 and <i>n<\/i> = 30.<br>The result is 30 + 6 = 36.<br>Answer: <b>36<\/b>"}, {"lo": "LO5", "diff": "M", "type": "spr", "q": "How many liters of a 30% alcohol solution must be mixed with 6 liters of a 10% alcohol solution to produce a solution that is 15% alcohol?", "ans": ["2"], "sol": "Let <i>x<\/i> be the number of liters of the 30% solution. Alcohol: 0.30<i>x<\/i> + 0.10(6) = 0.15(<i>x<\/i> + 6).<br>0.30<i>x<\/i> + 0.6 = 0.15<i>x<\/i> + 0.9, so 0.15<i>x<\/i> = 0.3.<br><i>x<\/i> = 2.<br>Answer: <b>2<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "<p>In a study of 400 adults, each adult was asked whether they exercise regularly. The results are shown in the table.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th><\/th><th>Exercises regularly<\/th><th>Does not exercise regularly<\/th><th>Total<\/th><\/tr><tr><th>Under 40<\/th><td>126<\/td><td>54<\/td><td>180<\/td><\/tr><tr><th>40 and over<\/th><td>99<\/td><td>121<\/td><td>220<\/td><\/tr><tr><th>Total<\/th><td>225<\/td><td>175<\/td><td>400<\/td><\/tr><\/table><\/div><p>The number of adults under 40 who exercise regularly is what percent of the number of adults in the study who do not exercise regularly?<\/p>", "opts": ["31.5%", "56%", "70%", "72%"], "ans": 3, "sol": "Adults under 40 who exercise regularly: 126.<br>All adults who do not exercise regularly: 175.<br>126 ÷ 175 = 0.72.<br>Answer: <b>72%<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Each choice describes changes made to a positive quantity. Which choice results in the greatest final value?", "opts": ["An increase of 10% followed by an increase of 10%", "An increase of 20%", "An increase of 30% followed by a decrease of 10%", "An increase of 25% followed by a decrease of 5%"], "ans": 0, "sol": "Compare the overall multipliers.<br>1.1 × 1.1 = 1.21; 1.2; 1.3 × 0.9 = 1.17; 1.25 × 0.95 = 1.1875.<br>The greatest is 1.21.<br>Answer: <b>An increase of 10% followed by an increase of 10%<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A number increased by 20% is 12 more than the same number decreased by 20%. What is the number?", "ans": ["30"], "sol": "Let the number be <i>n<\/i>. Then 1.2<i>n<\/i> = 0.8<i>n<\/i> + 12.<br>0.4<i>n<\/i> = 12, so <i>n<\/i> = 30.<br>Answer: <b>30<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "The number <i>a<\/i> is 25% greater than the positive number <i>b<\/i>. The number <i>b<\/i> is what percent less than <i>a<\/i>?", "opts": ["20%", "25%", "75%", "80%"], "ans": 0, "sol": "<i>a<\/i> = 1.25<i>b<\/i>, so <i>b<\/i> = <i>a<\/i> ÷ 1.25 = 0.8<i>a<\/i>.<br>So <i>b<\/i> is 100% − 80% = 20% less than <i>a<\/i>.<br>Answer: <b>20%<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "A 500 gram batch of trail mix is 20% raisins by mass. How many grams of raisins must be added so that raisins make up 36% of the new mixture by mass?", "opts": ["80", "100", "125", "180"], "ans": 2, "sol": "Raisins now: 0.20 × 500 = 100 g. After adding <i>r<\/i> grams, there are 100 + <i>r<\/i> grams of raisins in 500 + <i>r<\/i> grams of mix.<br>100 + <i>r<\/i> = 0.36(500 + <i>r<\/i>) = 180 + 0.36<i>r<\/i>.<br>0.64<i>r<\/i> = 80, so <i>r<\/i> = 125.<br>Answer: <b>125<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "If 0.4% of a number is 18, what is the number?", "opts": ["0.072", "45", "450", "4,500"], "ans": 3, "sol": "0.4% = 0.004.<br>0.004<i>n<\/i> = 18, so <i>n<\/i> = 18 ÷ 0.004 = 4,500.<br>Answer: <b>4,500<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "The positive number <i>y<\/i> is 150% more than <i>x<\/i>. Which equation shows the relationship between <i>x<\/i> and <i>y<\/i>?", "opts": ["<i>y<\/i> = 2.5<i>x<\/i>", "<i>y<\/i> = 1.5<i>x<\/i>", "<i>y<\/i> = 150<i>x<\/i>", "<i>y<\/i> = <i>x<\/i> + 1.5"], "ans": 0, "sol": "\"150% more than <i>x<\/i>\" means <i>x<\/i> plus 150% of <i>x<\/i>.<br><i>y<\/i> = <i>x<\/i> + 1.5<i>x<\/i> = 2.5<i>x<\/i>.<br>Answer: <b><i>y<\/i> = 2.5<i>x<\/i><\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Decreasing a positive number by 20% and then decreasing the result by 25% is equivalent to decreasing the original number by what percent?", "opts": ["5%", "40%", "45%", "60%"], "ans": 1, "sol": "Overall multiplier: 0.80 × 0.75 = 0.60.<br>A multiplier of 0.60 is a decrease of 100% − 60% = 40%.<br>Answer: <b>40%<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "75% of what number is equal to 40% of 300?", "ans": ["160"], "sol": "40% of 300 is 0.40 × 300 = 120.<br>0.75<i>n<\/i> = 120, so <i>n<\/i> = 120 ÷ 0.75 = 160.<br>Answer: <b>160<\/b>"}, {"lo": "LO5", "diff": "M", "type": "mcq", "q": "A 400 gram salt solution is 15% salt by mass. If 100 grams of water evaporate from the solution, what percent of the remaining solution is salt?", "opts": ["11.25%", "12%", "15%", "20%"], "ans": 3, "sol": "Salt: 0.15 × 400 = 60 g. Evaporation removes only water, so the salt stays at 60 g.<br>Remaining solution: 400 − 100 = 300 g.<br>60 ÷ 300 = 0.20.<br>Answer: <b>20%<\/b>"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "<p>The bar graph shows the results of a survey in which each of 400 students chose a favorite subject.<\/p><svg class=\"fig\" viewBox=\"0 0 320 240\" role=\"img\" aria-label=\"Bar graph of favorite subjects of 400 students: math 100, science 80, English 60, history 40 and art 120\"><g class=\"fg-grid\" stroke=\"currentColor\" stroke-opacity=\"0.15\" stroke-width=\"1\"><line x1=\"56\" y1=\"168.9\" x2=\"308\" y2=\"168.9\"/><line x1=\"56\" y1=\"143.7\" x2=\"308\" y2=\"143.7\"/><line x1=\"56\" y1=\"118.6\" x2=\"308\" y2=\"118.6\"/><line x1=\"56\" y1=\"93.4\" x2=\"308\" y2=\"93.4\"/><line x1=\"56\" y1=\"68.3\" x2=\"308\" y2=\"68.3\"/><line x1=\"56\" y1=\"43.1\" x2=\"308\" y2=\"43.1\"/><line x1=\"56\" y1=\"18.0\" x2=\"308\" y2=\"18.0\"/><\/g><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"67.1\" y=\"68.3\" width=\"28.2\" height=\"125.7\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"117.5\" y=\"93.4\" width=\"28.2\" height=\"100.6\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"167.9\" y=\"118.6\" width=\"28.2\" height=\"75.4\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"218.3\" y=\"143.7\" width=\"28.2\" height=\"50.3\"/><rect class=\"fg-shape\" fill=\"currentColor\" fill-opacity=\"0.18\" stroke=\"currentColor\" stroke-width=\"1.5\" x=\"268.7\" y=\"43.1\" width=\"28.2\" height=\"150.9\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"194\" x2=\"308\" y2=\"194\"/><line class=\"fg-axis\" stroke=\"currentColor\" stroke-width=\"1.5\" x1=\"56\" y1=\"12\" x2=\"56\" y2=\"194\"/><g class=\"fg-lab\" fill=\"currentColor\" font-size=\"11\"><text class=\"fg-tick\" x=\"50\" y=\"198.0\" text-anchor=\"end\">0<\/text><text class=\"fg-tick\" x=\"50\" y=\"172.9\" text-anchor=\"end\">20<\/text><text class=\"fg-tick\" x=\"50\" y=\"147.7\" text-anchor=\"end\">40<\/text><text class=\"fg-tick\" x=\"50\" y=\"122.6\" text-anchor=\"end\">60<\/text><text class=\"fg-tick\" x=\"50\" y=\"97.4\" text-anchor=\"end\">80<\/text><text class=\"fg-tick\" x=\"50\" y=\"72.3\" text-anchor=\"end\">100<\/text><text class=\"fg-tick\" x=\"50\" y=\"47.1\" text-anchor=\"end\">120<\/text><text class=\"fg-tick\" x=\"50\" y=\"22.0\" text-anchor=\"end\">140<\/text><text class=\"fg-cat\" x=\"81.2\" y=\"209\" text-anchor=\"middle\">Math<\/text><text class=\"fg-val\" x=\"81.2\" y=\"64.3\" text-anchor=\"middle\">100<\/text><text class=\"fg-cat\" x=\"131.6\" y=\"209\" text-anchor=\"middle\">Science<\/text><text class=\"fg-val\" x=\"131.6\" y=\"89.4\" text-anchor=\"middle\">80<\/text><text class=\"fg-cat\" x=\"182.0\" y=\"209\" text-anchor=\"middle\">English<\/text><text class=\"fg-val\" x=\"182.0\" y=\"114.6\" text-anchor=\"middle\">60<\/text><text class=\"fg-cat\" x=\"232.4\" y=\"209\" text-anchor=\"middle\">History<\/text><text class=\"fg-val\" x=\"232.4\" y=\"139.7\" text-anchor=\"middle\">40<\/text><text class=\"fg-cat\" x=\"282.8\" y=\"209\" text-anchor=\"middle\">Art<\/text><text class=\"fg-val\" x=\"282.8\" y=\"39.1\" text-anchor=\"middle\">120<\/text><text class=\"fg-xt\" x=\"182.0\" y=\"232\" text-anchor=\"middle\">Favorite subject<\/text><text class=\"fg-yt\" transform=\"rotate(-90)\" x=\"-106.0\" y=\"14\" text-anchor=\"middle\">Number of students<\/text><\/g><\/svg><p>The number of students who chose art is what percent of the number of students who chose math? (Disregard the % sign when entering your answer.)<\/p>", "ans": ["120"], "sol": "Art: 120 students. Math: 100 students.<br>120 ÷ 100 = 1.2, which is 120%.<br>Answer: <b>120<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "The positive number <i>m<\/i> is 20% less than <i>n<\/i>, and <i>n<\/i> is 20% greater than <i>p<\/i>. Which statement is true?", "opts": ["<i>m<\/i> is equal to <i>p<\/i>.", "<i>m<\/i> is 4% greater than <i>p<\/i>.", "<i>m<\/i> is 4% less than <i>p<\/i>.", "<i>m<\/i> is 40% less than <i>p<\/i>."], "ans": 2, "sol": "<i>n<\/i> = 1.2<i>p<\/i> and <i>m<\/i> = 0.8<i>n<\/i>.<br>So <i>m<\/i> = 0.8(1.2<i>p<\/i>) = 0.96<i>p<\/i>.<br>A multiplier of 0.96 means <i>m<\/i> is 4% less than <i>p<\/i>.<br>Answer: <b><i>m<\/i> is 4% less than <i>p<\/i>.<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "<p>A community center recorded the program chosen by each of its 400 participants. The results are shown in the table.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th><\/th><th>Swimming<\/th><th>Yoga<\/th><th>Chess<\/th><th>Total<\/th><\/tr><tr><th>Child<\/th><td>84<\/td><td>18<\/td><td>48<\/td><td>150<\/td><\/tr><tr><th>Adult<\/th><td>96<\/td><td>102<\/td><td>52<\/td><td>250<\/td><\/tr><tr><th>Total<\/th><td>180<\/td><td>120<\/td><td>100<\/td><td>400<\/td><\/tr><\/table><\/div><p>What percent of the participants who are not in swimming are children?<\/p>", "opts": ["16.5%", "30%", "44%", "55%"], "ans": 1, "sol": "Participants not in swimming: 120 + 100 = 220.<br>Children not in swimming: 18 + 48 = 66.<br>66 ÷ 220 = 0.30.<br>Answer: <b>30%<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "The percent increase from 80 to <i>x<\/i> is equal to the percent decrease from 150 to 120. What is the value of <i>x<\/i>?", "opts": ["64", "96", "100", "110"], "ans": 1, "sol": "Percent decrease from 150 to 120: 30 ÷ 150 = 0.20, or 20%.<br>A 20% increase from 80: <i>x<\/i> = 80 × 1.20 = 96.<br>Answer: <b>96<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A dealer sold a used bicycle for $91, which was 30% less than the amount the dealer paid for it. For what price would the dealer have had to sell the bicycle to make a profit of 30% of the amount paid?", "opts": ["$118.30", "$121.00", "$130.00", "$169.00"], "ans": 3, "sol": "Let <i>c<\/i> be the amount paid. Then 0.70<i>c<\/i> = 91, so <i>c<\/i> = 130.<br>A 30% profit means a price of 1.30 × 130 = 169.<br>Answer: <b>$169.00<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "Last year, 16% of the 2,500 employees at a company worked from home. This year the company still has 2,500 employees, and the percent who work from home is 25% greater than it was last year. How many more employees work from home this year than last year?", "opts": ["100", "400", "500", "625"], "ans": 0, "sol": "Last year: 0.16 × 2,500 = 400 employees.<br>This year the percent is 16% × 1.25 = 20%, so 0.20 × 2,500 = 500 employees.<br>500 − 400 = 100.<br>Answer: <b>100<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "A positive number is increased by 10%, the result is increased by 20%, and that result is decreased by 25%. The final number is what percent less than the original number? (Disregard the % sign when entering your answer.)", "ans": ["1"], "sol": "Overall multiplier: 1.10 × 1.20 × 0.75 = 0.99.<br>A multiplier of 0.99 is 1% less than the original.<br>Answer: <b>1<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A positive number <i>x<\/i> is decreased by 25% to give <i>y<\/i>. By what percent must <i>y<\/i> be increased to get back to <i>x<\/i>?", "opts": ["20%", "25%", "<span class=\"fq\"><span>100<\/span><span>3<\/span><\/span>%", "75%"], "ans": 2, "sol": "<i>y<\/i> = 0.75<i>x<\/i>, so <i>x<\/i> = <i>y<\/i> ÷ 0.75 = <span class=\"fq\"><span>4<\/span><span>3<\/span><\/span><i>y<\/i>.<br>A multiplier of <span class=\"fq\"><span>4<\/span><span>3<\/span><\/span> is an increase of <span class=\"fq\"><span>1<\/span><span>3<\/span><\/span>, which is <span class=\"fq\"><span>100<\/span><span>3<\/span><\/span>% (about 33.3%).<br>Answer: <b><span class=\"fq\"><span>100<\/span><span>3<\/span><\/span>%<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "For positive numbers <i>x<\/i> and <i>y<\/i>, increasing <i>x<\/i> by 30% gives the same result as decreasing <i>y<\/i> by 30%. To the nearest tenth of a percent, <i>x<\/i> is what percent of <i>y<\/i>?", "opts": ["40%", "46.2%", "53.8%", "185.7%"], "ans": 2, "sol": "1.3<i>x<\/i> = 0.7<i>y<\/i>.<br><i>x<\/i> = <span class=\"fq\"><span>0.7<\/span><span>1.3<\/span><\/span><i>y<\/i> ≈ 0.53846<i>y<\/i>.<br>To the nearest tenth of a percent, that is 53.8%.<br>Answer: <b>53.8%<\/b>"}, {"lo": "LO5", "diff": "H", "type": "mcq", "q": "A 40 liter tank is filled with a mixture that is 20% antifreeze. How many liters of the mixture must be drained and replaced with pure antifreeze so that the tank contains a mixture that is 40% antifreeze?", "opts": ["10", "13.3", "16", "20"], "ans": 0, "sol": "Let <i>d<\/i> liters be drained. The antifreeze left is 0.20(40 − <i>d<\/i>) = 8 − 0.2<i>d<\/i>.<br>Adding <i>d<\/i> liters of pure antifreeze must give 0.40 × 40 = 16 liters: 8 − 0.2<i>d<\/i> + <i>d<\/i> = 16.<br>0.8<i>d<\/i> = 8, so <i>d<\/i> = 10.<br>Answer: <b>10<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "If 150% of <i>x<\/i> is equal to 60% of <i>y<\/i>, where <i>x<\/i> and <i>y<\/i> are positive, then <i>x<\/i> is what percent of <i>y<\/i>?", "opts": ["40%", "90%", "150%", "250%"], "ans": 0, "sol": "1.5<i>x<\/i> = 0.6<i>y<\/i>.<br><i>x<\/i> = <span class=\"fq\"><span>0.6<\/span><span>1.5<\/span><\/span><i>y<\/i> = 0.4<i>y<\/i>.<br>Answer: <b>40%<\/b>"}, {"lo": "LO3", "diff": "X", "type": "spr", "q": "A price is increased by 25%, and then the new price is decreased by <i>k<\/i>%. The final price is 10% greater than the original price. What is the value of <i>k<\/i>?", "ans": ["12"], "sol": "1.25(1 − <span class=\"fq\"><span><i>k<\/i><\/span><span>100<\/span><\/span>) = 1.10.<br>1 − <span class=\"fq\"><span><i>k<\/i><\/span><span>100<\/span><\/span> = 1.10 ÷ 1.25 = 0.88.<br><span class=\"fq\"><span><i>k<\/i><\/span><span>100<\/span><\/span> = 0.12, so <i>k<\/i> = 12.<br>Answer: <b>12<\/b>"}, {"lo": "LO5", "diff": "X", "type": "mcq", "q": "School A and School B have a combined total of 4,500 students. Exactly 40% of the students at School A and 25% of the students at School B take a music class. If 34% of all the students at the two schools take a music class, how many students attend School A?", "opts": ["1,530", "1,800", "2,250", "2,700"], "ans": 3, "sol": "Let <i>a<\/i> be the number at School A, so School B has 4,500 − <i>a<\/i>.<br>0.40<i>a<\/i> + 0.25(4,500 − <i>a<\/i>) = 0.34(4,500) = 1,530.<br>0.15<i>a<\/i> + 1,125 = 1,530, so 0.15<i>a<\/i> = 405 and <i>a<\/i> = 2,700.<br>Answer: <b>2,700<\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "The positive number <i>p<\/i> is 80% greater than <i>q<\/i>, and the number <i>r<\/i> is 20% less than <i>q<\/i>. The number <i>p<\/i> is what percent greater than <i>r<\/i>?", "opts": ["60%", "100%", "125%", "225%"], "ans": 2, "sol": "<i>p<\/i> = 1.8<i>q<\/i> and <i>r<\/i> = 0.8<i>q<\/i>.<br><span class=\"fq\"><span><i>p<\/i><\/span><span><i>r<\/i><\/span><\/span> = <span class=\"fq\"><span>1.8<\/span><span>0.8<\/span><\/span> = 2.25, so <i>p<\/i> = 2.25<i>r<\/i>.<br>That is 225% of <i>r<\/i>, or 125% greater than <i>r<\/i>.<br>Answer: <b>125%<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "When a positive number is decreased by 20% and the result is then increased by 20%, the final number is 3 less than the original number. What is the original number?", "ans": ["75"], "sol": "Final number: 0.8 × 1.2 × <i>n<\/i> = 0.96<i>n<\/i>.<br>0.96<i>n<\/i> = <i>n<\/i> − 3, so 0.04<i>n<\/i> = 3.<br><i>n<\/i> = 75.<br>Answer: <b>75<\/b>"}], "unit_no": 3, "topic_no": "1", "code": "1.3"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

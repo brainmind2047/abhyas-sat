@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data Analysis Learning Sheets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style><style>
+.topic-h{font-size:24px; margin:4px 0 14px;}
+.subs{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px;}
+.sub{border:1.5px solid var(--rule); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+.sub-h{display:flex; gap:10px; align-items:flex-start;} .sub-h h3{font-size:18px;}
+.sub-meta{margin:0; color:var(--ink-soft); font-size:14.5px;}
+.sub details summary{cursor:pointer; font-weight:700; font-size:14.5px; color:var(--accent-text);}
+.sub ol{margin:6px 0 0; padding-left:20px; font-size:14.5px;} .sub li{margin:3px 0;}
+.sub .btn{align-self:flex-start; margin-top:auto; text-decoration:none;}
+.how ol{margin:8px 0 0; padding-left:22px;} .how li{margin:4px 0;}
+</style>
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs"><b>Unit 3 · Problem-Solving and Data Analysis</b><span>≈15% of SAT Math · 5–7 questions</span></div>
+  <h1 class="title">Problem-Solving and Data Analysis Learning Sheets</h1>
+  <p class="summary">Ratios, rates, units and percentages; one- and two-variable data; probability, sampling and statistical claims. Each subtopic has one learning sheet per objective and two 20-question quiz sheets.</p>
+  <div class="meta"><span>3 topics</span><span>9 subtopics</span><span>45 learning objectives</span><span>108 guided questions</span><span>360 quiz questions</span></div>
+</div></header>
+<main class="wrap"><div class="stack">
+<section class="card how"><div class="eyebrow">How to use the sheets</div><ol>
+<li><b>Learn mode:</b> work through each learning sheet. Read the notes, step through the worked examples, then do the guided questions (each has a hint).</li>
+<li>Tick <b>“I can do this objective”</b> when you are confident, and read the Recap of common traps.</li>
+<li><b>Quiz Sheet 1 · Practice</b> (easy to hard), then <b>Quiz Sheet 2 · SAT Level</b> (Module 2 standard, ending with Challenge questions).</li>
+<li>The report scores you by objective. Below 80% on an objective links you back to its learning sheet.</li></ol></section>
+<section class="card"><div class="eyebrow">Topic 1</div><h2 class="topic-h">Ratios, rates and percentages</h2><div class="subs"><div class="sub"><div class="sub-h"><span class="lo-n">1.1</span><h3>Ratios, rates and proportions</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Write and simplify part-to-part and part-to-whole ratios, and use a ratio to find the size of each part.</li><li>Set up and solve proportions, including ratio tables, scale drawings and maps.</li><li>Calculate unit rates and use them to compare rates, such as best buys and speeds, and to solve rate problems.</li><li>Identify proportional relationships <i>y</i> = <i>k</i><i>x</i> from tables, graphs, equations and descriptions, and interpret the constant <i>k</i>.</li><li>Solve problems in which a ratio changes after quantities are added, removed or moved.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-1.1.html">Open sheet 1.1</a></div><div class="sub"><div class="sub-h"><span class="lo-n">1.2</span><h3>Units and unit conversion</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Convert a quantity from one unit to another by multiplying by conversion factors, including chains of two or more factors.</li><li>Convert rates such as kilometers per hour to meters per second by converting the units in both the numerator and the denominator.</li><li>Solve problems involving rates with units, such as cost per item, flow rate and fuel use, by using amount = rate × time or quantity.</li><li>Use density (mass per unit volume) and population density (people per unit area) to find a missing mass, volume, population or area.</li><li>Convert square and cubic units, and interpret the units of a quantity, coefficient or expression in context.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-1.2.html">Open sheet 1.2</a></div><div class="sub"><div class="sub-h"><span class="lo-n">1.3</span><h3>Percentages</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Calculate a percent of a quantity, and determine what percent one quantity is of another, including values read from tables and graphs.</li><li>Calculate percent increase and percent decrease, and apply a single percent change with a multiplier in contexts such as discounts, tax and markups.</li><li>Apply successive percent changes by multiplying their multipliers, including repeated changes and interest.</li><li>Determine an original amount from a value after one or more percent changes.</li><li>Distinguish percentage points from percent change, and solve concentration and mixture problems that use percentages.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-1.3.html">Open sheet 1.3</a></div></div></section><section class="card"><div class="eyebrow">Topic 2</div><h2 class="topic-h">Data analysis</h2><div class="subs"><div class="sub"><div class="sub-h"><span class="lo-n">2.1</span><h3>Center and spread of one-variable data</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Determine the mean, median, mode and range of a data set given as a list or a graph.</li><li>Use the relationship sum = mean × number of values to find a missing value, a total or an unknown in a data set.</li><li>Determine a weighted mean, including the mean of two or more combined groups.</li><li>Determine how adding, removing or changing a value, including an outlier, affects the mean, median and range.</li><li>Compare standard deviations qualitatively and choose the mean or the median as the better measure of center for skewed data.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-2.1.html">Open sheet 2.1</a></div><div class="sub"><div class="sub-h"><span class="lo-n">2.2</span><h3>Data displays and comparing distributions</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Read and interpret bar graphs, dot plots, histograms and frequency tables to find counts, totals and percents.</li><li>Calculate the mean and median of data given in a frequency table or dot plot, and identify the interval of a histogram that contains the median.</li><li>Determine the five-number summary, range and interquartile range from a box plot, and interpret the quarters of the data it shows.</li><li>Compare two distributions by their centers (mean, median) and spreads (range, interquartile range, standard deviation).</li><li>Identify the shape of a distribution as symmetric, skewed left or skewed right, and determine how the shape affects the relationship between the mean and the median.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-2.2.html">Open sheet 2.2</a></div><div class="sub"><div class="sub-h"><span class="lo-n">2.3</span><h3>Two-variable data and scatterplots</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Read and interpret scatterplots, line graphs and tables of two variables to find values, counts, changes and rates of change.</li><li>Describe the association between two variables as positive, negative or none, and as linear or nonlinear and strong or weak.</li><li>Determine the equation of a line of best fit and interpret its slope and <i>y</i>-intercept in context.</li><li>Use a line of best fit to make predictions and compare predicted values with actual values (residuals).</li><li>Choose between a linear and an exponential model for data by testing for constant differences or constant ratios.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-2.3.html">Open sheet 2.3</a></div></div></section><section class="card"><div class="eyebrow">Topic 3</div><h2 class="topic-h">Probability and statistical inference</h2><div class="subs"><div class="sub"><div class="sub-h"><span class="lo-n">3.1</span><h3>Probability and conditional probability</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Calculate the probability of an event as favorable outcomes divided by total outcomes, and use the complement rule P(not <i>A</i>) = 1 − P(<i>A</i>).</li><li>Determine probabilities from a two-way table, including "and," "or" and "neither" events, using the grand total as the denominator and filling in missing cells.</li><li>Determine conditional probabilities ("given that," "of those who") by restricting the denominator to the correct row or column.</li><li>Calculate expected counts from a probability or a sample proportion, and work backward from a count to a probability or a total.</li><li>Identify whether two events are independent by comparing conditional probabilities, and use the multiplication rule for independent events.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-3.1.html">Open sheet 3.1</a></div><div class="sub"><div class="sub-h"><span class="lo-n">3.2</span><h3>Sampling, inference and margin of error</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Identify the population, sample, sample statistic and population parameter described in a study.</li><li>Use a sample proportion or sample mean to estimate a population proportion, mean or total.</li><li>Construct and interpret an interval estimate of the form estimate ± margin of error, and recover the estimate and margin of error from an interval.</li><li>Determine how sample size and variability in the data affect the margin of error.</li><li>Determine which conclusions a margin of error supports, including when two estimates have overlapping intervals.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-3.2.html">Open sheet 3.2</a></div><div class="sub"><div class="sub-h"><span class="lo-n">3.3</span><h3>Evaluating statistical claims</h3></div>
+<p class="sub-meta">5 learning sheets · 12 guided questions · 2 quiz sheets × 20</p>
+<details><summary>Learning objectives</summary><ol><li>Identify random sampling methods, and explain how convenience samples, voluntary response samples and nonresponse can bias results.</li><li>Determine the largest population to which a sample result can be generalized, and use a random sample to make estimates only about the population that was sampled.</li><li>Distinguish observational studies from experiments by deciding whether the researchers imposed the treatment.</li><li>Determine when a study supports a cause-and-effect conclusion, recognizing the role of random assignment and of confounding variables.</li><li>Identify the most appropriate conclusion from a study description by checking both how subjects were selected and how treatments were assigned.</li></ol></details>
+<a class="btn btn-primary" href="PSDA-3.3.html">Open sheet 3.3</a></div></div></section>
+</div></main>
+<footer class="wrap">Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit 3 Problem-Solving and Data Analysis. All lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.</footer>

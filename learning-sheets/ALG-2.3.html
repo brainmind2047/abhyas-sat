@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2.3 Modeling with two-variable equations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-2.3", "unit": "Algebra", "topic": "Linear equations in two variables", "title": "Modeling with two-variable equations", "intro": "Many DSAT word problems describe two kinds of items that combine to a fixed total, such as two ticket prices adding up to a night's sales. This sheet teaches you to write, read and solve equations of the form <i>A<\/i><i>x<\/i> + <i>B<\/i><i>y<\/i> = <i>C<\/i> in context, a regular feature of the Algebra domain.", "los": [{"id": "LO1", "text": "Write a linear equation in two variables that models a combination situation (total cost, weight, time, distance or points)."}, {"id": "LO2", "text": "Interpret the coefficients, terms, constant and rearranged expressions of a two-variable equation in context."}, {"id": "LO3", "text": "Determine and interpret the intercepts of a two-variable equation, and the trade-off between its variables, in context."}, {"id": "LO4", "text": "Determine a missing quantity when the other quantity is given, including whole-number maximum and minimum answers."}], "notes": [{"lo": "LO1", "h": "The combination pattern", "html": "When two kinds of things add up to one total, every term has the same shape: <b>(amount per item) × (number of items)<\/b>. Add one term for each kind of item and set the sum equal to the total.<div class=\"rule\">(rate for type 1)·(amount of type 1) + (rate for type 2)·(amount of type 2) = total<\/div><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Situation<\/th><th>Rate<\/th><th>Equation<\/th><\/tr><tr><td>Bags at $3 and boxes at $8, $96 spent<\/td><td>dollars per item<\/td><td>3<i>g<\/i> + 8<i>x<\/i> = 96<\/td><\/tr><tr><td>Crates of 20 kg and 35 kg, 700 kg load<\/td><td>kg per crate<\/td><td>20<i>c<\/i> + 35<i>d<\/i> = 700<\/td><\/tr><tr><td>Walk 4 km/h for w h, jog 9 km/h for j h, 30 km<\/td><td>km per hour<\/td><td>4<i>w<\/i> + 9<i>j<\/i> = 30<\/td><\/tr><\/table><\/div>Always check that each rate is attached to the variable it describes. Before choosing an answer, read the sentence that defines each variable a second time."}, {"lo": "LO1", "h": "Units, fees and hidden numbers", "html": "Every term must be measured in the <b>same unit<\/b> as the total. If prices are in cents and the total is in dollars, convert one of them. If times are in minutes and the shift is given in hours, convert the shift (8 hours = 480 minutes).<ul><li><b>Fixed fee:<\/b> a one-time charge is a constant, not a coefficient. $40 + 15<i>h<\/i> + 6<i>p<\/i> = 211 is the same as 15<i>h<\/i> + 6<i>p<\/i> = 171.<\/li><li><b>Losses:<\/b> points lost appear with a minus sign, as in 5<i>r<\/i> − 2<i>w<\/i> = 60.<\/li><li><b>Percents:<\/b> 6% of <i>m<\/i> dollars is 0.06<i>m<\/i>.<\/li><li><b>Rates given as “items per hour”:<\/b> time per item is the reciprocal, so <i>L<\/i> items at 30 per hour take <span class=\"fq\"><span><i>L<\/i><\/span><span>30<\/span><\/span> hours.<\/li><\/ul><div class=\"rule\">Convert everything to one unit before you write the equation.<\/div>"}, {"lo": "LO2", "h": "Reading coefficients, terms and the constant", "html": "In a model such as 4<i>a<\/i> + 6<i>b<\/i> = 200 (cost of <i>a<\/i> apples and <i>b<\/i> bananas), each part has its own meaning:<div class=\"tscroll\"><table class=\"dtab\"><tr><th>Part<\/th><th>Meaning<\/th><\/tr><tr><td>4 (coefficient)<\/td><td>cost of <b>one<\/b> apple<\/td><\/tr><tr><td>6<i>b<\/i> (term)<\/td><td>total cost of <b>all<\/b> the bananas<\/td><\/tr><tr><td>200 (constant)<\/td><td>total amount spent on both<\/td><\/tr><tr><td>200 − 4<i>a<\/i><\/td><td>money left for bananas after buying the apples<\/td><\/tr><\/table><\/div>A coefficient is a rate: a per-item amount. A term is a rate times a quantity, so it is a total for one type. The constant on the other side is the grand total. Comparing coefficients compares the items: 6 − 4 = 2 means a banana costs $2 more than an apple, and <span class=\"fq\"><span>6<\/span><span>4<\/span><\/span> = 1.5 means a banana costs 1.5 times as much."}, {"lo": "LO2", "h": "Rearranged forms", "html": "The same model can be written in several equivalent ways. Solving 4<i>a<\/i> + 6<i>b<\/i> = 200 for <i>b<\/i> gives<div class=\"eqs\"><i>b<\/i> = <span class=\"fq\"><span>200 − 4<i>a<\/i><\/span><span>6<\/span><\/span>  or  <i>b<\/i> = <span class=\"fq\"><span>100<\/span><span>3<\/span><\/span> − <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span><i>a<\/i><\/div>Read rearranged forms piece by piece:<ul><li>The numerator 200 − 4<i>a<\/i> is the money left for bananas.<\/li><li>Dividing by 6 (the price of one banana) turns that money into a number of bananas.<\/li><li>The constant <span class=\"fq\"><span>100<\/span><span>3<\/span><\/span> is the number of bananas when <i>a<\/i> = 0, and the coefficient <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span> is how many fewer bananas you can buy for each extra apple.<\/li><\/ul>Multiplying or dividing every term by the same nonzero number gives an equivalent model, so 2<i>a<\/i> + 3<i>b<\/i> = 100 describes exactly the same purchases."}, {"lo": "LO3", "h": "Intercepts in context", "html": "An intercept is the case where one of the two quantities is zero.<div class=\"rule\">To find the <i>x<\/i>-intercept, set <i>y<\/i> = 0 and solve: <i>x<\/i> = <span class=\"fq\"><span><i>C<\/i><\/span><span><i>A<\/i><\/span><\/span>. To find the <i>y<\/i>-intercept, set <i>x<\/i> = 0: <i>y<\/i> = <span class=\"fq\"><span><i>C<\/i><\/span><span><i>B<\/i><\/span><\/span>.<\/div>For 4<i>a<\/i> + 6<i>b<\/i> = 200, the <i>a<\/i>-intercept is (50, 0): if no bananas are bought, 50 apples use the whole $200. The <i>b<\/i>-intercept is (0, <span class=\"fq\"><span>100<\/span><span>3<\/span><\/span>): about 33 bananas and no apples. An intercept is a <b>count of one item<\/b> when none of the other is bought, never a price or a total.<div class=\"tip\"><b>Desmos tip:<\/b> Type 4x + 6y = 200 into Desmos. Click the points where the line crosses each axis to read the intercepts. If a graph shows only the intercepts, a full-budget line through (<i>p<\/i>, 0) and (0, <i>q<\/i>) means each <i>x<\/i>-item costs <span class=\"fq\"><span><i>C<\/i><\/span><span><i>p<\/i><\/span><\/span> and each <i>y<\/i>-item costs <span class=\"fq\"><span><i>C<\/i><\/span><span><i>q<\/i><\/span><\/span>.<\/div>"}, {"lo": "LO3", "h": "The trade-off between the variables", "html": "If the total stays fixed, increasing one quantity forces the other to decrease. In <i>A<\/i><i>x<\/i> + <i>B<\/i><i>y<\/i> = <i>C<\/i>, raising <i>x<\/i> by 1 adds <i>A<\/i> to the left side, so By must fall by <i>A<\/i>, and <i>y<\/i> falls by <span class=\"fq\"><span><i>A<\/i><\/span><span><i>B<\/i><\/span><\/span>.<div class=\"rule\">Each extra unit of <i>x<\/i> costs <span class=\"fq\"><span><i>A<\/i><\/span><span><i>B<\/i><\/span><\/span> units of <i>y<\/i>. This is the size of the slope, −<span class=\"fq\"><span><i>A<\/i><\/span><span><i>B<\/i><\/span><\/span>.<\/div>Example: in 4<i>a<\/i> + 6<i>b<\/i> = 200, buying 3 more apples costs $12, which is the price of 2 bananas, so <i>b<\/i> drops by 2. Work with the actual change: change in <i>y<\/i> = −<i>A<\/i>·(change in <i>x<\/i>) ÷ <i>B<\/i>."}, {"lo": "LO4", "h": "Finding the missing quantity", "html": "When one quantity is known, substitute it and solve a one-variable equation.<div class=\"eqs\">7<i>r<\/i> + 11<i>w<\/i> = 320, <i>r<\/i> = 19<br>133 + 11<i>w<\/i> = 320  →  11<i>w<\/i> = 187  →  <i>w<\/i> = 17<\/div>Counts of objects must be whole numbers, so think about which way to round:<ul><li><b>Greatest number you can afford<\/b>: round <b>down<\/b>. Rounding up would go over budget.<\/li><li><b>Least number needed to reach a goal<\/b>: round <b>up<\/b>. Rounding down falls short.<\/li><\/ul>Check the rounded answer by substituting it back into the context.<div class=\"tip\"><b>Desmos tip:<\/b> Enter the equation and a vertical line such as x = 19, then tap the intersection to read the other value. For a whole-number question, compare the value with the integers on either side of it.<\/div>"}], "examples": [{"lo": "LO1", "q": "A bakery sells muffins for $3 each and scones for $5 each. One morning it sells <i>m<\/i> muffins and <i>s<\/i> scones and takes in $410. Write an equation that models this situation.", "steps": ["Money from muffins: $3 per muffin × <i>m<\/i> muffins = 3<i>m<\/i>.", "Money from scones: $5 per scone × <i>s<\/i> scones = 5<i>s<\/i>.", "The two amounts add up to the total: 3<i>m<\/i> + 5<i>s<\/i> = 410."], "ans": "3<i>m<\/i> + 5<i>s<\/i> = 410"}, {"lo": "LO2", "q": "A courier loads <i>p<\/i> parcels and <i>d<\/i> crates into a van. The total weight, in pounds, is given by 8<i>p<\/i> + 15<i>d<\/i> = 600. What does 15<i>d<\/i> represent?", "steps": ["15 is multiplied by <i>d<\/i>, the number of crates, so 15 is the weight of one crate in pounds.", "15<i>d<\/i> is (weight per crate) × (number of crates).", "So 15<i>d<\/i> is the combined weight of all the crates."], "ans": "The total weight, in pounds, of the <i>d<\/i> crates"}, {"lo": "LO3", "q": "A theater's ticket sales are modeled by 12<i>x<\/i> + 20<i>y<\/i> = 480, where <i>x<\/i> is the number of child tickets and <i>y<\/i> is the number of adult tickets sold for one show. Find the <i>y<\/i>-intercept and interpret it.", "steps": ["Set <i>x<\/i> = 0: 20<i>y<\/i> = 480.", "Divide: <i>y<\/i> = 24, so the intercept is (0, 24).", "<i>x<\/i> = 0 means no child tickets. So 24 adult tickets alone bring in the full $480."], "ans": "(0, 24): if no child tickets are sold, 24 adult tickets are sold."}, {"lo": "LO4", "q": "The equation 7<i>r<\/i> + 11<i>w<\/i> = 320 relates <i>r<\/i> and <i>w<\/i>. If <i>r<\/i> = 19, what is the value of <i>w<\/i>?", "steps": ["Substitute: 7(19) + 11<i>w<\/i> = 320, so 133 + 11<i>w<\/i> = 320.", "Subtract 133: 11<i>w<\/i> = 187.", "Divide by 11: <i>w<\/i> = 17."], "ans": "<i>w<\/i> = 17"}, {"lo": "LO3", "q": "A florist spends exactly $360 on roses at $4.50 each and lilies at $6 each. If she buys 4 more roses but still spends exactly $360, how must the number of lilies change?", "steps": ["Model: 4.5<i>r<\/i> + 6<i>l<\/i> = 360.", "4 more roses cost 4 × $4.50 = $18 more.", "To keep the total fixed, lilies must cost $18 less: 18 ÷ 6 = 3 lilies."], "ans": "She must buy 3 fewer lilies."}, {"lo": "LO4", "q": "Mia has $90 to spend on songs at $1.25 each and albums at $9.50 each. She buys exactly 10 songs. What is the greatest number of albums she can buy?", "steps": ["Model: 1.25<i>s<\/i> + 9.5<i>a<\/i> ≤ 90 when she stays within budget, with <i>s<\/i> = 10.", "Songs cost 1.25 × 10 = $12.50, leaving 90 − 12.50 = $77.50.", "77.50 ÷ 9.50 ≈ 8.16 albums. She can't buy part of an album, and 9 would cost $85.50 > $77.50.", "Round down: 8 albums (cost $76)."], "ans": "8 albums"}], "traps": ["Attaching each rate to the wrong variable, for example writing 5<i>m<\/i> + 3<i>s<\/i> when muffins cost $3 and <i>m<\/i> counts muffins.", "Forgetting to convert units (minutes vs hours, cents vs dollars, grams vs milligrams) or to subtract a one-time fee before writing the equation.", "Mixing up a coefficient and a term: in 4<i>a<\/i> + 6<i>b<\/i> = 200, the 6 is the price of one item, but 6<i>b<\/i> is the total spent on that item.", "Reading an intercept as a price or a total, when it is really the number of one item bought if none of the other is bought.", "Rounding a count to the nearest whole number instead of rounding down for a greatest-affordable count or up for a least-needed count."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "Pens cost $2 each and notebooks cost $5 each. Liam spends exactly $46 on <i>p<\/i> pens and <i>n<\/i> notebooks. Which equation models this situation?", "opts": ["2<i>p<\/i> + 5<i>n<\/i> = 46", "5<i>p<\/i> + 2<i>n<\/i> = 46", "7(<i>p<\/i> + <i>n<\/i>) = 46", "<i>p<\/i> + <i>n<\/i> = 46"], "ans": 0, "sol": "Pens: 2<i>p<\/i> dollars. Notebooks: 5<i>n<\/i> dollars. Their sum is the total spent. Answer: <b>2<i>p<\/i> + 5<i>n<\/i> = 46<\/b>", "hint": "Multiply each price by the number of that item bought, then add."}, {"lo": "LO4", "diff": "E", "type": "spr", "q": "If 3<i>x<\/i> + 4<i>y<\/i> = 52 and <i>x<\/i> = 8, what is the value of <i>y<\/i>?", "ans": ["7"], "sol": "3(8) + 4<i>y<\/i> = 52, so 4<i>y<\/i> = 28 and <i>y<\/i> = 7. Answer: <b>7<\/b>", "hint": "Replace x with 8, then solve the one-variable equation that is left."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "A school club raised money by selling <i>h<\/i> hats and <i>s<\/i> scarves. The equation 12<i>h<\/i> + 7<i>s<\/i> = 540 models the total amount raised, in dollars. What does 7 represent?", "opts": ["The number of scarves sold", "The total amount raised from scarves, in dollars", "The price of one scarf, in dollars", "The price of one hat, in dollars"], "ans": 2, "sol": "7 multiplies <i>s<\/i>, the number of scarves, so it is the dollar amount per scarf. Answer: <b>The price of one scarf, in dollars<\/b>", "hint": "Which variable is the 7 attached to? A number multiplying a count is a per-item amount."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "What is the <i>x<\/i>-intercept of the graph of 6<i>x<\/i> + 9<i>y<\/i> = 72 in the <i>xy<\/i>-plane?", "opts": ["(8, 0)", "(12, 0)", "(0, 8)", "(0, 12)"], "ans": 1, "sol": "Set <i>y<\/i> = 0: 6<i>x<\/i> = 72, so <i>x<\/i> = 12. Answer: <b>(12, 0)<\/b>", "hint": "On the x-axis, the value of y is 0."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A machine takes 3 minutes to make a large bracket and 2 minutes to make a small bracket. During an 8-hour shift it runs without a break and makes <i>L<\/i> large and <i>S<\/i> small brackets. Which equation models this situation?", "opts": ["3<i>L<\/i> + 2<i>S<\/i> = 8", "2<i>L<\/i> + 3<i>S<\/i> = 480", "<span class=\"fq\"><span><i>L<\/i><\/span><span>3<\/span><\/span> + <span class=\"fq\"><span><i>S<\/i><\/span><span>2<\/span><\/span> = 480", "3<i>L<\/i> + 2<i>S<\/i> = 480"], "ans": 3, "sol": "Time in minutes: 3<i>L<\/i> + 2<i>S<\/i>. The shift is 8 × 60 = 480 minutes. Answer: <b>3<i>L<\/i> + 2<i>S<\/i> = 480<\/b>", "hint": "The rates are in minutes, so the shift length must be in minutes too."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A rental shop's earnings for one day, in dollars, are modeled by 22<i>k<\/i> + 15<i>b<\/i> = 1320, where <i>k<\/i> is the number of kayak rentals and <i>b<\/i> is the number of bike rentals. What does 15<i>b<\/i> represent?", "opts": ["The amount earned from bike rentals, in dollars", "The number of bike rentals", "The price of one bike rental, in dollars", "The total amount earned from all rentals, in dollars"], "ans": 0, "sol": "15 is the price of one bike rental, and <i>b<\/i> is the number of bike rentals. Their product is the money earned from bikes. Answer: <b>The amount earned from bike rentals, in dollars<\/b>", "hint": "A term is (price per rental) × (number of rentals)."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A shop has a $2,000 budget to order <i>m<\/i> mugs at $25 each and <i>t<\/i> T-shirts at $40 each. Its options are modeled by 25<i>m<\/i> + 40<i>t<\/i> = 2000. What is the meaning of the <i>t<\/i>-intercept of the graph?", "opts": ["Each T-shirt costs $50.", "50 T-shirts and 80 mugs together cost $2,000.", "If no mugs are ordered, 50 T-shirts can be ordered.", "If no T-shirts are ordered, 50 mugs can be ordered."], "ans": 2, "sol": "At the <i>t<\/i>-intercept, <i>m<\/i> = 0: 40<i>t<\/i> = 2,000, so <i>t<\/i> = 50. Answer: <b>If no mugs are ordered, 50 T-shirts can be ordered.<\/b>", "hint": "On the t-axis, the other variable is 0. What does m = 0 mean in the story?"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "A theater sells adult tickets for $14 each and child tickets for $9 each. One evening it took in $1,070 and sold 52 adult tickets. How many child tickets did it sell?", "ans": ["38"], "sol": "14(52) = 728. Then 9<i>c<\/i> = 1,070 − 728 = 342, so <i>c<\/i> = 38. Answer: <b>38<\/b>", "hint": "Find the money from adult tickets first. What is left came from child tickets."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A plumber charges a $65 call-out fee, plus $48 per hour of labor and $12 for each part used. One bill was $377 for <i>h<\/i> hours of labor and <i>p<\/i> parts. Which equation models this bill?", "opts": ["48<i>h<\/i> + 12<i>p<\/i> = 377", "48<i>h<\/i> + 12<i>p<\/i> = 312", "113<i>h<\/i> + 12<i>p<\/i> = 377", "65<i>h<\/i> + 48<i>p<\/i> = 365"], "ans": 1, "sol": "65 + 48<i>h<\/i> + 12<i>p<\/i> = 377. Subtract the fee: 48<i>h<\/i> + 12<i>p<\/i> = 312. Answer: <b>48<i>h<\/i> + 12<i>p<\/i> = 312<\/b>", "hint": "The call-out fee is paid once, so it is not multiplied by anything."}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "A hiker packs <i>w<\/i> water bottles weighing 0.75 kg each and <i>f<\/i> food packs weighing 0.5 kg each, for a total of 9 kg: 0.75<i>w<\/i> + 0.5<i>f<\/i> = 9. If she packs 2 more water bottles and keeps the total at 9 kg, how does the number of food packs change?", "opts": ["It decreases by 1.5.", "It increases by 3.", "It decreases by <span class=\"fq\"><span>4<\/span><span>3<\/span><\/span>.", "It decreases by 3."], "ans": 3, "sol": "2 more bottles add 2 × 0.75 = 1.5 kg. Removing 1.5 kg of food means 1.5 ÷ 0.5 = 3 fewer packs. Answer: <b>It decreases by 3.<\/b>", "hint": "How much weight do the extra bottles add? How many food packs weigh that much?"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "Ana has $75 to spend on stickers that cost $1.80 each and posters that cost $6.50 each. She buys exactly 12 stickers. What is the greatest number of posters she can buy?", "ans": ["8"], "sol": "Stickers cost 12 × 1.80 = $21.60, leaving $53.40. 53.40 ÷ 6.50 ≈ 8.2, and 9 posters would cost $58.50, which is too much. Round down. Answer: <b>8<\/b>", "hint": "Work out the money left after the stickers, then decide which way to round."}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A caterer spends all of a $900 budget on <i>c<\/i> chafing dishes at $18 each and <i>d<\/i> trays at $12 each. The relationship is written as <i>d<\/i> = <span class=\"fq\"><span>900 − 18<i>c<\/i><\/span><span>12<\/span><\/span>. What does the expression 900 − 18<i>c<\/i> represent?", "opts": ["The money left for trays, in dollars, after the chafing dishes are bought", "The number of trays bought", "The cost of one tray, in dollars", "The total cost of the chafing dishes, in dollars"], "ans": 0, "sol": "18<i>c<\/i> is the cost of the chafing dishes. Subtracting it from 900 leaves the money for trays, and dividing by 12 turns that money into a number of trays. Answer: <b>The money left for trays, in dollars, after the chafing dishes are bought<\/b>", "hint": "What is 18c in dollars? What is left when you take it away from the whole budget?"}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "A farm stand sells apples for $0.60 per pound and pears for $0.85 per pound. A customer buys <i>a<\/i> pounds of apples and <i>r<\/i> pounds of pears for exactly $9.35. Which equation models this purchase?", "opts": ["0.85<i>a<\/i> + 0.60<i>r<\/i> = 9.35", "0.60<i>a<\/i> + 0.85<i>r<\/i> = 9.35", "1.45(<i>a<\/i> + <i>r<\/i>) = 9.35", "<i>a<\/i> + <i>r<\/i> = 9.35"], "ans": 1, "sol": "Cost of apples is 0.60<i>a<\/i>. Cost of pears is 0.85<i>r<\/i>. They add to 9.35. Answer: <b>0.60<i>a<\/i> + 0.85<i>r<\/i> = 9.35<\/b>"}, {"lo": "LO4", "diff": "E", "type": "spr", "q": "If 5<i>x<\/i> + 2<i>y<\/i> = 61 and <i>y<\/i> = 8, what is the value of <i>x<\/i>?", "ans": ["9"], "sol": "5<i>x<\/i> + 16 = 61, so 5<i>x<\/i> = 45 and <i>x<\/i> = 9. Answer: <b>9<\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "A gardener buys <i>t<\/i> tulip bulbs and <i>l<\/i> lily bulbs. The total cost, in dollars, is given by 0.9<i>t<\/i> + 2.4<i>l<\/i> = 63. What does 2.4 represent?", "opts": ["The number of lily bulbs bought", "The total cost of the lily bulbs, in dollars", "The cost of one tulip bulb, in dollars", "The cost of one lily bulb, in dollars"], "ans": 3, "sol": "2.4 multiplies <i>l<\/i>, the number of lily bulbs, so it is the price of one lily bulb. Answer: <b>The cost of one lily bulb, in dollars<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "What is the <i>y<\/i>-intercept of the graph of 4<i>x<\/i> + 10<i>y<\/i> = 90 in the <i>xy<\/i>-plane?", "opts": ["(0, 9)", "(0, 22.5)", "(9, 0)", "(0, 90)"], "ans": 0, "sol": "Set <i>x<\/i> = 0: 10<i>y<\/i> = 90, so <i>y<\/i> = 9. Answer: <b>(0, 9)<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Each small box holds 6 jars and each large box holds 15 jars. A shipment of <i>s<\/i> small boxes and <i>g<\/i> large boxes holds 255 jars in all. Which equation models this situation?", "opts": ["15<i>s<\/i> + 6<i>g<\/i> = 255", "<i>s<\/i> + <i>g<\/i> = 255", "6<i>s<\/i> + 15<i>g<\/i> = 255", "6<i>s<\/i> − 15<i>g<\/i> = 255"], "ans": 2, "sol": "Small boxes hold 6<i>s<\/i> jars and large boxes hold 15<i>g<\/i> jars. The total is 255. Answer: <b>6<i>s<\/i> + 15<i>g<\/i> = 255<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "In the equation 3<i>m<\/i> + 7<i>k<\/i> = 100, what is the value of <i>m<\/i> when <i>k<\/i> = 10?", "opts": ["10", "30", "70", "<span class=\"fq\"><span>110<\/span><span>3<\/span><\/span>"], "ans": 0, "sol": "3<i>m<\/i> + 70 = 100, so 3<i>m<\/i> = 30 and <i>m<\/i> = 10. Answer: <b>10<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Postcard stamps cost 56 cents each and letter stamps cost 73 cents each. Mara spends $20.08 on <i>p<\/i> postcard stamps and <i>q<\/i> letter stamps. Which equation models this situation?", "opts": ["56<i>p<\/i> + 73<i>q<\/i> = 20.08", "0.56<i>p<\/i> + 0.73<i>q<\/i> = 20.08", "56<i>p<\/i> + 0.73<i>q<\/i> = 20.08", "0.56<i>p<\/i> + 0.73<i>q<\/i> = 2008"], "ans": 1, "sol": "Measure everything in dollars: 56 cents = $0.56 and 73 cents = $0.73. So 0.56<i>p<\/i> + 0.73<i>q<\/i> = 20.08. Answer: <b>0.56<i>p<\/i> + 0.73<i>q<\/i> = 20.08<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A tank is filled with 1,400 gallons of water by running pump A for <i>a<\/i> minutes and pump B for <i>b<\/i> minutes, one after the other. The equation 35<i>a<\/i> + 50<i>b<\/i> = 1400 models the filling. What is the best interpretation of 50?", "opts": ["Pump B runs for 50 minutes.", "The two pumps together pump 50 gallons per minute.", "Pump B pumps 50 gallons per minute.", "Pump B pumps a total of 50 gallons."], "ans": 2, "sol": "50 multiplies <i>b<\/i>, the minutes pump B runs, and the product is gallons. So 50 is gallons per minute for pump B. Answer: <b>Pump B pumps 50 gallons per minute.<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "A van can carry 1,800 pounds of cargo. Boxes of tiles weigh 60 pounds each and bags of cement weigh 90 pounds each. A full load of <i>t<\/i> boxes and <i>c<\/i> bags satisfies 60<i>t<\/i> + 90<i>c<\/i> = 1800. What is the meaning of the <i>c<\/i>-intercept of the graph?", "opts": ["If no boxes of tiles are loaded, the van can carry 30 bags of cement.", "If no bags of cement are loaded, the van can carry 20 boxes of tiles.", "Each bag of cement weighs 20 pounds.", "If no boxes of tiles are loaded, the van can carry 20 bags of cement."], "ans": 3, "sol": "At the <i>c<\/i>-intercept, <i>t<\/i> = 0: 90<i>c<\/i> = 1,800, so <i>c<\/i> = 20. Answer: <b>If no boxes of tiles are loaded, the van can carry 20 bags of cement.<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "A library spent $1,116 on hardcover books that cost $28 each and paperback books that cost $12 each. It bought 30 paperbacks. How many hardcover books did it buy?", "ans": ["27"], "sol": "Paperbacks cost 12 × 30 = $360. Then 28<i>h<\/i> = 1,116 − 360 = 756, so <i>h<\/i> = 27. Answer: <b>27<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "In a trivia game, a player earns 4 points for each correct answer and loses 1 point for each wrong answer. Jo finished with 38 points after giving <i>c<\/i> correct answers and <i>w<\/i> wrong answers. Which equation models Jo's score?", "opts": ["4<i>c<\/i> − <i>w<\/i> = 38", "4<i>c<\/i> + <i>w<\/i> = 38", "4(<i>c<\/i> − <i>w<\/i>) = 38", "<i>c<\/i> − 4<i>w<\/i> = 38"], "ans": 0, "sol": "Correct answers add 4<i>c<\/i> points. Wrong answers take away 1 point each, so subtract <i>w<\/i>. Answer: <b>4<i>c<\/i> − <i>w<\/i> = 38<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A phone card has $30 of credit. Domestic calls cost $0.25 per minute and international calls cost $0.40 per minute. Using all the credit is modeled by 0.25<i>d<\/i> + 0.40<i>n<\/i> = 30, where <i>d<\/i> and <i>n<\/i> are minutes of domestic and international calls. Which expression gives the credit, in dollars, left after <i>d<\/i> minutes of domestic calls?", "opts": ["30 − 0.40<i>d<\/i>", "30 − 0.25<i>d<\/i>", "0.25<i>d<\/i> − 30", "<span class=\"fq\"><span>30 − 0.25<i>d<\/i><\/span><span>0.40<\/span><\/span>"], "ans": 1, "sol": "Domestic calls use 0.25<i>d<\/i> dollars. Take that away from $30. (Dividing by 0.40 would give minutes, not dollars.) Answer: <b>30 − 0.25<i>d<\/i><\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "The graph of 14<i>x<\/i> + 35<i>y<\/i> = 980 in the <i>xy<\/i>-plane crosses the <i>x<\/i>-axis at the point (<i>a<\/i>, 0). What is the value of <i>a<\/i>?", "ans": ["70"], "sol": "Set <i>y<\/i> = 0: 14<i>x<\/i> = 980, so <i>x<\/i> = 70. Answer: <b>70<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "A bakery uses 2.5 cups of flour for each loaf of bread and 0.75 cup of flour for each batch of cookies. One day it used 61 cups of flour to make 19 loaves and <i>k<\/i> batches of cookies. What is the value of <i>k<\/i>?", "opts": ["13.5", "5.4", "18", "47.5"], "ans": 2, "sol": "Bread uses 2.5 × 19 = 47.5 cups, leaving 61 − 47.5 = 13.5 cups for cookies. 13.5 ÷ 0.75 = 18. Answer: <b>18<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Kai can spend all of his $120 gift card on 8 books and no games, or on 5 games and no books. Each book costs the same and each game costs the same. Which equation relates the number of books, <i>b<\/i>, and games, <i>g<\/i>, he can buy using the whole card?", "opts": ["8<i>b<\/i> + 5<i>g<\/i> = 120", "24<i>b<\/i> + 15<i>g<\/i> = 120", "5<i>b<\/i> + 8<i>g<\/i> = 120", "15<i>b<\/i> + 24<i>g<\/i> = 120"], "ans": 3, "sol": "A book costs 120 ÷ 8 = $15 and a game costs 120 ÷ 5 = $24. So 15<i>b<\/i> + 24<i>g<\/i> = 120. Answer: <b>15<i>b<\/i> + 24<i>g<\/i> = 120<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A caterer prepares <i>x<\/i> vegetarian meals at a cost of $9 each and <i>y<\/i> chicken meals at a cost of $13 each. The equation 9<i>x<\/i> + 13<i>y<\/i> = 1170 models one event. What does 1,170 represent?", "opts": ["The total number of meals prepared", "The total cost, in dollars, of all the meals", "The total cost, in dollars, of the chicken meals", "The difference in cost between the two kinds of meals"], "ans": 1, "sol": "The left side adds the cost of vegetarian meals and the cost of chicken meals, so 1,170 is the total cost. Answer: <b>The total cost, in dollars, of all the meals<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "The points (<i>p<\/i>, <i>q<\/i>) and (<i>p<\/i> + 5, <i>r<\/i>) both lie on the graph of 6<i>x<\/i> + 15<i>y<\/i> = 210. What is the value of <i>r<\/i> − <i>q<\/i>?", "ans": ["-2"], "sol": "Increasing <i>x<\/i> by 5 adds 6 × 5 = 30 to the left side, so 15<i>y<\/i> must drop by 30 and <i>y<\/i> drops by 2. Answer: <b>−2<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A club sells candles for $12 each and bars of soap for $7.50 each. It has sold 95 bars of soap. What is the least number of candles it must sell to raise at least $2,000 in total?", "ans": ["108"], "sol": "Soap brought in 95 × 7.50 = $712.50, so candles must bring in at least $1,287.50. 1,287.50 ÷ 12 ≈ 107.3, and 107 candles give only $1,996.50 in total. Round up. Answer: <b>108<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A chemist mixes <i>x<\/i> liters of a solution that is 20% acid with <i>y<\/i> liters of a solution that is 45% acid. The mixture contains exactly 9 liters of pure acid. Which equation models this situation?", "opts": ["20<i>x<\/i> + 45<i>y<\/i> = 9", "0.45<i>x<\/i> + 0.20<i>y<\/i> = 9", "0.20<i>x<\/i> + 0.45<i>y<\/i> = 9", "0.20<i>x<\/i> + 0.45<i>y<\/i> = 0.09"], "ans": 2, "sol": "Pure acid from each solution is (percent as a decimal) × (liters): 0.20<i>x<\/i> and 0.45<i>y<\/i>. Together they make 9 liters. Answer: <b>0.20<i>x<\/i> + 0.45<i>y<\/i> = 9<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "An investor puts <i>m<\/i> dollars in an account that earns 8% simple annual interest and <i>n<\/i> dollars in an account that earns 5% simple annual interest. The equation 0.08<i>m<\/i> + 0.05<i>n<\/i> = 610 describes her investments. What does 610 represent?", "opts": ["The total interest, in dollars, earned by both accounts in one year", "The total amount, in dollars, invested in both accounts", "The interest, in dollars, earned in one year by the 8% account", "The total balance, in dollars, of both accounts after one year"], "ans": 0, "sol": "0.08<i>m<\/i> is one year's interest on the first account and 0.05<i>n<\/i> is one year's interest on the second, so 610 is the combined interest. Answer: <b>The total interest, in dollars, earned by both accounts in one year<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "A traveler cycles for <i>h<\/i> hours at 18 kilometers per hour and then walks for <i>w<\/i> hours at 5 kilometers per hour, covering 61 kilometers in all. Which equation models this trip?", "opts": ["<span class=\"fq\"><span><i>h<\/i><\/span><span>18<\/span><\/span> + <span class=\"fq\"><span><i>w<\/i><\/span><span>5<\/span><\/span> = 61", "5<i>h<\/i> + 18<i>w<\/i> = 61", "18<i>h<\/i> + 5<i>w<\/i> = 61", "23(<i>h<\/i> + <i>w<\/i>) = 61"], "ans": 2, "sol": "Distance = rate × time: 18<i>h<\/i> km cycling plus 5<i>w<\/i> km walking equals 61 km. Answer: <b>18<i>h<\/i> + 5<i>w<\/i> = 61<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "In a quiz contest, a team's final score is given by 10<i>r<\/i> − 3<i>w<\/i> = 94, where <i>r<\/i> is the number of right answers and <i>w<\/i> is the number of wrong answers. What does 3 represent?", "opts": ["The number of points lost for each wrong answer", "The number of wrong answers", "The number of points earned for each right answer", "The total number of points lost for wrong answers"], "ans": 0, "sol": "3 multiplies <i>w<\/i> and the term is subtracted, so each wrong answer costs 3 points. (3<i>w<\/i> would be the total lost.) Answer: <b>The number of points lost for each wrong answer<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "At what point does the graph of 9<i>x<\/i> − 12<i>y<\/i> = 108 intersect the <i>y<\/i>-axis?", "opts": ["(0, 9)", "(12, 0)", "(0, −12)", "(0, −9)"], "ans": 3, "sol": "Set <i>x<\/i> = 0: −12<i>y<\/i> = 108, so <i>y<\/i> = −9. Answer: <b>(0, −9)<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "A cooler is packed with 18.6 liters of drinks: <i>b<\/i> bottles holding 1.5 liters each and <i>c<\/i> cans holding 0.33 liter each. If there are 8 bottles, how many cans are there?", "ans": ["20"], "sol": "Bottles hold 8 × 1.5 = 12 liters, leaving 6.6 liters. 6.6 ÷ 0.33 = 20. Answer: <b>20<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A patient's daily dose of 1,350 milligrams of a medicine is made up of <i>t<\/i> tablets containing 250 milligrams each and <i>c<\/i> capsules containing 0.1 gram each. Which equation models the daily dose? (1 gram = 1,000 milligrams)", "opts": ["250<i>t<\/i> + 0.1<i>c<\/i> = 1350", "250<i>t<\/i> + 100<i>c<\/i> = 1350", "0.25<i>t<\/i> + 100<i>c<\/i> = 1350", "250<i>t<\/i> + 100<i>c<\/i> = 1.35"], "ans": 1, "sol": "Convert the capsules: 0.1 gram = 100 mg. Then 250<i>t<\/i> + 100<i>c<\/i> = 1,350 in milligrams. Answer: <b>250<i>t<\/i> + 100<i>c<\/i> = 1350<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A repair shop's wage bill for one job is modeled by 40<i>x<\/i> + 25<i>y<\/i> = 1000, where <i>x<\/i> is the number of hours a technician works and <i>y<\/i> is the number of hours an assistant works, and 1,000 is the total wages in dollars. Which statement is true?", "opts": ["The technician works 15 more hours than the assistant.", "The assistant earns $40 per hour.", "The technician earns $15 more per hour than the assistant.", "Together the technician and the assistant work 1,000 hours."], "ans": 2, "sol": "The coefficients are hourly wages: the technician earns $40 per hour and the assistant earns $25 per hour. 40 − 25 = 15. Answer: <b>The technician earns $15 more per hour than the assistant.<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "With its whole budget, a store can buy 36 small frames and no large frames, or 12 large frames and no small frames. Each small frame costs the same and each large frame costs the same. Which equation could model the numbers of small frames, <i>s<\/i>, and large frames, <i>l<\/i>, that use the whole budget?", "opts": ["5<i>s<\/i> + 15<i>l<\/i> = 180", "15<i>s<\/i> + 5<i>l<\/i> = 180", "36<i>s<\/i> + 12<i>l<\/i> = 432", "3<i>s<\/i> + <i>l<\/i> = 36"], "ans": 0, "sol": "The line must pass through (36, 0) and (0, 12). Check: 5(36) = 180 and 15(12) = 180. Each other choice gives <i>s<\/i> = 12 when <i>l<\/i> = 0. Answer: <b>5<i>s<\/i> + 15<i>l<\/i> = 180<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A bakery's daily ingredient spending is modeled by 3.6<i>b<\/i> + 2.4<i>r<\/i> = 720, where <i>b<\/i> is the number of loaves and <i>r<\/i> is the number of trays of rolls it makes. Which statement best interprets the fact that <span class=\"fq\"><span>3.6<\/span><span>2.4<\/span><\/span> = 1.5?", "opts": ["The bakery makes 1.5 times as many loaves as trays of rolls.", "The ingredients for one tray of rolls cost 1.5 times as much as the ingredients for one loaf.", "The ingredients for one loaf cost $1.50 more than the ingredients for one tray of rolls.", "The ingredients for one loaf cost 1.5 times as much as the ingredients for one tray of rolls."], "ans": 3, "sol": "3.6 and 2.4 are costs per item, so their ratio compares the item costs: 3.6 = 1.5 × 2.4. (The difference is $1.20, not $1.50.) Answer: <b>The ingredients for one loaf cost 1.5 times as much as the ingredients for one tray of rolls.<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "A team spends its entire $1,500 budget on a $300 league fee, <i>u<\/i> uniforms at $40 each and <i>b<\/i> balls at $25 each, so 300 + 40<i>u<\/i> + 25<i>b<\/i> = 1500. What is the <i>u<\/i>-intercept of the graph of this equation, and what does it mean?", "opts": ["(37.5, 0): with no balls, the team can buy 37.5 uniforms.", "(30, 0): with no balls, the team can buy 30 uniforms.", "(48, 0): with no balls, the team can buy 48 uniforms.", "(0, 30): with no uniforms, the team can buy 30 balls."], "ans": 1, "sol": "Set <i>b<\/i> = 0: 300 + 40<i>u<\/i> = 1,500, so 40<i>u<\/i> = 1,200 and <i>u<\/i> = 30. Answer: <b>(30, 0): with no balls, the team can buy 30 uniforms.<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "An elevator can carry at most 2,000 pounds. A worker who weighs 190 pounds rides with 12 dollies weighing 28 pounds each and <i>c<\/i> crates weighing 45 pounds each. What is the greatest possible value of <i>c<\/i>?", "ans": ["32"], "sol": "190 + 12(28) = 526 pounds, leaving 1,474 pounds. 1,474 ÷ 45 ≈ 32.8, and 33 crates would weigh 1,485 pounds, which is too much. Round down. Answer: <b>32<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Ravi earns $16 per hour for regular hours and time-and-a-half (1.5 times his regular rate) for overtime hours. Last month he worked <i>x<\/i> regular hours and <i>y<\/i> overtime hours and earned $1,056. Which equation models his earnings?", "opts": ["16<i>x<\/i> + 1.5<i>y<\/i> = 1056", "24<i>x<\/i> + 16<i>y<\/i> = 1056", "16<i>x<\/i> + 24<i>y<\/i> = 1056", "16<i>x<\/i> + 17.5<i>y<\/i> = 1056"], "ans": 2, "sol": "The overtime rate is 1.5 × 16 = $24 per hour. So 16<i>x<\/i> + 24<i>y<\/i> = 1,056. Answer: <b>16<i>x<\/i> + 24<i>y<\/i> = 1056<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A 50-liter container is filled using <i>p<\/i> pitchers that hold 1.25 liters each and <i>b<\/i> bottles that hold 0.5 liter each. The relationship can be written <i>b<\/i> = 100 − 2.5<i>p<\/i>. What does 2.5 represent?", "opts": ["For each additional pitcher used, 2.5 fewer bottles are needed.", "Each pitcher holds 2.5 liters.", "Each bottle holds 2.5 liters.", "It takes 2.5 pitchers to fill the container."], "ans": 0, "sol": "From 1.25<i>p<\/i> + 0.5<i>b<\/i> = 50, <i>b<\/i> = 100 − 2.5<i>p<\/i>. One pitcher holds as much as 1.25 ÷ 0.5 = 2.5 bottles, so each extra pitcher replaces 2.5 bottles. Answer: <b>For each additional pitcher used, 2.5 fewer bottles are needed.<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "The graph of 0.15<i>x<\/i> + 0.4<i>y<\/i> = 12 in the <i>xy<\/i>-plane has an <i>x<\/i>-intercept at (<i>a<\/i>, 0) and a <i>y<\/i>-intercept at (0, <i>b<\/i>). What is the value of <i>a<\/i> + <i>b<\/i>?", "ans": ["110"], "sol": "<i>a<\/i> = 12 ÷ 0.15 = 80 and <i>b<\/i> = 12 ÷ 0.4 = 30, so <i>a<\/i> + <i>b<\/i> = 110. Answer: <b>110<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "The point (2<i>k<\/i>, <i>k<\/i> − 3) lies on the graph of 5<i>x<\/i> − 4<i>y<\/i> = 51. What is the value of <i>k<\/i>?", "opts": ["10.5", "8.5", "3.9", "6.5"], "ans": 3, "sol": "5(2<i>k<\/i>) − 4(<i>k<\/i> − 3) = 51 gives 10<i>k<\/i> − 4<i>k<\/i> + 12 = 51, so 6<i>k<\/i> = 39 and <i>k<\/i> = 6.5. Answer: <b>6.5<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "A farmer uses 260 feet of fencing to enclose a rectangular pen against a long barn wall. The wall forms one length of the pen, so it needs no fence. If <i>L<\/i> is the length of the pen and <i>W<\/i> is its width, in feet, which equation models the fencing used?", "opts": ["2<i>L<\/i> + 2<i>W<\/i> = 260", "<i>L<\/i> + 2<i>W<\/i> = 260", "2<i>L<\/i> + <i>W<\/i> = 260", "LW = 260"], "ans": 1, "sol": "Fence is needed on one length and both widths: <i>L<\/i> + <i>W<\/i> + <i>W<\/i> = 260. Answer: <b><i>L<\/i> + 2<i>W<\/i> = 260<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Nia earns $1,000 by working <i>x<\/i> hours at job A and <i>y<\/i> hours at job B. Each job pays a fixed hourly rate. The graph shows all the combinations of hours that earn exactly $1,000. Which equation does the graph represent?<svg class=\"fig\" viewBox=\"0 0 300 250\" role=\"img\" aria-label=\"Line in the first quadrant from (0, 40) on the y-axis to (50, 0) on the x-axis, with grid lines every 10 units\"><g class=\"fg-grid\"><line x1=\"84\" y1=\"40\" x2=\"84\" y2=\"200\"/><line x1=\"128\" y1=\"40\" x2=\"128\" y2=\"200\"/><line x1=\"172\" y1=\"40\" x2=\"172\" y2=\"200\"/><line x1=\"216\" y1=\"40\" x2=\"216\" y2=\"200\"/><line x1=\"260\" y1=\"40\" x2=\"260\" y2=\"200\"/><line x1=\"40\" y1=\"160\" x2=\"260\" y2=\"160\"/><line x1=\"40\" y1=\"120\" x2=\"260\" y2=\"120\"/><line x1=\"40\" y1=\"80\" x2=\"260\" y2=\"80\"/><line x1=\"40\" y1=\"40\" x2=\"260\" y2=\"40\"/><\/g><line class=\"fg-axis\" x1=\"40\" y1=\"200\" x2=\"270\" y2=\"200\"/><line class=\"fg-axis\" x1=\"40\" y1=\"200\" x2=\"40\" y2=\"30\"/><line class=\"fg-fit\" x1=\"40\" y1=\"40\" x2=\"260\" y2=\"200\"/><g class=\"fg-pts\"><circle cx=\"40\" cy=\"40\" r=\"3.5\"/><circle cx=\"260\" cy=\"200\" r=\"3.5\"/><\/g><g class=\"fg-lab\"><text x=\"84\" y=\"216\" text-anchor=\"middle\">10<\/text><text x=\"128\" y=\"216\" text-anchor=\"middle\">20<\/text><text x=\"172\" y=\"216\" text-anchor=\"middle\">30<\/text><text x=\"216\" y=\"216\" text-anchor=\"middle\">40<\/text><text x=\"260\" y=\"216\" text-anchor=\"middle\">50<\/text><text x=\"32\" y=\"164\" text-anchor=\"end\">10<\/text><text x=\"32\" y=\"124\" text-anchor=\"end\">20<\/text><text x=\"32\" y=\"84\" text-anchor=\"end\">30<\/text><text x=\"32\" y=\"44\" text-anchor=\"end\">40<\/text><text x=\"32\" y=\"216\" text-anchor=\"end\">0<\/text><text x=\"275\" y=\"204\">x<\/text><text x=\"36\" y=\"24\">y<\/text><\/g><\/svg>", "opts": ["25<i>x<\/i> + 20<i>y<\/i> = 1000", "50<i>x<\/i> + 40<i>y<\/i> = 1000", "20<i>x<\/i> + 25<i>y<\/i> = 1000", "40<i>x<\/i> + 50<i>y<\/i> = 1000"], "ans": 2, "sol": "The intercepts are (50, 0) and (0, 40). Job A pays 1,000 ÷ 50 = $20 per hour and job B pays 1,000 ÷ 40 = $25 per hour. Answer: <b>20<i>x<\/i> + 25<i>y<\/i> = 1000<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "A landscaper spends exactly $210 on <i>r<\/i> shrubs that cost $6 each and <i>t<\/i> flats of ground cover that cost $4 each, buying at least one of each. How many different pairs (<i>r<\/i>, <i>t<\/i>) are possible?", "ans": ["17"], "sol": "6<i>r<\/i> + 4<i>t<\/i> = 210 becomes 3<i>r<\/i> + 2<i>t<\/i> = 105. Since 105 is odd, <i>r<\/i> must be odd. <i>t<\/i> ≥ 1 needs 3<i>r<\/i> ≤ 103, so <i>r<\/i> ≤ 34. The odd values 1, 3, …, 33 give 17 pairs. Answer: <b>17<\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "A theater's ticket revenue, in dollars, is <i>R<\/i> = 15<i>a<\/i> + 9<i>s<\/i>, where <i>a<\/i> is the number of adult tickets and <i>s<\/i> is the number of student tickets sold. On Friday the revenue was $3,000. On Saturday the theater sold 20 more adult tickets and 30 fewer student tickets than on Friday, at the same prices. What was Saturday's revenue?", "opts": ["$3,030", "$2,970", "$3,570", "$3,000"], "ans": 0, "sol": "The change is 15(20) + 9(−30) = 300 − 270 = 30 dollars. Saturday: 3,000 + 30 = $3,030. Answer: <b>$3,030<\/b>"}, {"lo": "LO1", "diff": "X", "type": "mcq", "q": "A machine fills large jars at a rate of 40 jars per hour or small jars at a rate of 64 jars per hour, but it cannot fill both kinds at once. In a 10-hour day it fills <i>L<\/i> large jars and <i>S<\/i> small jars. Which equation models this situation?", "opts": ["40<i>L<\/i> + 64<i>S<\/i> = 10", "8<i>L<\/i> + 5<i>S<\/i> = 3200", "5<i>L<\/i> + 8<i>S<\/i> = 3200", "40<i>L<\/i> + 64<i>S<\/i> = 600"], "ans": 1, "sol": "Time: <span class=\"fq\"><span><i>L<\/i><\/span><span>40<\/span><\/span> + <span class=\"fq\"><span><i>S<\/i><\/span><span>64<\/span><\/span> = 10 hours. Multiply every term by 320: 8<i>L<\/i> + 5<i>S<\/i> = 3,200. Answer: <b>8<i>L<\/i> + 5<i>S<\/i> = 3200<\/b>"}, {"lo": "LO3", "diff": "X", "type": "spr", "q": "In the <i>xy<\/i>-plane, the graph of 6<i>x<\/i> + <i>k<\/i><i>y<\/i> = 96, where <i>k<\/i> is a positive constant, forms a triangle with the <i>x<\/i>-axis and the <i>y<\/i>-axis. The area of this triangle is 192 square units. What is the value of <i>k<\/i>?", "ans": ["4"], "sol": "The <i>x<\/i>-intercept is 96 ÷ 6 = 16 and the <i>y<\/i>-intercept is <span class=\"fq\"><span>96<\/span><span><i>k<\/i><\/span><\/span>. Area = ½ · 16 · <span class=\"fq\"><span>96<\/span><span><i>k<\/i><\/span><\/span> = <span class=\"fq\"><span>768<\/span><span><i>k<\/i><\/span><\/span> = 192, so <i>k<\/i> = 4. Answer: <b>4<\/b>"}], "unit_no": 1, "topic_no": "2", "code": "2.3"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

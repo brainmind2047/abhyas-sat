@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1.1 Polynomial operations and factoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .concept .rule{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0; font-weight:600;}
+  .concept .tip{border-left:3px solid var(--accent-text); padding:4px 0 4px 12px; margin:10px 0; color:var(--ink-soft);}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ADV-1.1", "unit": "Advanced Math", "topic": "Equivalent expressions", "title": "Polynomial operations and factoring", "intro": "Polynomial operations are the algebra behind almost every Advanced Math question: you add, subtract and multiply polynomials, and you reverse multiplication by factoring. On the DSAT these skills appear directly, as questions asking which expression is equivalent to a given one or for an unknown coefficient in an identity, and indirectly whenever a quadratic must be factored or simplified on the way to an answer.", "los": [{"id": "LO1", "text": "Add, subtract and multiply polynomials, including the special products of binomials."}, {"id": "LO2", "text": "Factor polynomials by taking out the greatest common factor and by factoring trinomials with a leading coefficient of 1 or other than 1."}, {"id": "LO3", "text": "Recognize and factor differences of squares and perfect-square trinomials, and factor four-term polynomials by grouping."}, {"id": "LO4", "text": "Determine unknown coefficients in polynomial identities and identify equivalent forms of an expression using structure."}], "notes": [{"lo": "LO1", "h": "Adding and subtracting polynomials", "html": "<p>A polynomial is a sum of terms such as 3<i>x<\/i><sup>2<\/sup>, −5<i>x<\/i> and 7. <b>Like terms<\/b> have the same variable raised to the same power, and only like terms can be combined: add or subtract their coefficients and keep the variable part unchanged.<\/p><div class=\"eqs\">(4<i>x<\/i><sup>2<\/sup> + 3<i>x<\/i> − 2) + (<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 6) = 5<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 4<\/div><p>Subtraction needs one extra step. The minus sign in front of the second polynomial applies to <i>every<\/i> term inside it, so rewrite the subtraction as adding the opposite of each term.<\/p><div class=\"eqs\">(6<i>x<\/i><sup>2<\/sup> − <i>x<\/i> + 4) − (2<i>x<\/i><sup>2<\/sup> + 3<i>x<\/i> − 5)<br>= 6<i>x<\/i><sup>2<\/sup> − <i>x<\/i> + 4 − 2<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> + 5<br>= 4<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 9<\/div><div class=\"rule\">When you subtract a polynomial, change the sign of every one of its terms, then combine like terms.<\/div><p>Never add exponents when you add terms: <i>x<\/i><sup>2<\/sup> + <i>x<\/i><sup>2<\/sup> = 2<i>x<\/i><sup>2<\/sup>, not <i>x<\/i><sup>4<\/sup>. Exponents are added only when powers of the same variable are multiplied.<\/p>"}, {"lo": "LO1", "h": "Multiplying polynomials", "html": "<p>To multiply two polynomials, multiply <i>each<\/i> term of the first by <i>each<\/i> term of the second, then combine like terms. For two binomials this gives four products (first, outer, inner, last).<\/p><div class=\"eqs\">(2<i>x<\/i> + 3)(<i>x<\/i> − 4) = 2<i>x<\/i><sup>2<\/sup> − 8<i>x<\/i> + 3<i>x<\/i> − 12 = 2<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 12<\/div><p>A binomial times a trinomial gives six products. A small grid keeps them organized: write one polynomial across the top and the other down the side, fill in each cell, then add like terms.<\/p><p>Three special products appear so often that it pays to know them by heart.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Product<\/th><th>Expanded form<\/th><\/tr><tr><td>(<i>a<\/i> + <i>b<\/i>)<sup>2<\/sup><\/td><td><i>a<\/i><sup>2<\/sup> + 2<i>a<\/i><i>b<\/i> + <i>b<\/i><sup>2<\/sup><\/td><\/tr><tr><td>(<i>a<\/i> − <i>b<\/i>)<sup>2<\/sup><\/td><td><i>a<\/i><sup>2<\/sup> − 2<i>a<\/i><i>b<\/i> + <i>b<\/i><sup>2<\/sup><\/td><\/tr><tr><td>(<i>a<\/i> + <i>b<\/i>)(<i>a<\/i> − <i>b<\/i>)<\/td><td><i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup><\/td><\/tr><\/table><\/div><div class=\"rule\">(<i>a<\/i> + <i>b<\/i>)<sup>2<\/sup> is not <i>a<\/i><sup>2<\/sup> + <i>b<\/i><sup>2<\/sup>. The middle term 2<i>a<\/i><i>b<\/i> is always there.<\/div>"}, {"lo": "LO2", "h": "Taking out the greatest common factor", "html": "<p>Factoring reverses multiplication: it rewrites a sum as a product. Always begin by looking for the <b>greatest common factor<\/b> (GCF), the largest expression that divides every term.<\/p><ul><li>For the number part, take the greatest common factor of the coefficients.<\/li><li>For each variable, take the <b>lowest<\/b> power that appears in every term.<\/li><\/ul><div class=\"eqs\">18<i>x<\/i><sup>4<\/sup> − 12<i>x<\/i><sup>3<\/sup> + 6<i>x<\/i><sup>2<\/sup> = 6<i>x<\/i><sup>2<\/sup>(3<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 1)<\/div><p>Look at the last term: 6<i>x<\/i><sup>2<\/sup> ÷ 6<i>x<\/i><sup>2<\/sup> = 1, so a 1 stays inside the parentheses. Leaving it out is a common slip.<\/p><p>The GCF can also be a binomial. In <i>x<\/i>(<i>x<\/i> − 5) + 4(<i>x<\/i> − 5), the common factor is (<i>x<\/i> − 5), so the expression equals (<i>x<\/i> − 5)(<i>x<\/i> + 4).<\/p><div class=\"tip\">You can always check a factorization by multiplying it back out. On the DSAT this takes seconds and catches the sign errors that wrong answer choices are built on.<\/div>"}, {"lo": "LO2", "h": "Trinomials with leading coefficient 1", "html": "<p>To factor <i>x<\/i><sup>2<\/sup> + <i>b<\/i><i>x<\/i> + <i>c<\/i>, look for two numbers that <b>multiply to <i>c<\/i><\/b> and <b>add to <i>b<\/i><\/b>. Those numbers go into the two binomials.<\/p><div class=\"eqs\"><i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 15: product −15, sum 2, so the numbers are 5 and −3<br><i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 15 = (<i>x<\/i> + 5)(<i>x<\/i> − 3)<\/div><p>The signs of <i>b<\/i> and <i>c<\/i> tell you where to search.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Sign of <i>c<\/i><\/th><th>Sign of <i>b<\/i><\/th><th>The two numbers<\/th><\/tr><tr><td>positive<\/td><td>positive<\/td><td>both positive<\/td><\/tr><tr><td>positive<\/td><td>negative<\/td><td>both negative<\/td><\/tr><tr><td>negative<\/td><td>either<\/td><td>opposite signs; the one with the larger size has the sign of <i>b<\/i><\/td><\/tr><\/table><\/div><div class=\"rule\"><i>x<\/i><sup>2<\/sup> + <i>b<\/i><i>x<\/i> + <i>c<\/i> = (<i>x<\/i> + <i>m<\/i>)(<i>x<\/i> + <i>n<\/i>) exactly when <i>m<\/i><i>n<\/i> = <i>c<\/i> and <i>m<\/i> + <i>n<\/i> = <i>b<\/i>.<\/div><p>List the factor pairs of <i>c<\/i> in order and stop when a pair has the right sum.<\/p>"}, {"lo": "LO2", "h": "Trinomials with leading coefficient other than 1", "html": "<p>For <i>a<\/i><i>x<\/i><sup>2<\/sup> + <i>b<\/i><i>x<\/i> + <i>c<\/i> with <i>a<\/i> ≠ 1, first take out any GCF. Then use the <b>ac method<\/b>:<\/p><ol><li>Multiply <i>a<\/i> and <i>c<\/i>.<\/li><li>Find two numbers whose product is <i>a<\/i><i>c<\/i> and whose sum is <i>b<\/i>.<\/li><li>Use them to split the middle term into two terms.<\/li><li>Factor the four terms by grouping.<\/li><\/ol><div class=\"eqs\">4<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> − 15: <i>a<\/i><i>c<\/i> = −60, and the numbers are −10 and 6<br>= 4<i>x<\/i><sup>2<\/sup> − 10<i>x<\/i> + 6<i>x<\/i> − 15<br>= 2<i>x<\/i>(2<i>x<\/i> − 5) + 3(2<i>x<\/i> − 5)<br>= (2<i>x<\/i> − 5)(2<i>x<\/i> + 3)<\/div><div class=\"tip\">On multiple-choice questions you rarely need to factor from scratch. The first and last terms usually match in every choice, so expand only the outer and inner products of each choice and see which one gives the correct middle term.<\/div>"}, {"lo": "LO3", "h": "Difference of squares and perfect squares", "html": "<p>Two of the special products can be run in reverse.<\/p><div class=\"rule\"><i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> = (<i>a<\/i> − <i>b<\/i>)(<i>a<\/i> + <i>b<\/i>)<br><i>a<\/i><sup>2<\/sup> + 2<i>a<\/i><i>b<\/i> + <i>b<\/i><sup>2<\/sup> = (<i>a<\/i> + <i>b<\/i>)<sup>2<\/sup> and <i>a<\/i><sup>2<\/sup> − 2<i>a<\/i><i>b<\/i> + <i>b<\/i><sup>2<\/sup> = (<i>a<\/i> − <i>b<\/i>)<sup>2<\/sup><\/div><p>To spot a <b>difference of squares<\/b>, check for exactly two terms, both perfect squares, joined by a minus sign: 49<i>x<\/i><sup>2<\/sup> − 4 = (7<i>x<\/i> − 2)(7<i>x<\/i> + 2). A <b>sum<\/b> of squares such as <i>x<\/i><sup>2<\/sup> + 16 does not factor over the real numbers.<\/p><p>To spot a <b>perfect-square trinomial<\/b>, check that the first and last terms are perfect squares and that the middle term is twice the product of their square roots. In 16<i>x<\/i><sup>2<\/sup> + 24<i>x<\/i> + 9, 2(4<i>x<\/i>)(3) = 24<i>x<\/i>, so it equals (4<i>x<\/i> + 3)<sup>2<\/sup>.<\/p><p>Take out the GCF first and keep factoring until no factor breaks down further:<\/p><div class=\"eqs\">2<i>x<\/i><sup>3<\/sup> − 32<i>x<\/i> = 2<i>x<\/i>(<i>x<\/i><sup>2<\/sup> − 16) = 2<i>x<\/i>(<i>x<\/i> − 4)(<i>x<\/i> + 4)<\/div>"}, {"lo": "LO3", "h": "Factoring by grouping", "html": "<p>A polynomial with four terms can often be factored by <b>grouping<\/b>. Split it into two pairs, take the GCF out of each pair, and look for a common binomial.<\/p><div class=\"eqs\"><i>x<\/i><sup>3<\/sup> − 5<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 10<br>= <i>x<\/i><sup>2<\/sup>(<i>x<\/i> − 5) + 2(<i>x<\/i> − 5)<br>= (<i>x<\/i> − 5)(<i>x<\/i><sup>2<\/sup> + 2)<\/div><p>If the third term is negative, take a <b>negative<\/b> GCF out of the second pair so that the binomials match:<\/p><div class=\"eqs\">2<i>x<\/i><sup>3<\/sup> + 3<i>x<\/i><sup>2<\/sup> − 8<i>x<\/i> − 12 = <i>x<\/i><sup>2<\/sup>(2<i>x<\/i> + 3) − 4(2<i>x<\/i> + 3) = (2<i>x<\/i> + 3)(<i>x<\/i><sup>2<\/sup> − 4)<\/div><p>This is not finished yet: <i>x<\/i><sup>2<\/sup> − 4 is a difference of squares, so the complete factorization is (2<i>x<\/i> + 3)(<i>x<\/i> − 2)(<i>x<\/i> + 2).<\/p><div class=\"rule\">After grouping, the two binomials in parentheses must be identical. If they differ only in sign, factor −1 out of one pair.<\/div>"}, {"lo": "LO4", "h": "Identities and unknown coefficients", "html": "<p>An equation such as (<i>a<\/i><i>x<\/i> + 3)(2<i>x<\/i> − <i>b<\/i>) = 6<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i> − 12 that is true <b>for all values of <i>x<\/i><\/b> is an identity. Two polynomials are equal for every <i>x<\/i> only when the coefficients of matching powers are equal.<\/p><div class=\"eqs\">Left side: 2<i>a<\/i><i>x<\/i><sup>2<\/sup> + (6 − <i>a<\/i><i>b<\/i>)<i>x<\/i> − 3<i>b<\/i><br>2<i>a<\/i> = 6, so <i>a<\/i> = 3; −3<i>b<\/i> = −12, so <i>b<\/i> = 4<br>Check: 6 − <i>a<\/i><i>b<\/i> = 6 − 12 = −6 ✓<\/div><div class=\"rule\">For an identity, expand, collect each power of <i>x<\/i>, and set the coefficients equal power by power.<\/div><div class=\"tip\">To test which choice is equivalent to an expression, substitute a convenient value such as <i>x<\/i> = 2 into the expression and into each choice. Any choice that gives a different number is out; use a second value if two choices tie.<\/div><p>Special products give shortcuts too: since (<i>x<\/i> + <i>y<\/i>)<sup>2<\/sup> = <i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup> + 2<i>x<\/i><i>y<\/i>, knowing any two of (<i>x<\/i> + <i>y<\/i>)<sup>2<\/sup>, <i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup> and <i>x<\/i><i>y<\/i> gives you the third without finding <i>x<\/i> or <i>y<\/i>.<\/p>"}], "examples": [{"lo": "LO1", "q": "Simplify (4<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> + 7) − (<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 2).", "steps": ["Distribute the minus sign to every term of the second polynomial: 4<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> + 7 − <i>x<\/i><sup>2<\/sup> + 5<i>x<\/i> + 2.", "Group like terms: (4<i>x<\/i><sup>2<\/sup> − <i>x<\/i><sup>2<\/sup>) + (−3<i>x<\/i> + 5<i>x<\/i>) + (7 + 2).", "Combine: 3<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> + 9."], "ans": "3<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> + 9"}, {"lo": "LO1", "q": "Expand and simplify (2<i>x<\/i> − 3)(<i>x<\/i><sup>2<\/sup> + 4<i>x<\/i> − 1).", "steps": ["Multiply 2<i>x<\/i> by each term of the trinomial: 2<i>x<\/i><sup>3<\/sup> + 8<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i>.", "Multiply −3 by each term: −3<i>x<\/i><sup>2<\/sup> − 12<i>x<\/i> + 3.", "Combine like terms: 2<i>x<\/i><sup>3<\/sup> + (8<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i><sup>2<\/sup>) + (−2<i>x<\/i> − 12<i>x<\/i>) + 3 = 2<i>x<\/i><sup>3<\/sup> + 5<i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 3."], "ans": "2<i>x<\/i><sup>3<\/sup> + 5<i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 3"}, {"lo": "LO2", "q": "Factor 6<i>x<\/i><sup>2<\/sup> + 7<i>x<\/i> − 20.", "steps": ["There is no GCF. Compute <i>a<\/i><i>c<\/i> = 6(−20) = −120.", "Find two numbers with product −120 and sum 7: 15 and −8.", "Split the middle term and group: 6<i>x<\/i><sup>2<\/sup> + 15<i>x<\/i> − 8<i>x<\/i> − 20 = 3<i>x<\/i>(2<i>x<\/i> + 5) − 4(2<i>x<\/i> + 5).", "Take out the common binomial: (3<i>x<\/i> − 4)(2<i>x<\/i> + 5). Check: 6<i>x<\/i><sup>2<\/sup> + 15<i>x<\/i> − 8<i>x<\/i> − 20 = 6<i>x<\/i><sup>2<\/sup> + 7<i>x<\/i> − 20 ✓."], "ans": "(3<i>x<\/i> − 4)(2<i>x<\/i> + 5)"}, {"lo": "LO3", "q": "Factor completely: <i>x<\/i><sup>3<\/sup> + 4<i>x<\/i><sup>2<\/sup> − 9<i>x<\/i> − 36.", "steps": ["Group in pairs: (<i>x<\/i><sup>3<\/sup> + 4<i>x<\/i><sup>2<\/sup>) + (−9<i>x<\/i> − 36).", "Take out each pair's GCF, using −9 for the second pair: <i>x<\/i><sup>2<\/sup>(<i>x<\/i> + 4) − 9(<i>x<\/i> + 4).", "Take out the common binomial: (<i>x<\/i> + 4)(<i>x<\/i><sup>2<\/sup> − 9).", "<i>x<\/i><sup>2<\/sup> − 9 is a difference of squares, so the complete factorization is (<i>x<\/i> + 4)(<i>x<\/i> − 3)(<i>x<\/i> + 3)."], "ans": "(<i>x<\/i> + 4)(<i>x<\/i> − 3)(<i>x<\/i> + 3)"}, {"lo": "LO4", "q": "<div class=\"eqs\">(<i>a<\/i><i>x<\/i> + 3)(2<i>x<\/i> − <i>b<\/i>) = 8<i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> − 15<\/div>The equation above is true for all values of <i>x<\/i>, where <i>a<\/i> and <i>b<\/i> are constants. What is the value of <i>a<\/i> + <i>b<\/i>?", "steps": ["Expand the left side: 2<i>a<\/i><i>x<\/i><sup>2<\/sup> − <i>a<\/i><i>b<\/i><i>x<\/i> + 6<i>x<\/i> − 3<i>b<\/i> = 2<i>a<\/i><i>x<\/i><sup>2<\/sup> + (6 − <i>a<\/i><i>b<\/i>)<i>x<\/i> − 3<i>b<\/i>.", "Match the <i>x<\/i><sup>2<\/sup> coefficients: 2<i>a<\/i> = 8, so <i>a<\/i> = 4. Match the constants: −3<i>b<\/i> = −15, so <i>b<\/i> = 5.", "Check the middle term: 6 − <i>a<\/i><i>b<\/i> = 6 − 20 = −14 ✓.", "So <i>a<\/i> + <i>b<\/i> = 4 + 5 = 9."], "ans": "<i>a<\/i> + <i>b<\/i> = 9"}, {"lo": "LO4", "q": "If <i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup> = 40 and <i>x<\/i><i>y<\/i> = 12, what is the value of (<i>x<\/i> − <i>y<\/i>)<sup>2<\/sup>?", "steps": ["Expand the square: (<i>x<\/i> − <i>y<\/i>)<sup>2<\/sup> = <i>x<\/i><sup>2<\/sup> − 2<i>x<\/i><i>y<\/i> + <i>y<\/i><sup>2<\/sup> = (<i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup>) − 2<i>x<\/i><i>y<\/i>.", "Substitute the given values: 40 − 2(12) = 16. There is no need to find <i>x<\/i> and <i>y<\/i>."], "ans": "16"}], "traps": ["Changing only the first sign when subtracting: (5<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i>) − (<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i>) is 4<i>x<\/i><sup>2<\/sup> + 5<i>x<\/i>, not 4<i>x<\/i><sup>2<\/sup> − <i>x<\/i>. The minus sign reaches every term of the second polynomial.", "Dropping the middle term of a square: (<i>x<\/i> + 5)<sup>2<\/sup> = <i>x<\/i><sup>2<\/sup> + 10<i>x<\/i> + 25, not <i>x<\/i><sup>2<\/sup> + 25.", "Stopping too early. Take out the GCF first and keep going: 2<i>x<\/i><sup>2<\/sup> − 18 = 2(<i>x<\/i><sup>2<\/sup> − 9) = 2(<i>x<\/i> − 3)(<i>x<\/i> + 3). When a question asks for the complete factorization, an unfinished form is wrong.", "Factoring a sum of squares: <i>x<\/i><sup>2<\/sup> + 9 cannot be written as (<i>x<\/i> + 3)(<i>x<\/i> − 3), because that product is <i>x<\/i><sup>2<\/sup> − 9.", "Mixing up signs in a trinomial. When the constant term is negative, the two numbers have opposite signs; multiply your binomials back out to confirm the middle term.", "Answering the wrong quantity in an identity question, such as giving <i>a<\/i> when the question asks for <i>a<\/i> + <i>b<\/i> or for another coefficient. Reread the last line before you choose."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to (5<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 4) + (3<i>x<\/i><sup>2<\/sup> − 7<i>x<\/i> + 9)?", "opts": ["8<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 5", "8<i>x<\/i><sup>2<\/sup> + 9<i>x<\/i> + 5", "8<i>x<\/i><sup>4<\/sup> − 5<i>x<\/i><sup>2<\/sup> + 5", "8<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 13"], "ans": 0, "sol": "Combine the <i>x<\/i><sup>2<\/sup> terms: 5<i>x<\/i><sup>2<\/sup> + 3<i>x<\/i><sup>2<\/sup> = 8<i>x<\/i><sup>2<\/sup>.<br>Combine the <i>x<\/i> terms: 2<i>x<\/i> − 7<i>x<\/i> = −5<i>x<\/i>.<br>Combine the constants: −4 + 9 = 5.<br>Answer: <b>8<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 5<\/b>", "hint": "Line up like terms: <i>x<\/i><sup>2<\/sup> with <i>x<\/i><sup>2<\/sup>, <i>x<\/i> with <i>x<\/i>, and numbers with numbers. Exponents do not change when you add."}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to 12<i>x<\/i><sup>3<\/sup> − 18<i>x<\/i><sup>2<\/sup>?", "opts": ["6<i>x<\/i>(2<i>x<\/i> − 3)", "6<i>x<\/i><sup>2<\/sup>(2<i>x<\/i> − 3)", "6<i>x<\/i><sup>2<\/sup>(2<i>x<\/i> + 3)", "3<i>x<\/i><sup>2<\/sup>(4<i>x<\/i> − 3)"], "ans": 1, "sol": "The GCF of 12 and 18 is 6, and the lowest power of <i>x<\/i> is <i>x<\/i><sup>2<\/sup>, so the GCF is 6<i>x<\/i><sup>2<\/sup>.<br>12<i>x<\/i><sup>3<\/sup> ÷ 6<i>x<\/i><sup>2<\/sup> = 2<i>x<\/i> and 18<i>x<\/i><sup>2<\/sup> ÷ 6<i>x<\/i><sup>2<\/sup> = 3.<br>Answer: <b>6<i>x<\/i><sup>2<\/sup>(2<i>x<\/i> − 3)<\/b>", "hint": "Find the largest number that divides 12 and 18, and the lowest power of <i>x<\/i> in both terms."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to <i>x<\/i><sup>2<\/sup> − 49?", "opts": ["(<i>x<\/i> − 7)<sup>2<\/sup>", "(<i>x<\/i> + 7)<sup>2<\/sup>", "(<i>x<\/i> − 7)(<i>x<\/i> + 7)", "(<i>x<\/i> − 49)(<i>x<\/i> + 1)"], "ans": 2, "sol": "<i>x<\/i><sup>2<\/sup> − 49 = <i>x<\/i><sup>2<\/sup> − 7<sup>2<\/sup>, a difference of squares.<br><i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> = (<i>a<\/i> − <i>b<\/i>)(<i>a<\/i> + <i>b<\/i>) with <i>a<\/i> = <i>x<\/i> and <i>b<\/i> = 7.<br>Answer: <b>(<i>x<\/i> − 7)(<i>x<\/i> + 7)<\/b>", "hint": "Both terms are perfect squares and they are joined by a minus sign. Which pattern is that?"}, {"lo": "LO1", "diff": "E", "type": "spr", "q": "When (<i>x<\/i> + 6)(<i>x<\/i> − 2) is written in the form <i>x<\/i><sup>2<\/sup> + <i>b<\/i><i>x<\/i> + <i>c<\/i>, where <i>b<\/i> and <i>c<\/i> are constants, what is the value of <i>b<\/i>?", "ans": ["4"], "sol": "Multiply: (<i>x<\/i> + 6)(<i>x<\/i> − 2) = <i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 6<i>x<\/i> − 12.<br>Combine: <i>x<\/i><sup>2<\/sup> + 4<i>x<\/i> − 12, so <i>b<\/i> = 4.<br>Answer: <b>4<\/b>", "hint": "Of the four products, two contain <i>x<\/i> to the first power. Add those two."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which of the following is a factor of <i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> − 28?", "opts": ["<i>x<\/i> + 7", "<i>x<\/i> − 4", "<i>x<\/i> − 28", "<i>x<\/i> + 4"], "ans": 3, "sol": "Find two numbers with product −28 and sum −3: −7 and 4.<br>So <i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> − 28 = (<i>x<\/i> − 7)(<i>x<\/i> + 4).<br>Answer: <b><i>x<\/i> + 4<\/b>", "hint": "Look for two numbers that multiply to −28 and add to −3. They must have opposite signs."}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which expression is equivalent to 3<i>x<\/i><sup>2<\/sup> + 10<i>x<\/i> − 8?", "opts": ["(3<i>x<\/i> − 2)(<i>x<\/i> + 4)", "(3<i>x<\/i> + 2)(<i>x<\/i> − 4)", "(3<i>x<\/i> − 4)(<i>x<\/i> + 2)", "(3<i>x<\/i> + 4)(<i>x<\/i> − 2)"], "ans": 0, "sol": "<i>a<\/i><i>c<\/i> = 3(−8) = −24; two numbers with product −24 and sum 10 are 12 and −2.<br>3<i>x<\/i><sup>2<\/sup> + 12<i>x<\/i> − 2<i>x<\/i> − 8 = 3<i>x<\/i>(<i>x<\/i> + 4) − 2(<i>x<\/i> + 4).<br>= (3<i>x<\/i> − 2)(<i>x<\/i> + 4).<br>Answer: <b>(3<i>x<\/i> − 2)(<i>x<\/i> + 4)<\/b>", "hint": "Every choice gives 3<i>x<\/i><sup>2<\/sup> and −8. Check which one gives a middle term of +10<i>x<\/i>."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which expression is equivalent to 9<i>x<\/i><sup>2<\/sup> − 30<i>x<\/i> + 25?", "opts": ["(3<i>x<\/i> + 5)<sup>2<\/sup>", "(3<i>x<\/i> − 5)<sup>2<\/sup>", "(3<i>x<\/i> − 5)(3<i>x<\/i> + 5)", "(9<i>x<\/i> − 5)(<i>x<\/i> − 5)"], "ans": 1, "sol": "9<i>x<\/i><sup>2<\/sup> = (3<i>x<\/i>)<sup>2<\/sup> and 25 = 5<sup>2<\/sup>.<br>The middle term is −2(3<i>x<\/i>)(5) = −30<i>x<\/i>, so this is a perfect-square trinomial.<br>Answer: <b>(3<i>x<\/i> − 5)<sup>2<\/sup><\/b>", "hint": "The first and last terms are perfect squares. Is the middle term twice the product of their square roots, and what is its sign?"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "<div class=\"eqs\"><i>x<\/i><sup>3<\/sup> − 6<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 24 = (<i>x<\/i> − <i>p<\/i>)(<i>x<\/i><sup>2<\/sup> − <i>q<\/i>)<\/div>The equation is true for all values of <i>x<\/i>, where <i>p<\/i> and <i>q<\/i> are constants. What is the value of <i>p<\/i> + <i>q<\/i>?", "ans": ["10"], "sol": "Group in pairs: <i>x<\/i><sup>2<\/sup>(<i>x<\/i> − 6) − 4(<i>x<\/i> − 6).<br>Take out the common binomial: (<i>x<\/i> − 6)(<i>x<\/i><sup>2<\/sup> − 4), so <i>p<\/i> = 6 and <i>q<\/i> = 4.<br><i>p<\/i> + <i>q<\/i> = 10.<br>Answer: <b>10<\/b>", "hint": "Group the first two terms and the last two terms, and take a GCF out of each pair."}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">(3<i>x<\/i> − 2)(<i>x<\/i> + <i>m<\/i>) = 3<i>x<\/i><sup>2<\/sup> + 13<i>x<\/i> + <i>n<\/i><\/div>The equation is true for all values of <i>x<\/i>, where <i>m<\/i> and <i>n<\/i> are constants. What is the value of <i>n<\/i>?", "opts": ["10", "5", "−10", "−2"], "ans": 2, "sol": "Expand: 3<i>x<\/i><sup>2<\/sup> + 3<i>m<\/i><i>x<\/i> − 2<i>x<\/i> − 2<i>m<\/i> = 3<i>x<\/i><sup>2<\/sup> + (3<i>m<\/i> − 2)<i>x<\/i> − 2<i>m<\/i>.<br>Match the <i>x<\/i> terms: 3<i>m<\/i> − 2 = 13, so <i>m<\/i> = 5.<br>Match the constants: <i>n<\/i> = −2<i>m<\/i> = −10.<br>Answer: <b>−10<\/b>", "hint": "Expand the left side and match the coefficient of <i>x<\/i> first; that gives <i>m<\/i>."}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "Which of the following is the complete factorization of 4<i>x<\/i><sup>3<\/sup> − 10<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i>?", "opts": ["2<i>x<\/i>(2<i>x<\/i> − 1)(<i>x<\/i> + 3)", "2<i>x<\/i>(2<i>x<\/i> − 3)(<i>x<\/i> + 1)", "4<i>x<\/i>(<i>x<\/i> + 1)(<i>x<\/i> − 3)", "2<i>x<\/i>(2<i>x<\/i> + 1)(<i>x<\/i> − 3)"], "ans": 3, "sol": "Take out the GCF 2<i>x<\/i>: 2<i>x<\/i>(2<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 3).<br><i>a<\/i><i>c<\/i> = −6; the numbers −6 and 1 give 2<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i> + <i>x<\/i> − 3 = 2<i>x<\/i>(<i>x<\/i> − 3) + 1(<i>x<\/i> − 3).<br>So 2<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 3 = (2<i>x<\/i> + 1)(<i>x<\/i> − 3).<br>Answer: <b>2<i>x<\/i>(2<i>x<\/i> + 1)(<i>x<\/i> − 3)<\/b>", "hint": "Start with the GCF of all three terms, then factor the trinomial that is left."}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">(<i>a<\/i><i>x<\/i> − 5)(<i>b<\/i><i>x<\/i> + 2) = 12<i>x<\/i><sup>2<\/sup> − 7<i>x<\/i> − 10<\/div>The equation is true for all values of <i>x<\/i>, where <i>a<\/i> and <i>b<\/i> are positive integers. What is the value of <i>a<\/i> + <i>b<\/i>?", "ans": ["7"], "sol": "Expand: <i>a<\/i><i>b<\/i><i>x<\/i><sup>2<\/sup> + (2<i>a<\/i> − 5<i>b<\/i>)<i>x<\/i> − 10.<br>So <i>a<\/i><i>b<\/i> = 12 and 2<i>a<\/i> − 5<i>b<\/i> = −7.<br>Test the pairs with product 12: only <i>a<\/i> = 4, <i>b<\/i> = 3 gives 8 − 15 = −7.<br><i>a<\/i> + <i>b<\/i> = 7.<br>Answer: <b>7<\/b>", "hint": "Matching the <i>x<\/i><sup>2<\/sup> terms tells you <i>a<\/i><i>b<\/i>. Then test the factor pairs against the <i>x<\/i> term."}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "If <i>a<\/i> + <i>b<\/i> = 9 and <i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> = 45, what is the value of <i>a<\/i> − <i>b<\/i>?", "opts": ["5", "4", "36", "405"], "ans": 0, "sol": "Factor: <i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> = (<i>a<\/i> + <i>b<\/i>)(<i>a<\/i> − <i>b<\/i>).<br>Substitute: 45 = 9(<i>a<\/i> − <i>b<\/i>), so <i>a<\/i> − <i>b<\/i> = 5.<br>Answer: <b>5<\/b>", "hint": "Rewrite <i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> as a product that contains <i>a<\/i> + <i>b<\/i>."}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to (7<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 3) − (2<i>x<\/i><sup>2<\/sup> + <i>x<\/i> − 8)?", "opts": ["5<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> − 5", "5<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 11", "9<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> − 5", "5<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> − 5"], "ans": 1, "sol": "Change the sign of every term in the second polynomial: 7<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 3 − 2<i>x<\/i><sup>2<\/sup> − <i>x<\/i> + 8.<br>Combine like terms: 5<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 11.<br>Answer: <b>5<i>x<\/i><sup>2<\/sup> − 5<i>x<\/i> + 11<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "A rectangular poster is 3<i>x<\/i> inches wide and (2<i>x<\/i> − 5) inches tall. Which expression represents the area of the poster, in square inches?", "opts": ["6<i>x<\/i><sup>2<\/sup> − 15<i>x<\/i>", "6<i>x<\/i><sup>2<\/sup> − 5", "5<i>x<\/i> − 5", "6<i>x<\/i><sup>2<\/sup> − 15"], "ans": 0, "sol": "Area = width × height = 3<i>x<\/i>(2<i>x<\/i> − 5).<br>Distribute: 3<i>x<\/i>(2<i>x<\/i>) − 3<i>x<\/i>(5) = 6<i>x<\/i><sup>2<\/sup> − 15<i>x<\/i>.<br>Answer: <b>6<i>x<\/i><sup>2<\/sup> − 15<i>x<\/i><\/b>"}, {"lo": "LO2", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to <i>x<\/i><sup>2<\/sup> + 9<i>x<\/i> + 20?", "opts": ["(<i>x<\/i> + 2)(<i>x<\/i> + 10)", "(<i>x<\/i> − 4)(<i>x<\/i> − 5)", "(<i>x<\/i> + 4)(<i>x<\/i> + 5)", "(<i>x<\/i> + 1)(<i>x<\/i> + 20)"], "ans": 2, "sol": "Find two numbers with product 20 and sum 9: 4 and 5.<br>So the trinomial is (<i>x<\/i> + 4)(<i>x<\/i> + 5). Check: <i>x<\/i><sup>2<\/sup> + 5<i>x<\/i> + 4<i>x<\/i> + 20 ✓.<br>Answer: <b>(<i>x<\/i> + 4)(<i>x<\/i> + 5)<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "Which expression is equivalent to (4<i>x<\/i> − 1)(4<i>x<\/i> + 1)?", "opts": ["16<i>x<\/i><sup>2<\/sup> + 1", "16<i>x<\/i><sup>2<\/sup> − 8<i>x<\/i> − 1", "4<i>x<\/i><sup>2<\/sup> − 1", "16<i>x<\/i><sup>2<\/sup> − 1"], "ans": 3, "sol": "This is (<i>a<\/i> − <i>b<\/i>)(<i>a<\/i> + <i>b<\/i>) = <i>a<\/i><sup>2<\/sup> − <i>b<\/i><sup>2<\/sup> with <i>a<\/i> = 4<i>x<\/i> and <i>b<\/i> = 1.<br>(4<i>x<\/i>)<sup>2<\/sup> − 1<sup>2<\/sup> = 16<i>x<\/i><sup>2<\/sup> − 1.<br>Answer: <b>16<i>x<\/i><sup>2<\/sup> − 1<\/b>"}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "<div class=\"eqs\"><i>x<\/i><sup>2<\/sup> − 11<i>x<\/i> + 24 = (<i>x<\/i> − 3)(<i>x<\/i> − <i>m<\/i>)<\/div>The equation is true for all values of <i>x<\/i>, where <i>m<\/i> is a constant. What is the value of <i>m<\/i>?", "ans": ["8"], "sol": "Find two numbers with product 24 and sum −11: −3 and −8.<br>So <i>x<\/i><sup>2<\/sup> − 11<i>x<\/i> + 24 = (<i>x<\/i> − 3)(<i>x<\/i> − 8), and <i>m<\/i> = 8.<br>Answer: <b>8<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "A rectangular garden is (<i>x<\/i> + 7) meters long and (<i>x<\/i> + 2) meters wide. Which expression represents the area of the garden, in square meters?", "opts": ["<i>x<\/i><sup>2<\/sup> + 14", "4<i>x<\/i> + 18", "<i>x<\/i><sup>2<\/sup> + 9<i>x<\/i> + 14", "<i>x<\/i><sup>2<\/sup> + 7<i>x<\/i> + 14"], "ans": 2, "sol": "Area = (<i>x<\/i> + 7)(<i>x<\/i> + 2) = <i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> + 7<i>x<\/i> + 14.<br>Combine the middle terms: <i>x<\/i><sup>2<\/sup> + 9<i>x<\/i> + 14.<br>Answer: <b><i>x<\/i><sup>2<\/sup> + 9<i>x<\/i> + 14<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which expression is equivalent to (<i>x<\/i> − 4)(<i>x<\/i><sup>2<\/sup> + 3<i>x<\/i> − 2)?", "opts": ["<i>x<\/i><sup>3<\/sup> + 7<i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 8", "<i>x<\/i><sup>3<\/sup> − <i>x<\/i><sup>2<\/sup> + 10<i>x<\/i> + 8", "<i>x<\/i><sup>3<\/sup> − <i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> − 8", "<i>x<\/i><sup>3<\/sup> − <i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 8"], "ans": 3, "sol": "Multiply <i>x<\/i> by each term: <i>x<\/i><sup>3<\/sup> + 3<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i>.<br>Multiply −4 by each term: −4<i>x<\/i><sup>2<\/sup> − 12<i>x<\/i> + 8.<br>Add: <i>x<\/i><sup>3<\/sup> − <i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 8.<br>Answer: <b><i>x<\/i><sup>3<\/sup> − <i>x<\/i><sup>2<\/sup> − 14<i>x<\/i> + 8<\/b>"}, {"lo": "LO1", "diff": "M", "type": "spr", "q": "If (2<i>x<\/i> + 5)<sup>2<\/sup> is written in the form <i>a<\/i><i>x<\/i><sup>2<\/sup> + <i>b<\/i><i>x<\/i> + <i>c<\/i>, where <i>a<\/i>, <i>b<\/i> and <i>c<\/i> are constants, what is the value of <i>a<\/i> + <i>b<\/i> + <i>c<\/i>?", "ans": ["49"], "sol": "Expand: (2<i>x<\/i> + 5)<sup>2<\/sup> = 4<i>x<\/i><sup>2<\/sup> + 20<i>x<\/i> + 25.<br><i>a<\/i> + <i>b<\/i> + <i>c<\/i> = 4 + 20 + 25 = 49.<br>Shortcut: <i>a<\/i> + <i>b<\/i> + <i>c<\/i> is the value of the expression at <i>x<\/i> = 1, which is 7<sup>2<\/sup> = 49.<br>Answer: <b>49<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "Which of the following is a factor of 2<i>x<\/i><sup>2<\/sup> − 7<i>x<\/i> − 15?", "opts": ["2<i>x<\/i> + 3", "2<i>x<\/i> − 3", "<i>x<\/i> + 5", "<i>x<\/i> + 3"], "ans": 0, "sol": "<i>a<\/i><i>c<\/i> = −30; two numbers with product −30 and sum −7 are −10 and 3.<br>2<i>x<\/i><sup>2<\/sup> − 10<i>x<\/i> + 3<i>x<\/i> − 15 = 2<i>x<\/i>(<i>x<\/i> − 5) + 3(<i>x<\/i> − 5) = (2<i>x<\/i> + 3)(<i>x<\/i> − 5).<br>Answer: <b>2<i>x<\/i> + 3<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "The area of a rectangle is (<i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 35) square feet, and its width is (<i>x<\/i> − 5) feet. Which expression represents the length of the rectangle, in feet?", "opts": ["<i>x<\/i> − 7", "<i>x<\/i> + 7", "<i>x<\/i> + 5", "<i>x<\/i> + 40"], "ans": 1, "sol": "Factor the area: two numbers with product −35 and sum 2 are 7 and −5.<br><i>x<\/i><sup>2<\/sup> + 2<i>x<\/i> − 35 = (<i>x<\/i> + 7)(<i>x<\/i> − 5).<br>Length = area ÷ width = <i>x<\/i> + 7.<br>Answer: <b><i>x<\/i> + 7<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which of the following is the complete factorization of 3<i>x<\/i><sup>2<\/sup> − 75?", "opts": ["3(<i>x<\/i> − 5)<sup>2<\/sup>", "(3<i>x<\/i> − 5)(<i>x<\/i> + 15)", "3(<i>x<\/i> − 5)(<i>x<\/i> + 5)", "3(<i>x<\/i> − 25)(<i>x<\/i> + 25)"], "ans": 2, "sol": "Take out the GCF 3: 3(<i>x<\/i><sup>2<\/sup> − 25).<br><i>x<\/i><sup>2<\/sup> − 25 is a difference of squares: (<i>x<\/i> − 5)(<i>x<\/i> + 5).<br>Answer: <b>3(<i>x<\/i> − 5)(<i>x<\/i> + 5)<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which expression is equivalent to 2<i>x<\/i><sup>3<\/sup> + 6<i>x<\/i><sup>2<\/sup> + 5<i>x<\/i> + 15?", "opts": ["(<i>x<\/i> + 3)(2<i>x<\/i><sup>2<\/sup> + 5)", "(<i>x<\/i> + 5)(2<i>x<\/i><sup>2<\/sup> + 3)", "(2<i>x<\/i> + 3)(<i>x<\/i><sup>2<\/sup> + 5)", "(<i>x<\/i> + 3)(2<i>x<\/i><sup>2<\/sup> − 5)"], "ans": 0, "sol": "Group in pairs: 2<i>x<\/i><sup>2<\/sup>(<i>x<\/i> + 3) + 5(<i>x<\/i> + 3).<br>Take out the common binomial: (<i>x<\/i> + 3)(2<i>x<\/i><sup>2<\/sup> + 5).<br>Answer: <b>(<i>x<\/i> + 3)(2<i>x<\/i><sup>2<\/sup> + 5)<\/b>"}, {"lo": "LO3", "diff": "M", "type": "spr", "q": "The expression <i>x<\/i><sup>2<\/sup> + <i>k<\/i><i>x<\/i> + 36, where <i>k<\/i> is a positive constant, is a perfect-square trinomial. What is the value of <i>k<\/i>?", "ans": ["12"], "sol": "Since 36 = 6<sup>2<\/sup> and <i>k<\/i> is positive, the trinomial must be (<i>x<\/i> + 6)<sup>2<\/sup>.<br>(<i>x<\/i> + 6)<sup>2<\/sup> = <i>x<\/i><sup>2<\/sup> + 12<i>x<\/i> + 36, so <i>k<\/i> = 12.<br>Answer: <b>12<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">(<i>x<\/i> + <i>p<\/i>)(<i>x<\/i> − 3) = <i>x<\/i><sup>2<\/sup> + 4<i>x<\/i> − 21<\/div>The equation is true for all values of <i>x<\/i>, where <i>p<\/i> is a constant. What is the value of <i>p<\/i>?", "opts": ["−7", "4", "21", "7"], "ans": 3, "sol": "Expand: <i>x<\/i><sup>2<\/sup> + (<i>p<\/i> − 3)<i>x<\/i> − 3<i>p<\/i>.<br>Match the constants: −3<i>p<\/i> = −21, so <i>p<\/i> = 7.<br>Check the <i>x<\/i> term: 7 − 3 = 4 ✓.<br>Answer: <b>7<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A theater sells (300 − 5<i>x<\/i>) tickets at (20 + <i>x<\/i>) dollars each, where <i>x<\/i> is the number of one-dollar price increases. Which expression is equivalent to the theater's revenue, (300 − 5<i>x<\/i>)(20 + <i>x<\/i>) dollars?", "opts": ["−5<i>x<\/i><sup>2<\/sup> + 400<i>x<\/i> + 6000", "−5<i>x<\/i><sup>2<\/sup> + 200<i>x<\/i> + 6000", "5<i>x<\/i><sup>2<\/sup> + 200<i>x<\/i> + 6000", "−5<i>x<\/i><sup>2<\/sup> + 200<i>x<\/i> + 320"], "ans": 1, "sol": "Multiply out: 300(20) + 300<i>x<\/i> − 5<i>x<\/i>(20) − 5<i>x<\/i>(<i>x<\/i>).<br>= 6000 + 300<i>x<\/i> − 100<i>x<\/i> − 5<i>x<\/i><sup>2<\/sup>.<br>= −5<i>x<\/i><sup>2<\/sup> + 200<i>x<\/i> + 6000.<br>Answer: <b>−5<i>x<\/i><sup>2<\/sup> + 200<i>x<\/i> + 6000<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">(<i>k<\/i><i>x<\/i> − 2)(<i>x<\/i> + 3) = 5<i>x<\/i><sup>2<\/sup> + <i>m<\/i><i>x<\/i> − 6<\/div>The equation is true for all values of <i>x<\/i>, where <i>k<\/i> and <i>m<\/i> are constants. What is the value of <i>m<\/i>?", "ans": ["13"], "sol": "Expand: <i>k<\/i><i>x<\/i><sup>2<\/sup> + 3<i>k<\/i><i>x<\/i> − 2<i>x<\/i> − 6 = <i>k<\/i><i>x<\/i><sup>2<\/sup> + (3<i>k<\/i> − 2)<i>x<\/i> − 6.<br>Match the <i>x<\/i><sup>2<\/sup> terms: <i>k<\/i> = 5.<br>Then <i>m<\/i> = 3(5) − 2 = 13.<br>Answer: <b>13<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "The volume, in cubic centimeters, of a box is given by 6<i>x<\/i><sup>3<\/sup> + 3<i>x<\/i><sup>2<\/sup> − 45<i>x<\/i>. Which expression shows this volume factored completely?", "opts": ["3<i>x<\/i>(2<i>x<\/i> + 5)(<i>x<\/i> − 3)", "3<i>x<\/i>(2<i>x<\/i> − 3)(<i>x<\/i> + 5)", "3<i>x<\/i>(2<i>x<\/i> − 5)(<i>x<\/i> + 3)", "3<i>x<\/i>(2<i>x<\/i> + 3)(<i>x<\/i> − 5)"], "ans": 2, "sol": "Take out the GCF 3<i>x<\/i>: 3<i>x<\/i>(2<i>x<\/i><sup>2<\/sup> + <i>x<\/i> − 15).<br><i>a<\/i><i>c<\/i> = −30; the numbers 6 and −5 give 2<i>x<\/i><sup>2<\/sup> + 6<i>x<\/i> − 5<i>x<\/i> − 15 = 2<i>x<\/i>(<i>x<\/i> + 3) − 5(<i>x<\/i> + 3).<br>So 2<i>x<\/i><sup>2<\/sup> + <i>x<\/i> − 15 = (2<i>x<\/i> − 5)(<i>x<\/i> + 3).<br>Answer: <b>3<i>x<\/i>(2<i>x<\/i> − 5)(<i>x<\/i> + 3)<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">(<i>a<\/i><i>x<\/i> + 5)(<i>x<\/i> − <i>b<\/i>) = 3<i>x<\/i><sup>2<\/sup> − 7<i>x<\/i> − 20<\/div>The equation is true for all values of <i>x<\/i>, where <i>a<\/i> and <i>b<\/i> are constants. What is the value of <i>a<\/i> − <i>b<\/i>?", "opts": ["−1", "1", "7", "−7"], "ans": 0, "sol": "Expand: <i>a<\/i><i>x<\/i><sup>2<\/sup> + (5 − <i>a<\/i><i>b<\/i>)<i>x<\/i> − 5<i>b<\/i>.<br>Match: <i>a<\/i> = 3 and −5<i>b<\/i> = −20, so <i>b<\/i> = 4. Check: 5 − 12 = −7 ✓.<br><i>a<\/i> − <i>b<\/i> = 3 − 4 = −1.<br>Answer: <b>−1<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "A square tile has side length (2<i>x<\/i> + 3) inches. A square hole with side length (2<i>x<\/i> − 3) inches is cut out of the tile. Which expression represents the area of the remaining part of the tile, in square inches?", "opts": ["8<i>x<\/i><sup>2<\/sup> + 18", "18", "12<i>x<\/i>", "24<i>x<\/i>"], "ans": 3, "sol": "Remaining area = (2<i>x<\/i> + 3)<sup>2<\/sup> − (2<i>x<\/i> − 3)<sup>2<\/sup>, a difference of squares.<br>= [(2<i>x<\/i> + 3) − (2<i>x<\/i> − 3)][(2<i>x<\/i> + 3) + (2<i>x<\/i> − 3)] = (6)(4<i>x<\/i>).<br>= 24<i>x<\/i>.<br>Answer: <b>24<i>x<\/i><\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "The expression <i>x<\/i><sup>2<\/sup> + 8<i>x<\/i> + <i>c<\/i> can be factored as (<i>x<\/i> + <i>m<\/i>)(<i>x<\/i> + <i>n<\/i>), where <i>m<\/i> and <i>n<\/i> are integers and <i>m<\/i> − <i>n<\/i> = 2. What is the value of <i>c<\/i>?", "ans": ["15"], "sol": "(<i>x<\/i> + <i>m<\/i>)(<i>x<\/i> + <i>n<\/i>) = <i>x<\/i><sup>2<\/sup> + (<i>m<\/i> + <i>n<\/i>)<i>x<\/i> + <i>m<\/i><i>n<\/i>, so <i>m<\/i> + <i>n<\/i> = 8 and <i>c<\/i> = <i>m<\/i><i>n<\/i>.<br>With <i>m<\/i> − <i>n<\/i> = 2: <i>m<\/i> = 5 and <i>n<\/i> = 3.<br><i>c<\/i> = 5(3) = 15.<br>Answer: <b>15<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which expression is equivalent to (3<i>x<\/i> − 1)(3<i>x<\/i> + 1) − (3<i>x<\/i> − 1)<sup>2<\/sup>?", "opts": ["−2", "6<i>x<\/i>", "6<i>x<\/i> − 2", "18<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i>"], "ans": 2, "sol": "(3<i>x<\/i> − 1)(3<i>x<\/i> + 1) = 9<i>x<\/i><sup>2<\/sup> − 1.<br>(3<i>x<\/i> − 1)<sup>2<\/sup> = 9<i>x<\/i><sup>2<\/sup> − 6<i>x<\/i> + 1.<br>Subtract: 9<i>x<\/i><sup>2<\/sup> − 1 − 9<i>x<\/i><sup>2<\/sup> + 6<i>x<\/i> − 1 = 6<i>x<\/i> − 2.<br>Answer: <b>6<i>x<\/i> − 2<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "A rectangle has an area of (2<i>x<\/i><sup>2<\/sup> + 11<i>x<\/i> + 12) square meters. Which of the following could be the length and width of the rectangle, in meters?", "opts": ["(2<i>x<\/i> + 3) and (<i>x<\/i> + 4)", "(2<i>x<\/i> + 2) and (<i>x<\/i> + 6)", "(2<i>x<\/i> + 1) and (<i>x<\/i> + 12)", "(2<i>x<\/i> + 6) and (<i>x<\/i> + 2)"], "ans": 0, "sol": "<i>a<\/i><i>c<\/i> = 24; two numbers with product 24 and sum 11 are 8 and 3.<br>2<i>x<\/i><sup>2<\/sup> + 8<i>x<\/i> + 3<i>x<\/i> + 12 = 2<i>x<\/i>(<i>x<\/i> + 4) + 3(<i>x<\/i> + 4) = (2<i>x<\/i> + 3)(<i>x<\/i> + 4).<br>Answer: <b>(2<i>x<\/i> + 3) and (<i>x<\/i> + 4)<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "Which of the following is a factor of 25<i>x<\/i><sup>2<\/sup> − 20<i>x<\/i> + 4?", "opts": ["5<i>x<\/i> + 2", "5<i>x<\/i> − 2", "25<i>x<\/i> − 2", "<i>x<\/i> − 2"], "ans": 1, "sol": "25<i>x<\/i><sup>2<\/sup> = (5<i>x<\/i>)<sup>2<\/sup>, 4 = 2<sup>2<\/sup>, and 2(5<i>x<\/i>)(2) = 20<i>x<\/i>.<br>So 25<i>x<\/i><sup>2<\/sup> − 20<i>x<\/i> + 4 = (5<i>x<\/i> − 2)<sup>2<\/sup>.<br>Answer: <b>5<i>x<\/i> − 2<\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "<div class=\"eqs\">(<i>x<\/i> + 2)(<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 4) = <i>x<\/i><sup>3<\/sup> + <i>c<\/i><\/div>The equation is true for all values of <i>x<\/i>, where <i>c<\/i> is a constant. What is the value of <i>c<\/i>?", "ans": ["8"], "sol": "<i>x<\/i>(<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 4) = <i>x<\/i><sup>3<\/sup> − 2<i>x<\/i><sup>2<\/sup> + 4<i>x<\/i>.<br>2(<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 4) = 2<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 8.<br>Add: the <i>x<\/i><sup>2<\/sup> and <i>x<\/i> terms cancel, leaving <i>x<\/i><sup>3<\/sup> + 8.<br>Answer: <b>8<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "A rectangular pool is 20 meters long and 12 meters wide. It is surrounded by a walkway of uniform width <i>x<\/i> meters. Which expression represents the combined area of the pool and walkway, in square meters?", "opts": ["4<i>x<\/i><sup>2<\/sup> + 32<i>x<\/i> + 240", "<i>x<\/i><sup>2<\/sup> + 32<i>x<\/i> + 240", "2<i>x<\/i><sup>2<\/sup> + 64<i>x<\/i> + 240", "4<i>x<\/i><sup>2<\/sup> + 64<i>x<\/i> + 240"], "ans": 3, "sol": "The walkway adds <i>x<\/i> on each side, so the outer dimensions are (20 + 2<i>x<\/i>) by (12 + 2<i>x<\/i>).<br>(20 + 2<i>x<\/i>)(12 + 2<i>x<\/i>) = 240 + 40<i>x<\/i> + 24<i>x<\/i> + 4<i>x<\/i><sup>2<\/sup>.<br>= 4<i>x<\/i><sup>2<\/sup> + 64<i>x<\/i> + 240.<br>Answer: <b>4<i>x<\/i><sup>2<\/sup> + 64<i>x<\/i> + 240<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "<div class=\"eqs\"><i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> − 45 = (<i>x<\/i> + <i>a<\/i>)(<i>x<\/i> + <i>b<\/i>)<\/div>The equation is true for all values of <i>x<\/i>, where <i>a<\/i> and <i>b<\/i> are constants and <i>a<\/i> &gt; <i>b<\/i>. What is the value of <i>a<\/i> − <i>b<\/i>?", "ans": ["14"], "sol": "Find two numbers with product −45 and sum −4: 5 and −9.<br>Since <i>a<\/i> &gt; <i>b<\/i>, <i>a<\/i> = 5 and <i>b<\/i> = −9.<br><i>a<\/i> − <i>b<\/i> = 5 − (−9) = 14.<br>Answer: <b>14<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Which expression is equivalent to (<i>x<\/i><sup>2<\/sup> − 3<i>x<\/i> + 2)(<i>x<\/i><sup>2<\/sup> + 3<i>x<\/i> + 2)?", "opts": ["<i>x<\/i><sup>4<\/sup> − 5<i>x<\/i><sup>2<\/sup> + 4", "<i>x<\/i><sup>4<\/sup> + 4<i>x<\/i><sup>2<\/sup> + 4", "<i>x<\/i><sup>4<\/sup> − 9<i>x<\/i><sup>2<\/sup> + 4", "<i>x<\/i><sup>4<\/sup> + 13<i>x<\/i><sup>2<\/sup> + 4"], "ans": 0, "sol": "Regroup: [(<i>x<\/i><sup>2<\/sup> + 2) − 3<i>x<\/i>][(<i>x<\/i><sup>2<\/sup> + 2) + 3<i>x<\/i>], a difference of squares.<br>= (<i>x<\/i><sup>2<\/sup> + 2)<sup>2<\/sup> − (3<i>x<\/i>)<sup>2<\/sup> = <i>x<\/i><sup>4<\/sup> + 4<i>x<\/i><sup>2<\/sup> + 4 − 9<i>x<\/i><sup>2<\/sup>.<br>= <i>x<\/i><sup>4<\/sup> − 5<i>x<\/i><sup>2<\/sup> + 4.<br>Answer: <b><i>x<\/i><sup>4<\/sup> − 5<i>x<\/i><sup>2<\/sup> + 4<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "What is the coefficient of <i>x<\/i> when (3<i>x<\/i><sup>2<\/sup> − 2<i>x<\/i> + 4)(<i>x<\/i> − 6) is expanded and like terms are combined?", "opts": ["12", "−8", "16", "4"], "ans": 2, "sol": "Only two products give an <i>x<\/i> term: (−2<i>x<\/i>)(−6) = 12<i>x<\/i> and (4)(<i>x<\/i>) = 4<i>x<\/i>.<br>12<i>x<\/i> + 4<i>x<\/i> = 16<i>x<\/i>.<br>Answer: <b>16<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "Which expression is equivalent to 6<i>x<\/i><sup>2<\/sup> − <i>x<\/i><i>y<\/i> − 12<i>y<\/i><sup>2<\/sup>?", "opts": ["(3<i>x<\/i> − 4<i>y<\/i>)(2<i>x<\/i> + 3<i>y<\/i>)", "(3<i>x<\/i> + 4<i>y<\/i>)(2<i>x<\/i> − 3<i>y<\/i>)", "(6<i>x<\/i> + 4<i>y<\/i>)(<i>x<\/i> − 3<i>y<\/i>)", "(2<i>x<\/i> + 4<i>y<\/i>)(3<i>x<\/i> − 3<i>y<\/i>)"], "ans": 1, "sol": "Treat it like 6<i>x<\/i><sup>2<\/sup> − <i>x<\/i> − 12 with <i>y<\/i> attached: <i>a<\/i><i>c<\/i> = −72, and the numbers are −9 and 8.<br>6<i>x<\/i><sup>2<\/sup> − 9<i>x<\/i><i>y<\/i> + 8<i>x<\/i><i>y<\/i> − 12<i>y<\/i><sup>2<\/sup> = 3<i>x<\/i>(2<i>x<\/i> − 3<i>y<\/i>) + 4<i>y<\/i>(2<i>x<\/i> − 3<i>y<\/i>).<br>= (3<i>x<\/i> + 4<i>y<\/i>)(2<i>x<\/i> − 3<i>y<\/i>).<br>Answer: <b>(3<i>x<\/i> + 4<i>y<\/i>)(2<i>x<\/i> − 3<i>y<\/i>)<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "The height, in feet, of a ball <i>t<\/i> seconds after it is thrown is given by the expression −16<i>t<\/i><sup>2<\/sup> + 32<i>t<\/i> + 48. Which of the following is an equivalent form of this expression?", "opts": ["−16(<i>t<\/i> + 3)(<i>t<\/i> − 1)", "16(<i>t<\/i> − 3)(<i>t<\/i> + 1)", "−16(<i>t<\/i> − 3)(<i>t<\/i> − 1)", "−16(<i>t<\/i> − 3)(<i>t<\/i> + 1)"], "ans": 3, "sol": "Take out the GCF −16: −16(<i>t<\/i><sup>2<\/sup> − 2<i>t<\/i> − 3).<br>Two numbers with product −3 and sum −2 are −3 and 1.<br>= −16(<i>t<\/i> − 3)(<i>t<\/i> + 1).<br>Answer: <b>−16(<i>t<\/i> − 3)(<i>t<\/i> + 1)<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Which of the following is the complete factorization of <i>x<\/i><sup>4<\/sup> − 16?", "opts": ["(<i>x<\/i><sup>2<\/sup> − 4)<sup>2<\/sup>", "(<i>x<\/i><sup>2<\/sup> + 4)(<i>x<\/i> − 2)(<i>x<\/i> + 2)", "(<i>x<\/i> − 4)(<i>x<\/i> + 4)(<i>x<\/i><sup>2<\/sup> + 1)", "(<i>x<\/i><sup>2<\/sup> + 4)(<i>x<\/i> + 2)<sup>2<\/sup>"], "ans": 1, "sol": "<i>x<\/i><sup>4<\/sup> − 16 = (<i>x<\/i><sup>2<\/sup>)<sup>2<\/sup> − 4<sup>2<\/sup> = (<i>x<\/i><sup>2<\/sup> − 4)(<i>x<\/i><sup>2<\/sup> + 4).<br><i>x<\/i><sup>2<\/sup> − 4 is again a difference of squares, (<i>x<\/i> − 2)(<i>x<\/i> + 2), while <i>x<\/i><sup>2<\/sup> + 4 does not factor.<br>Answer: <b>(<i>x<\/i><sup>2<\/sup> + 4)(<i>x<\/i> − 2)(<i>x<\/i> + 2)<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "Which of the following is NOT a factor of 3<i>x<\/i><sup>3<\/sup> − 2<i>x<\/i><sup>2<\/sup> − 12<i>x<\/i> + 8?", "opts": ["3<i>x<\/i> − 2", "<i>x<\/i> − 2", "<i>x<\/i><sup>2<\/sup> + 4", "<i>x<\/i> + 2"], "ans": 2, "sol": "Group in pairs: <i>x<\/i><sup>2<\/sup>(3<i>x<\/i> − 2) − 4(3<i>x<\/i> − 2) = (3<i>x<\/i> − 2)(<i>x<\/i><sup>2<\/sup> − 4).<br>= (3<i>x<\/i> − 2)(<i>x<\/i> − 2)(<i>x<\/i> + 2).<br>So 3<i>x<\/i> − 2, <i>x<\/i> − 2 and <i>x<\/i> + 2 are factors, but <i>x<\/i><sup>2<\/sup> + 4 is not.<br>Answer: <b><i>x<\/i><sup>2<\/sup> + 4<\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">(<i>a<\/i><i>x<\/i> + 3)(2<i>x<\/i> − <i>b<\/i>) = 10<i>x<\/i><sup>2<\/sup> + <i>k<\/i><i>x<\/i> − 6<\/div>The equation is true for all values of <i>x<\/i>, where <i>a<\/i>, <i>b<\/i> and <i>k<\/i> are constants. What is the value of <i>k<\/i>?", "opts": ["−4", "4", "16", "−16"], "ans": 0, "sol": "Expand: 2<i>a<\/i><i>x<\/i><sup>2<\/sup> + (6 − <i>a<\/i><i>b<\/i>)<i>x<\/i> − 3<i>b<\/i>.<br>2<i>a<\/i> = 10, so <i>a<\/i> = 5; −3<i>b<\/i> = −6, so <i>b<\/i> = 2.<br><i>k<\/i> = 6 − <i>a<\/i><i>b<\/i> = 6 − 10 = −4.<br>Answer: <b>−4<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A rectangle has a perimeter of 14 centimeters, and the length of its diagonal is √29 centimeters. What is the area of the rectangle, in square centimeters?", "ans": ["10"], "sol": "Let the side lengths be <i>x<\/i> and <i>y<\/i>. Then <i>x<\/i> + <i>y<\/i> = 7, and by the Pythagorean theorem <i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup> = 29.<br>Since (<i>x<\/i> + <i>y<\/i>)<sup>2<\/sup> = <i>x<\/i><sup>2<\/sup> + <i>y<\/i><sup>2<\/sup> + 2<i>x<\/i><i>y<\/i>, 49 = 29 + 2<i>x<\/i><i>y<\/i>.<br>So the area is <i>x<\/i><i>y<\/i> = 10.<br>Answer: <b>10<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "An open box is made from a 30 cm by 20 cm sheet of cardboard by cutting a square with side length <i>x<\/i> centimeters from each corner and folding up the sides. Which expression represents the volume of the box, in cubic centimeters?", "opts": ["4<i>x<\/i><sup>3<\/sup> − 50<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i>", "4<i>x<\/i><sup>3<\/sup> + 100<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i>", "<i>x<\/i><sup>3<\/sup> − 50<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i>", "4<i>x<\/i><sup>3<\/sup> − 100<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i>"], "ans": 3, "sol": "The box measures (30 − 2<i>x<\/i>) by (20 − 2<i>x<\/i>) by <i>x<\/i>.<br>(30 − 2<i>x<\/i>)(20 − 2<i>x<\/i>) = 600 − 60<i>x<\/i> − 40<i>x<\/i> + 4<i>x<\/i><sup>2<\/sup> = 4<i>x<\/i><sup>2<\/sup> − 100<i>x<\/i> + 600.<br>Multiply by <i>x<\/i>: 4<i>x<\/i><sup>3<\/sup> − 100<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i>.<br>Answer: <b>4<i>x<\/i><sup>3<\/sup> − 100<i>x<\/i><sup>2<\/sup> + 600<i>x<\/i><\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "A rectangular field has an area of (12<i>x<\/i><sup>2<\/sup> + 5<i>x<\/i> − 2) square meters. Its width is (3<i>x<\/i> + 2) meters. Which expression represents the length of the field, in meters?", "opts": ["4<i>x<\/i> + 1", "3<i>x<\/i> − 2", "4<i>x<\/i> − 1", "6<i>x<\/i> − 1"], "ans": 2, "sol": "<i>a<\/i><i>c<\/i> = −24; two numbers with product −24 and sum 5 are 8 and −3.<br>12<i>x<\/i><sup>2<\/sup> + 8<i>x<\/i> − 3<i>x<\/i> − 2 = 4<i>x<\/i>(3<i>x<\/i> + 2) − 1(3<i>x<\/i> + 2) = (4<i>x<\/i> − 1)(3<i>x<\/i> + 2).<br>Length = area ÷ width = 4<i>x<\/i> − 1.<br>Answer: <b>4<i>x<\/i> − 1<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "<div class=\"eqs\">(<i>p<\/i><i>x<\/i> + 4)(<i>q<\/i><i>x<\/i> − 3) = 15<i>x<\/i><sup>2<\/sup> + <i>r<\/i><i>x<\/i> − 12<\/div>The equation is true for all values of <i>x<\/i>, where <i>p<\/i> and <i>q<\/i> are positive integers and <i>r<\/i> is a constant. Which of the following is a possible value of <i>r<\/i>?", "opts": ["−11", "11", "3", "41"], "ans": 1, "sol": "Expand: <i>p<\/i><i>q<\/i><i>x<\/i><sup>2<\/sup> + (4<i>q<\/i> − 3<i>p<\/i>)<i>x<\/i> − 12, so <i>p<\/i><i>q<\/i> = 15 and <i>r<\/i> = 4<i>q<\/i> − 3<i>p<\/i>.<br>The pairs (<i>p<\/i>, <i>q<\/i>) are (1, 15), (3, 5), (5, 3) and (15, 1), giving <i>r<\/i> = 57, 11, −3 and −41.<br>Only 11 is among the choices.<br>Answer: <b>11<\/b>"}, {"lo": "LO3", "diff": "X", "type": "mcq", "q": "Which expression is equivalent to 4<i>x<\/i><sup>2<\/sup> − 9<i>y<\/i><sup>2<\/sup> − 4<i>x<\/i> + 1?", "opts": ["(2<i>x<\/i> − 3<i>y<\/i> − 1)(2<i>x<\/i> + 3<i>y<\/i> − 1)", "(2<i>x<\/i> − 3<i>y<\/i> + 1)(2<i>x<\/i> + 3<i>y<\/i> + 1)", "(2<i>x<\/i> − 3<i>y<\/i> − 1)(2<i>x<\/i> + 3<i>y<\/i> + 1)", "(2<i>x<\/i> + 3<i>y<\/i> − 1)<sup>2<\/sup>"], "ans": 0, "sol": "Regroup: (4<i>x<\/i><sup>2<\/sup> − 4<i>x<\/i> + 1) − 9<i>y<\/i><sup>2<\/sup>.<br>The trinomial is a perfect square: (2<i>x<\/i> − 1)<sup>2<\/sup> − (3<i>y<\/i>)<sup>2<\/sup>.<br>Difference of squares: (2<i>x<\/i> − 1 − 3<i>y<\/i>)(2<i>x<\/i> − 1 + 3<i>y<\/i>).<br>Answer: <b>(2<i>x<\/i> − 3<i>y<\/i> − 1)(2<i>x<\/i> + 3<i>y<\/i> − 1)<\/b>"}, {"lo": "LO2", "diff": "X", "type": "spr", "q": "For how many integer values of <i>k<\/i> can <i>x<\/i><sup>2<\/sup> + <i>k<\/i><i>x<\/i> + 24 be written as (<i>x<\/i> + <i>m<\/i>)(<i>x<\/i> + <i>n<\/i>), where <i>m<\/i> and <i>n<\/i> are integers?", "ans": ["8"], "sol": "We need <i>m<\/i><i>n<\/i> = 24 and <i>k<\/i> = <i>m<\/i> + <i>n<\/i>.<br>The positive pairs 1 and 24, 2 and 12, 3 and 8, 4 and 6 give <i>k<\/i> = 25, 14, 11 and 10.<br>The negative pairs give −25, −14, −11 and −10.<br>That is 8 values.<br>Answer: <b>8<\/b>"}, {"lo": "LO4", "diff": "X", "type": "spr", "q": "<div class=\"eqs\">2<i>x<\/i><sup>2<\/sup> + <i>k<\/i><i>x<\/i> − 15 = (2<i>x<\/i> + <i>m<\/i>)(<i>x<\/i> + <i>n<\/i>)<\/div>The equation is true for all values of <i>x<\/i>, where <i>k<\/i>, <i>m<\/i> and <i>n<\/i> are integers. What is the greatest possible value of <i>k<\/i>?", "ans": ["29"], "sol": "Expand: 2<i>x<\/i><sup>2<\/sup> + (2<i>n<\/i> + <i>m<\/i>)<i>x<\/i> + <i>m<\/i><i>n<\/i>, so <i>m<\/i><i>n<\/i> = −15 and <i>k<\/i> = 2<i>n<\/i> + <i>m<\/i>.<br><i>n<\/i> is doubled, so make <i>n<\/i> as large as possible: <i>n<\/i> = 15 and <i>m<\/i> = −1 give <i>k<\/i> = 30 − 1 = 29.<br>Every other pair gives less (for example, <i>n<\/i> = 5 and <i>m<\/i> = −3 give 7).<br>Answer: <b>29<\/b>"}], "unit_no": 2, "topic_no": "1", "code": "1.1"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAT Math Question Bank Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: Brain & Mind navy/gold report. Summary tiles, then domain balance, difficulty, skill table, file audit. */
+:root{
+  --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E;
+  --bg:#F7F5EF; --card:#FFFFFF; --ink:#211E1A; --ink-2:#55503F; --muted:#898781; --rule:#E4DCC8; --grid:#E1E0D9;
+  --e:#86b6ef; --m:#2a78d6; --h:#104281; --bar:#2a78d6; --tick:#211E1A;
+  --warn:#9A6A12; --warn-bg:#FAF0D6; --bad:#B5443E; --bad-bg:#FAE3E1; --ok:#2E7D4F; --ok-bg:#E1F2E7;
+  --f-d:'Fraunces',Georgia,serif; --f-b:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-m:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --bg:#141210; --card:#1C1A17; --ink:#EDE7DA; --ink-2:#C3BDAE; --muted:#9A958A; --rule:#3A342A; --grid:#2C2A26;
+  --e:#184f95; --m:#3987e5; --h:#9ec5f4; --bar:#3987e5; --tick:#EDE7DA;
+  --warn:#E3B95A; --warn-bg:#33290F; --bad:#E38884; --bad-bg:#331D1B; --ok:#7BC79A; --ok-bg:#1B2E22; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --bg:#141210; --card:#1C1A17; --ink:#EDE7DA; --ink-2:#C3BDAE; --muted:#9A958A; --rule:#3A342A; --grid:#2C2A26;
+  --e:#184f95; --m:#3987e5; --h:#9ec5f4; --bar:#3987e5; --tick:#EDE7DA;
+  --warn:#E3B95A; --warn-bg:#33290F; --bad:#E38884; --bad-bg:#331D1B; --ok:#7BC79A; --ok-bg:#1B2E22; color-scheme:dark; }
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font:16.5px/1.55 var(--f-b);}
+h1,h2,h3{font-family:var(--f-d); margin:0; line-height:1.2; text-wrap:balance}
+.wrap{max-width:1040px; margin:0 auto; padding-inline:16px}
+.num{font-family:var(--f-m); font-variant-numeric:tabular-nums}
+header{background:linear-gradient(155deg,var(--navy),var(--navy-2)); color:#F4EFDF; padding-block:22px 26px}
+.brand{display:flex; gap:12px; align-items:center}
+.crest{width:40px;height:40px;border-radius:10px;background:#C79A3E;color:#16264A;display:flex;align-items:center;justify-content:center;font:700 17px var(--f-d)}
+.bn{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#E0B75B;font-weight:700}
+.sn{font:700 18px var(--f-d)} .sn span{font:400 14px var(--f-b);color:#CFD7EA}
+header h1{font-size:clamp(26px,5vw,36px); margin-top:16px}
+header p{color:#D9DFEE; margin:6px 0 0; max-width:70ch}
+main{padding-block:22px 40px; display:flex; flex-direction:column; gap:18px}
+.card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px; min-width:0}
+.eyebrow{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-2)}
+.card h2{font-size:22px; margin:4px 0 6px}
+.lead{color:var(--ink-2); margin:0 0 14px; max-width:75ch}
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px}
+.kpi{background:var(--card); border:1px solid var(--rule); border-radius:12px; padding:14px 16px}
+.kpi span{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+.kpi b{display:block;font:700 30px var(--f-d)} .kpi small{color:var(--muted);font-size:13.5px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px} @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+/* domain balance */
+.drow{display:grid; grid-template-columns:minmax(0,170px) 1fr 112px; gap:10px; align-items:center; padding:7px 0}
+.dname{font-weight:600; font-size:15px}
+.track{position:relative; height:16px; background:linear-gradient(90deg,transparent calc(25% - 1px),var(--grid) calc(25% - 1px),var(--grid) 25%,transparent 25%,transparent calc(50% - 1px),var(--grid) calc(50% - 1px),var(--grid) 50%,transparent 50%)}
+.fill{position:absolute;left:0;top:2px;height:12px;background:var(--bar);border-radius:0 4px 4px 0}
+.tick{position:absolute;top:-3px;width:2px;height:22px;background:var(--tick)}
+.dval{font-size:14px;text-align:right;color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13.5px;color:var(--ink-2);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.legend i.t{width:2px;height:14px;border-radius:0;background:var(--tick)}
+/* stacked difficulty */
+.stack{display:flex;height:16px;gap:2px}
+.stack > div{height:100%}
+.stack > div:first-child{border-radius:4px 0 0 4px} .stack > div:last-child{border-radius:0 4px 4px 0}
+.sE{background:var(--e)} .sM{background:var(--m)} .sH{background:var(--h)}
+/* table */
+.tscroll{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{padding:8px 8px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+td.r,th.r{text-align:right}
+tr.dom td{background:transparent; font:700 15px var(--f-d); padding-top:16px; border-bottom:2px solid var(--rule)}
+.cbar{display:flex;align-items:center;gap:8px;min-width:150px}
+.cbar .b{height:10px;background:var(--bar);border-radius:0 3px 3px 0}
+.chip{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:2px 9px;white-space:nowrap}
+.chip.bad{background:var(--bad-bg);color:var(--bad)} .chip.warn{background:var(--warn-bg);color:var(--warn)} .chip.ok{background:var(--ok-bg);color:var(--ok)}
+.find{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
+.find li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.find p{margin:2px 0 0;color:var(--ink-2)}
+.note{font-size:13.5px;color:var(--muted);margin:12px 0 0}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:6px 9px;border-radius:7px;max-width:260px;z-index:9;opacity:0;transition:opacity .1s}
+footer{color:var(--muted);font-size:13px;padding-block:10px 30px}
+</style>
+<header><div class="wrap">
+ <div class="brand"><div class="crest" aria-hidden="true">BM</div><div><div class="bn">Brain &amp; Mind Academy</div><div class="sn">Abhyas <span>Digital SAT Math</span></div></div></div>
+ <h1>SAT Math Question Bank Analysis</h1>
+ <p>What is inside the eleven topic-wise question-bank files in the “8. SAT” folder: how many questions per domain and skill, how hard they are, how they compare with the Digital SAT blueprint, and where the files overlap.</p>
+</div></header>
+<main class="wrap">
+ <section class="kpis" id="kpis"></section>
+ <div class="grid2">
+  <section class="card"><div class="eyebrow">Domain balance</div><h2>Bank share vs the Digital SAT</h2><p class="lead">Bars show each domain’s share of the unique questions; the black tick marks its share of the real test.</p><div id="dom"></div>
+   <div class="legend"><span><i style="background:var(--bar)"></i>Share of this bank</span><span><i class="t"></i>Share of the Digital SAT</span></div></section>
+  <section class="card"><div class="eyebrow">Difficulty</div><h2>Easy, Medium, Hard by domain</h2><p class="lead">College Board’s own difficulty tag for each unique question.</p><div id="diff"></div>
+   <div class="legend"><span><i class="sE"></i>Easy</span><span><i class="sM"></i>Medium</span><span><i class="sH"></i>Hard</span></div></section>
+ </div>
+ <section class="card"><div class="eyebrow">Key findings</div><h2>What the data says</h2><ul class="find" id="find"></ul></section>
+ <section class="card"><div class="eyebrow">Skill by skill</div><h2>The 19 College Board skills</h2><p class="lead">Unique questions per skill, their difficulty mix and format, set against the questions in the matching Abhyas learning sheets.</p>
+  <div class="tscroll"><table id="skills"></table></div>
+  <p class="note">“In context” is an estimate: question stems of 25 words or more, which are almost always word problems. Math symbols are stored as images in these PDFs, so the stem text contains words only.</p></section>
+ <section class="card"><div class="eyebrow">File audit</div><h2>What each file actually contains</h2><div class="tscroll"><table id="files"></table></div></section>
+ <section class="card"><div class="eyebrow">Other books in the folder</div><h2>Not question-bank exports</h2><div class="tscroll"><table>
+  <tr><th>File</th><th class="r">Pages</th><th>What it is</th></tr>
+  <tr><td>MADS-panda-sat-math.pdf</td><td class="r num">315</td><td>The College Panda, <i>SAT Math: Advanced Guide and Workbook</i> (Nielson Phu), written for the 2016 paper SAT. A scan with no text layer, so it cannot be searched or parsed without OCR.</td></tr>
+  <tr><td>SAT+Math.pdf</td><td class="r num">312</td><td><i>Mastering the SAT Math</i> (Jerry Bobrow, 2006). Written for the pre-2016 SAT.</td></tr>
+  <tr><td>[McGraw-Hill] SAT Subject Test Math Level 2</td><td class="r num">417</td><td>Subject Test (Math Level 2) prep. That test was discontinued in 2021; much of it is beyond the Digital SAT.</td></tr>
+  <tr><td>[Prep Course] Jeff Kolby, SAT Math Tests (2015)</td><td class="r num">458</td><td>Practice tests for the pre-2016 SAT format.</td></tr>
+ </table></div><p class="note">These four are commercial, copyrighted books from older SAT formats. They are useful as background but not as a source of Digital SAT questions.</p></section>
+</main>
+<footer class="wrap">Brain &amp; Mind Academy · analysis of the College Board question-bank PDF exports in “F:\8. SAT”. Counts are of unique question IDs unless marked as entries. SAT is a trademark of the College Board.</footer>
+<div id="tip" role="tooltip"></div>
+<script>
+(function(){
+var D={"total": 1362, "unique": 1219, "dups": 143, "diff": {"Easy": 459, "Medium": 384, "Hard": 376}, "type": {"SPR": 339, "MCQ": 880}, "ctx": 493, "keys": {"B": 241, "C": 193, "D": 227, "A": 219}, "domains": [{"domain": "Algebra", "n": 428, "blue": 35, "E": 188, "M": 143, "H": 97}, {"domain": "Advanced Math", "n": 348, "blue": 35, "E": 108, "M": 113, "H": 127}, {"domain": "Problem-Solving and Data Analysis", "n": 231, "blue": 15, "E": 102, "M": 68, "H": 61}, {"domain": "Geometry and Trigonometry", "n": 212, "blue": 15, "E": 61, "M": 60, "H": 91}], "skills": [{"domain": "Algebra", "skill": "Linear equations in one variable", "n": 78, "E": 47, "M": 16, "H": 15, "mcq": 52, "spr": 26, "ctx": 19, "sheets": ["ALG-1.1", "ALG-1.2", "ALG-1.3"], "sheetq": 156, "sheeth": 66}, {"domain": "Algebra", "skill": "Linear equations in two variables", "n": 99, "E": 41, "M": 37, "H": 21, "mcq": 72, "spr": 27, "ctx": 51, "sheets": ["ALG-2.1", "ALG-2.2", "ALG-2.3"], "sheetq": 156, "sheeth": 64}, {"domain": "Algebra", "skill": "Linear functions", "n": 120, "E": 62, "M": 39, "H": 19, "mcq": 94, "spr": 26, "ctx": 61, "sheets": ["ALG-3.1", "ALG-3.2", "ALG-3.3"], "sheetq": 156, "sheeth": 63}, {"domain": "Algebra", "skill": "Systems of two linear equations in two variables", "n": 83, "E": 22, "M": 31, "H": 30, "mcq": 59, "spr": 24, "ctx": 20, "sheets": ["ALG-4.1", "ALG-4.2", "ALG-4.3"], "sheetq": 156, "sheeth": 66}, {"domain": "Algebra", "skill": "Linear inequalities in one or two variables", "n": 48, "E": 16, "M": 20, "H": 12, "mcq": 42, "spr": 6, "ctx": 28, "sheets": ["ALG-5.1", "ALG-5.2", "ALG-5.3"], "sheetq": 156, "sheeth": 63}, {"domain": "Advanced Math", "skill": "Equivalent expressions", "n": 57, "E": 28, "M": 16, "H": 13, "mcq": 49, "spr": 8, "ctx": 0, "sheets": ["ADV-1.1", "ADV-1.2", "ADV-1.3"], "sheetq": 156, "sheeth": 66}, {"domain": "Advanced Math", "skill": "Nonlinear equations in one variable and systems of equations in two variables", "n": 104, "E": 30, "M": 33, "H": 41, "mcq": 69, "spr": 35, "ctx": 7, "sheets": ["ADV-2.1", "ADV-2.2", "ADV-2.3", "ADV-2.4"], "sheetq": 208, "sheeth": 88}, {"domain": "Advanced Math", "skill": "Nonlinear functions", "n": 187, "E": 50, "M": 64, "H": 73, "mcq": 139, "spr": 48, "ctx": 101, "sheets": ["ADV-3.1", "ADV-3.2", "ADV-3.3", "ADV-3.4"], "sheetq": 208, "sheeth": 88}, {"domain": "Problem-Solving and Data Analysis", "skill": "Ratios, rates, proportional relationships, and units", "n": 61, "E": 29, "M": 19, "H": 13, "mcq": 33, "spr": 28, "ctx": 24, "sheets": ["PSDA-1.1", "PSDA-1.2"], "sheetq": 104, "sheeth": 42}, {"domain": "Problem-Solving and Data Analysis", "skill": "Percentages", "n": 56, "E": 17, "M": 16, "H": 23, "mcq": 32, "spr": 24, "ctx": 21, "sheets": ["PSDA-1.3"], "sheetq": 52, "sheeth": 21}, {"domain": "Problem-Solving and Data Analysis", "skill": "One-variable data: Distributions and measures of center and spread", "n": 44, "E": 22, "M": 8, "H": 14, "mcq": 31, "spr": 13, "ctx": 27, "sheets": ["PSDA-2.1", "PSDA-2.2"], "sheetq": 104, "sheeth": 42}, {"domain": "Problem-Solving and Data Analysis", "skill": "Two-variable data: Models and scatterplots", "n": 35, "E": 18, "M": 13, "H": 4, "mcq": 29, "spr": 6, "ctx": 28, "sheets": ["PSDA-2.3"], "sheetq": 52, "sheeth": 21}, {"domain": "Problem-Solving and Data Analysis", "skill": "Probability and conditional probability", "n": 22, "E": 12, "M": 6, "H": 4, "mcq": 16, "spr": 6, "ctx": 22, "sheets": ["PSDA-3.1"], "sheetq": 52, "sheeth": 21}, {"domain": "Problem-Solving and Data Analysis", "skill": "Inference from sample statistics and margin of error", "n": 11, "E": 4, "M": 6, "H": 1, "mcq": 11, "spr": 0, "ctx": 11, "sheets": ["PSDA-3.2"], "sheetq": 52, "sheeth": 21}, {"domain": "Problem-Solving and Data Analysis", "skill": "Evaluating statistical claims: Observational studies and experiments", "n": 2, "E": 0, "M": 0, "H": 2, "mcq": 2, "spr": 0, "ctx": 2, "sheets": ["PSDA-3.3"], "sheetq": 52, "sheeth": 21}, {"domain": "Geometry and Trigonometry", "skill": "Area and volume", "n": 72, "E": 26, "M": 23, "H": 23, "mcq": 50, "spr": 22, "ctx": 31, "sheets": ["GEO-2.1", "GEO-2.2", "GEO-2.3"], "sheetq": 156, "sheeth": 63}, {"domain": "Geometry and Trigonometry", "skill": "Lines, angles, and triangles", "n": 58, "E": 23, "M": 16, "H": 19, "mcq": 41, "spr": 17, "ctx": 17, "sheets": ["GEO-1.1", "GEO-1.2", "GEO-1.3"], "sheetq": 156, "sheeth": 63}, {"domain": "Geometry and Trigonometry", "skill": "Right triangles and trigonometry", "n": 44, "E": 10, "M": 10, "H": 24, "mcq": 31, "spr": 13, "ctx": 7, "sheets": ["GEO-3.1", "GEO-3.2"], "sheetq": 104, "sheeth": 42}, {"domain": "Geometry and Trigonometry", "skill": "Circles", "n": 38, "E": 2, "M": 11, "H": 25, "mcq": 28, "spr": 10, "ctx": 16, "sheets": ["GEO-3.3", "GEO-3.4"], "sheetq": 104, "sheeth": 42}], "files": [{"file": "SAT Mixed Ratio Percentages and more", "n": 231, "unique": 231, "skills": {"Two-variable data: Models and scatterplots": 35, "Probability and conditional probability": 22, "Inference from sample statistics and margin of error": 11, "Percentages": 56, "Ratios, rates, proportional relationships, and units": 61, "One-variable data: Distributions and measures of center and spread": 44, "Evaluating statistical claims: Observational studies and experiments": 2}}, {"file": "3 Linear equations in two variables +  2 Linear Functions", "n": 219, "unique": 219, "skills": {"Linear equations in two variables": 99, "Linear functions": 120}}, {"file": "1 Nonlinear functions", "n": 188, "unique": 187, "skills": {"Nonlinear functions": 188}}, {"file": "2 Lines, angles, and triangles + 3 Right triangles and trigonometry", "n": 174, "unique": 174, "skills": {"Area and volume": 72, "Lines, angles, and triangles": 58, "Right triangles and trigonometry": 44}}, {"file": "4 System fo two linear equations in two variables + 5 Linear inequalitiesin one or twovariables", "n": 132, "unique": 131, "skills": {"Linear inequalities in one or two variables": 49, "Systems of two linear equations in two variables": 83}}, {"file": "2 Nonlinear equations in one variable and systems of equations in two variables", "n": 105, "unique": 104, "skills": {"Nonlinear equations in one variable and systems of equations in two variables": 105}}, {"file": "CH 1 Linear equations inone variable", "n": 78, "unique": 78, "skills": {"Linear equations in one variable": 78}}, {"file": "1 Geometry Area and Volume", "n": 72, "unique": 72, "skills": {"Area and volume": 72}}, {"file": "SAT Inference from sample statistics and margin of error", "n": 68, "unique": 68, "skills": {"Two-variable data: Models and scatterplots": 35, "Probability and conditional probability": 22, "Inference from sample statistics and margin of error": 11}}, {"file": "3 Equivalent Expression", "n": 57, "unique": 57, "skills": {"Equivalent expressions": 57}}, {"file": "4 CIRCLE", "n": 38, "unique": 38, "skills": {"Circles": 38}}], "dup": [{"files": ["1 Geometry Area and Volume", "2 Lines, angles, and triangles + 3 Right triangles and trigonometry"], "n": 72}, {"files": ["SAT Inference from sample statistics and margin of error", "SAT Mixed Ratio Percentages and more"], "n": 68}, {"files": ["within", "1 Nonlinear functions"], "n": 1}, {"files": ["within", "2 Nonlinear equations in one variable and systems of equations in two variables"], "n": 1}, {"files": ["within", "4 System fo two linear equations in two variables + 5 Linear inequalitiesin one or twovariables"], "n": 1}]};
+function $(id){return document.getElementById(id);}
+function pct(a,b){return b?Math.round(100*a/b):0;}
+function fmt(n){return n.toLocaleString('en-US');}
+var SHORT={'Problem-Solving and Data Analysis':'Problem-Solving & Data','Geometry and Trigonometry':'Geometry & Trig'};
+// KPIs
+var u=D.unique, df=D.diff;
+$('kpis').innerHTML=[
+ ['Entries in the files',fmt(D.total),'11 topic-wise PDFs'],
+ ['Unique questions',fmt(u),fmt(D.dups)+' entries are repeats'],
+ ['Easy · Medium · Hard',df.Easy+' · '+df.Medium+' · '+df.Hard,pct(df.Hard,u)+'% tagged Hard'],
+ ['Student-produced response',fmt(D.type.SPR),pct(D.type.SPR,u)+'% of questions (test ≈25%)'],
+ ['In context (est.)',fmt(D.ctx),pct(D.ctx,u)+'% word problems (test ≈30%)']
+].map(function(k){return '<div class="kpi"><span>'+k[0]+'</span><b class="num">'+k[1]+'</b><small>'+k[2]+'</small></div>';}).join('');
+// domains
+$('dom').innerHTML=D.domains.map(function(d){var s=100*d.n/u; return '<div class="drow"><div class="dname">'+(SHORT[d.domain]||d.domain)+'</div><div class="track" data-tip="'+d.domain+': '+d.n+' questions, '+s.toFixed(1)+'% of the bank. Digital SAT: '+d.blue+'%."><div class="fill" style="width:'+(s*2)+'%"></div><div class="tick" style="left:calc('+(d.blue*2)+'% - 1px)"></div></div><div class="dval num">'+s.toFixed(1)+'% <span style="color:var(--muted)">/ '+d.blue+'%</span></div></div>';}).join('')+'<div class="drow" style="padding-top:0"><div></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)" class="num"><span>0%</span><span>25%</span><span>50%</span></div><div></div></div>';
+// difficulty
+function stackHTML(o,tipName){var t=o.E+o.M+o.H; return '<div class="stack">'+[['E','Easy'],['M','Medium'],['H','Hard']].map(function(p){var v=o[p[0]]; return v?'<div class="s'+p[0]+'" style="flex:'+v+'" data-tip="'+tipName+': '+v+' '+p[1]+' ('+pct(v,t)+'%)"></div>':'';}).join('')+'</div>';}
+$('diff').innerHTML=D.domains.map(function(d){return '<div class="drow" style="grid-template-columns:minmax(0,170px) 1fr 112px"><div class="dname">'+(SHORT[d.domain]||d.domain)+'</div>'+stackHTML(d,d.domain)+'<div class="dval num">'+pct(d.H,d.n)+'% Hard</div></div>';}).join('');
+// skills table
+var max=Math.max.apply(null,D.skills.map(function(s){return s.n;}));
+var h='<tr><th>Skill</th><th>Unique questions</th><th>Difficulty</th><th class="r">Hard</th><th class="r">SPR</th><th class="r">In context</th><th class="r">Abhyas sheet Qs</th><th>Bank status</th></tr>', cur='';
+D.skills.forEach(function(s){
+  if(s.domain!==cur){cur=s.domain; h+='<tr class="dom"><td colspan="8">'+s.domain+'</td></tr>';}
+  var st = s.n<15?'<span class="chip bad">Very thin</span>':(s.n<40?'<span class="chip warn">Thin</span>':'<span class="chip ok">Good</span>');
+  h+='<tr><td>'+s.skill+'</td><td><div class="cbar"><div class="b" style="width:'+(100*s.n/max)+'px"></div><span class="num">'+s.n+'</span></div></td><td style="min-width:130px">'+stackHTML(s,s.skill)+'</td><td class="r num">'+s.H+'</td><td class="r num">'+s.spr+'</td><td class="r num">'+pct(s.ctx,s.n)+'%</td><td class="r num">'+s.sheetq+'</td><td>'+st+'</td></tr>';
+});
+$('skills').innerHTML=h;
+// files
+var ISS={'1 Geometry Area and Volume':['warn','All 72 also inside the Lines/Triangles file'],
+ '2 Lines, angles, and triangles + 3 Right triangles and trigonometry':['warn','Includes the full Area and Volume set (72)'],
+ 'SAT Inference from sample statistics and margin of error':['bad','Only 11 of 68 are inference; all 68 repeat in the Mixed file'],
+ 'SAT Mixed Ratio Percentages and more':['ok','Covers 7 PSDA skills'],
+ '1 Nonlinear functions':['warn','1 question repeated inside the file'],
+ '2 Nonlinear equations in one variable and systems of equations in two variables':['warn','1 question repeated inside the file'],
+ '4 System fo two linear equations in two variables + 5 Linear inequalitiesin one or twovariables':['warn','1 question repeated inside the file']};
+$('files').innerHTML='<tr><th>File</th><th class="r">Entries</th><th class="r">Unique</th><th>Skills inside</th><th>Note</th></tr>'+D.files.map(function(f){var k=Object.keys(f.skills).map(function(s){return s.split(':')[0]+' <span class="num" style="color:var(--muted)">'+f.skills[s]+'</span>';}).join('<br>'); var is=ISS[f.file]||['ok','Clean']; return '<tr><td>'+f.file+'</td><td class="r num">'+f.n+'</td><td class="r num">'+f.unique+'</td><td style="font-size:14px">'+k+'</td><td><span class="chip '+is[0]+'">'+is[1]+'</span></td></tr>';}).join('');
+// findings
+var F=[
+ ['bad','143 of the 1,362 entries are repeats','The Area and Volume file is copied in full inside the Lines/Triangles file (72), the Inference file is copied in full inside the Mixed file (68), and 3 questions appear twice within their own file. Use the 1,219 unique questions as the true bank size.'],
+ ['bad','The “Inference” file is mostly other skills','Only 11 of its 68 questions are on inference and margin of error; 35 are scatterplot/model questions and 22 are probability. Evaluating statistical claims has just 2 questions in the whole bank.'],
+ ['warn','Advanced Math is under-represented','It is 28.5% of the bank but 35% of the test, while Problem-Solving and Geometry are slightly over-represented (19% and 17% vs 15%). Advanced Math still has the most Hard questions (127).'],
+ ['warn','Hard questions are scarce in four PSDA skills','Two-variable data and probability have 4 Hard questions each, inference has 1 and statistical claims 2. The Abhyas sheets add 21 Hard/Challenge questions to each of these skills.'],
+ ['ok','Difficulty is usable for adaptive practice','38% Easy, 31% Medium, 31% Hard overall. Circles (66% Hard) and right-triangle trigonometry (55% Hard) skew hard; linear equations in one variable (60% Easy) and linear functions (52% Easy) skew easy.'],
+ ['ok','Format and answer keys are balanced','28% of questions are student-produced response, close to the test’s ≈25%. Multiple-choice keys are spread A '+D.keys.A+', B '+D.keys.B+', C '+D.keys.C+', D '+D.keys.D+'.']
+];
+$('find').innerHTML=F.map(function(f){return '<li><span class="chip '+f[0]+'">'+(f[0]==='bad'?'Fix':f[0]==='warn'?'Watch':'Good')+'</span><div><b>'+f[1]+'</b><p>'+f[2]+'</p></div></li>';}).join('');
+// tooltip
+var tip=$('tip');
+document.addEventListener('mousemove',function(e){var t=e.target.closest('[data-tip]'); if(!t){tip.style.opacity=0;return;} tip.textContent=t.getAttribute('data-tip'); tip.style.opacity=1; var x=Math.min(e.clientX+12,window.innerWidth-270); tip.style.left=x+'px'; tip.style.top=(e.clientY+14)+'px';});
+})();
+</script>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1.2 Number of solutions and literal equations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: Brain & Mind navy/gold identity. A study sheet: navy header, sticky Learn | Quiz switch,
+     objective-by-objective lesson cards in Learn mode, one-question-at-a-time quiz with an objective-wise report. */
+  :root{
+    --navy:#16264A; --navy-2:#1F3B6B; --gold:#C79A3E; --gold-soft:#F3E7C9;
+    --paper:#FBF9F4; --paper-2:#F1EAD8; --card:#FFFFFF;
+    --ink:#211E1A; --ink-soft:#655D4C; --rule:#E4DCC8;
+    --success:#2E7D4F; --success-soft:#E1F2E7;
+    --warn:#9A6A12; --warn-soft:#FAF0D6;
+    --danger:#B5443E; --danger-soft:#FAE3E1;
+    --accent-text:#1F3B6B; --focus:#1F3B6B;
+    --gr-grid:#E7E0CF; --gr-axis:#5C5546; --gr-line:#2D55C4; --gr-alt:#B7801A; --gr-shade:rgba(45,85,196,.16);
+    --chip-on:#1F3B6B; --chip-on-ink:#FFFFFF;
+    --f-display:'Fraunces',Georgia,serif; --f-body:'Source Sans 3',-apple-system,'Segoe UI',sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+      --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+      --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+      --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+      --danger:#E38884; --danger-soft:#331D1B;
+      --accent-text:#E0B75B; --focus:#E0B75B;
+      --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+      --chip-on:#E0B75B; --chip-on-ink:#141210;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#0E1830; --navy-2:#16264A; --gold:#E0B75B; --gold-soft:#3A2F16;
+    --paper:#141210; --paper-2:#1C1914; --card:#1C1914;
+    --ink:#EDE7DA; --ink-soft:#B2A996; --rule:#3A342A;
+    --success:#7BC79A; --success-soft:#1B2E22; --warn:#E3B95A; --warn-soft:#33290F;
+    --danger:#E38884; --danger-soft:#331D1B;
+    --accent-text:#E0B75B; --focus:#E0B75B;
+    --gr-grid:#2E2A22; --gr-axis:#B2A996; --gr-line:#7C9BF0; --gr-alt:#E0B75B; --gr-shade:rgba(124,155,240,.2);
+    --chip-on:#E0B75B; --chip-on-ink:#141210;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55;}
+  h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0; line-height:1.2;}
+  button{font-family:inherit; font-size:inherit; color:inherit;}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
+  i{font-family:var(--f-display); font-style:italic; font-weight:500;}
+  .num{font-family:var(--f-mono); font-variant-numeric:tabular-nums;}
+  .wrap{max-width:860px; margin:0 auto; padding-inline:16px;}
+
+  /* header */
+  header.brand{background:linear-gradient(155deg,var(--navy) 0%,var(--navy-2) 100%); color:#F4EFDF; padding-block:calc(18px + env(safe-area-inset-top,0px)) 22px;}
+  .brand-row{display:flex; align-items:center; gap:12px;}
+  .crest{width:40px; height:40px; border-radius:10px; background:#C79A3E; color:#16264A; display:flex; align-items:center; justify-content:center; font-family:var(--f-display); font-weight:700; font-size:17px; flex-shrink:0;}
+  .brand-name{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#E0B75B; font-weight:700;}
+  .series-name{font-size:18px; font-weight:700; font-family:var(--f-display);}
+  .series-name span{font-weight:400; font-size:14px; color:#CFD7EA; font-family:var(--f-body);}
+  .crumbs{margin-top:16px; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#AEB9D6; display:flex; flex-wrap:wrap; gap:4px 10px;}
+  .crumbs b{color:#E0B75B; font-weight:700;}
+  h1.title{font-size:clamp(26px,5vw,36px); margin-top:4px;}
+  .summary{color:#D9DFEE; margin:6px 0 0; max-width:62ch;}
+  .meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .meta span{font-size:13px; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:4px 11px; color:#F4EFDF;}
+
+  /* mode switch */
+  .modebar{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--paper); border-bottom:1px solid var(--rule);}
+  .modebar .wrap{display:flex; gap:6px; align-items:center; padding-block:10px;}
+  .tab{border:1.5px solid var(--rule); background:var(--card); border-radius:99px; padding:7px 18px; font-weight:700; cursor:pointer;}
+  .tab[aria-selected="true"]{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .modebar .prog{margin-left:auto; font-size:13.5px; color:var(--ink-soft);}
+
+  main{padding-block:22px 40px;}
+  .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:20px;}
+  .stack{display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; color:var(--accent-text);}
+
+  /* objectives overview */
+  .los{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .los li{display:flex; gap:12px; align-items:flex-start;}
+  .los a{color:inherit; text-decoration:none;} .los a:hover{text-decoration:underline;}
+  .lo-n{font-family:var(--f-mono); font-size:12.5px; font-weight:600; background:var(--gold-soft); color:var(--ink); border-radius:6px; padding:2px 7px; flex-shrink:0; margin-top:2px;}
+  .lo-done{margin-left:auto; font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+
+  /* lesson */
+  .lesson{scroll-margin-top:70px;}
+  .lesson h2{font-size:24px; margin:4px 0 10px;}
+  .concept p{margin:0 0 10px; max-width:68ch;}
+  .concept ul,.concept ol{margin:0 0 10px; padding-left:22px;}
+  .rules{background:var(--paper-2); border-radius:10px; padding:12px 16px; margin:12px 0;}
+  .rules h3,.traps h3,.ex h3,.try h3{font-family:var(--f-body); font-size:13px; letter-spacing:.07em; text-transform:uppercase; margin:0 0 6px; color:var(--ink-soft);}
+  .rules ul,.traps ul{margin:0; padding-left:20px;} .rules li,.traps li{margin:3px 0;}
+  .traps{border-left:3px solid var(--danger); padding:4px 0 4px 14px; margin:14px 0;}
+  .ex{border:1px solid var(--rule); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .ex-q{margin-bottom:8px;}
+  .steps{margin:0; padding-left:22px;} .steps li{margin:4px 0;}
+  .ex .ans{margin-top:8px; font-weight:700;}
+  .ex-ctrl{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .btn{border:1.5px solid var(--rule); background:var(--card); border-radius:9px; padding:8px 14px; font-weight:700; cursor:pointer; font-size:15px;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .btn-primary{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.5; cursor:default;}
+  .try{background:var(--paper-2); border-radius:10px; padding:14px 16px; margin:12px 0;}
+  .feedback{margin-top:10px; border-radius:9px; padding:10px 12px; font-size:15.5px;}
+  .feedback.ok{background:var(--success-soft);} .feedback.no{background:var(--danger-soft);}
+  .feedback b.v{display:block; margin-bottom:2px;}
+  .donebox{display:flex; align-items:center; gap:8px; margin-top:14px; font-weight:600; font-size:15px;}
+  .donebox input{width:18px; height:18px; accent-color:var(--success);}
+  .gotoquiz{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;}
+
+  /* questions */
+  .qtext{margin-bottom:12px;}
+  .qtext p{margin:0 0 8px;}
+  .eqs{text-align:center; margin:8px 0 12px; line-height:1.9;}
+  .opts{display:flex; flex-direction:column; gap:8px;}
+  .opt{display:flex; gap:12px; align-items:center; text-align:left; width:100%; border:1.5px solid var(--rule); background:var(--card); border-radius:10px; padding:10px 12px; cursor:pointer;}
+  .opt:hover{border-color:var(--ink-soft);}
+  .opt .let{width:28px; height:28px; border-radius:50%; border:1.5px solid var(--ink-soft); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;}
+  .opt[aria-checked="true"]{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .opt[aria-checked="true"] .let{background:var(--chip-on); color:var(--chip-on-ink); border-color:var(--chip-on);}
+  .opt.right{border-color:var(--success); background:var(--success-soft);} .opt.wrong{border-color:var(--danger); background:var(--danger-soft);}
+  .opt > span:last-child{min-width:0;}
+  .spr{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .spr input{font:600 18px var(--f-mono); width:9em; padding:8px 10px; border:1.5px solid var(--ink-soft); border-radius:8px; background:var(--card); color:var(--ink);}
+  .spr small{color:var(--ink-soft); font-size:13.5px;}
+  .fq{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 2px; font-size:.92em; line-height:1.2;}
+  .fq > span:first-child{border-bottom:1.5px solid currentColor; padding:0 3px;} .fq > span:last-child{padding:0 3px;}
+  .dtab{border-collapse:collapse; margin:6px auto 10px; font-size:15.5px;}
+  .dtab th,.dtab td{border:1px solid var(--ink-soft); padding:5px 12px; text-align:center;}
+  .tscroll{overflow-x:auto;}
+  .grwrap{display:flex; justify-content:center; margin:8px 0 12px; overflow-x:auto;}
+  svg.gr{width:100%; max-width:300px; height:auto;}
+  .gr-grid line{stroke:var(--gr-grid); stroke-width:1;}
+  .gr-axis line{stroke:var(--gr-axis); stroke-width:1.4;}
+  .gr-lab text{fill:var(--ink-soft); font:600 10.5px var(--f-body);} .gr-lab text.gr-ax{font:italic 600 13px var(--f-display); fill:var(--ink);}
+  .gr-line{stroke:var(--gr-line); stroke-width:2.2; fill:none;} .gr-line.dash{stroke-dasharray:6 4;} .gr-line.alt{stroke:var(--gr-alt);}
+  .gr-shade polygon{fill:var(--gr-shade); stroke:none;}
+  .gr-pt{fill:var(--ink); stroke:var(--card); stroke-width:1.5;} .gr-pt.open{fill:var(--card); stroke:var(--ink);}
+  .gr-note text{fill:var(--ink); font:600 12px var(--f-body);}
+
+  /* quiz */
+  .qhead{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .qhead .qn{font-family:var(--f-display); font-size:20px; font-weight:700;}
+  .pill{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--paper-2); color:var(--ink-soft);}
+  .pill.E{background:var(--success-soft); color:var(--success);} .pill.M{background:var(--warn-soft); color:var(--warn);} .pill.H{background:var(--danger-soft); color:var(--danger);}
+  .qnav{display:flex; justify-content:space-between; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .chip{width:36px; height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--card); font:600 14px var(--f-mono); cursor:pointer;}
+  .chip.ans{background:var(--paper-2); border-color:var(--ink-soft);}
+  .chip.cur{border-color:var(--chip-on); box-shadow:0 0 0 1px var(--chip-on);}
+  .confirm{margin-top:12px; background:var(--warn-soft); border-radius:10px; padding:12px 14px; font-size:15.5px;}
+  .confirm .row{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .timer{font:600 14px var(--f-mono); color:var(--ink-soft); margin-left:auto;}
+  .intro-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:14px 0;}
+  .kpi{background:var(--paper-2); border-radius:10px; padding:10px 12px;}
+  .kpi span{display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;}
+  .kpi b{font-family:var(--f-display); font-size:24px;}
+
+  /* report */
+  .scoreband{display:flex; flex-wrap:wrap; gap:20px; align-items:center;}
+  .ring{width:120px; height:120px; flex-shrink:0;}
+  .ring circle{fill:none; stroke-width:12;} .ring .bg{stroke:var(--paper-2);} .ring .fg{stroke:var(--gold); stroke-linecap:round;}
+  .ring text{fill:var(--ink); font:700 24px var(--f-display);}
+  .lotab{width:100%; border-collapse:collapse; font-size:15.5px;}
+  .lotab td,.lotab th{padding:9px 6px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:middle;}
+  .lotab th{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .bar{height:8px; border-radius:99px; background:var(--paper-2); overflow:hidden; min-width:70px;}
+  .bar i{display:block; height:100%; background:var(--gold);}
+  .st{font-size:12.5px; font-weight:700; border-radius:99px; padding:3px 9px; white-space:nowrap;}
+  .st.ok{background:var(--success-soft); color:var(--success);} .st.mid{background:var(--warn-soft); color:var(--warn);} .st.low{background:var(--danger-soft); color:var(--danger);}
+  .rv{border:1px solid var(--rule); border-radius:10px; padding:12px 14px;}
+  .rv summary{cursor:pointer; display:flex; flex-wrap:wrap; gap:8px; align-items:center; list-style:none;}
+  .rv summary::-webkit-details-marker{display:none;}
+  .rv .mark{font-weight:700;} .mark.ok{color:var(--success);} .mark.no{color:var(--danger);} .mark.om{color:var(--ink-soft);}
+  .rv .sol{background:var(--paper-2); border-radius:9px; padding:10px 12px; margin-top:10px;}
+  .filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .lnk{background:none; border:none; padding:0; color:var(--accent-text); font-weight:700; cursor:pointer; text-decoration:underline;}
+  footer{color:var(--ink-soft); font-size:13px; padding-block:24px 30px; border-top:1px solid var(--rule);}
+  @media (max-width:560px){ body{font-size:16px;} .dtab{font-size:14.5px;} .dtab th,.dtab td{padding:5px 7px;} .card{padding:16px;} .lotab .hide-s{display:none;} }
+
+  /* learning-sheet navigator */
+  .sheetnav{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .sheetnav .tab{padding:6px 14px; font-size:15px;}
+  .sheetnav .tab.done::after{content:" ✓"; color:var(--success);}
+  .tab[aria-selected="true"].done::after{color:inherit;}
+  .note-h{font-family:var(--f-body); font-size:17px; font-weight:700; margin:16px 0 6px;}
+  .callout{background:var(--gold-soft); border-radius:10px; padding:10px 14px; margin:10px 0;}
+  .hint{margin-top:10px; border-left:3px solid var(--gold); padding:4px 0 4px 12px; font-size:15.5px; color:var(--ink-soft);}
+  .pill.X{background:var(--navy-2); color:#F4EFDF;}
+  .sheetcards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;}
+  .sheetcard{border:1.5px solid var(--rule); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:8px; min-width:0;}
+  .sheetcard h3{font-size:20px;}
+  .sheetcard p{margin:0; color:var(--ink-soft); font-size:15.5px;}
+  .sheetcard .btn{align-self:flex-start; margin-top:auto;}
+  svg.fig{display:block; width:100%; max-width:300px; height:auto; margin:10px auto; color:var(--ink);}
+  svg.fig .fg-grid{stroke:var(--gr-grid); stroke-opacity:1;}
+  svg.fig .fg-axis{stroke:var(--gr-axis);}
+  svg.fig .fg-fit{stroke:var(--gr-line);}
+  svg.fig .fg-shape{fill:var(--gr-line);}
+  svg.fig .fg-pts{fill:var(--ink);}
+  svg.fig .fg-lab{fill:var(--ink-soft);}
+</style>
+
+<header class="brand"><div class="wrap">
+  <div class="brand-row"><div class="crest" aria-hidden="true">BM</div><div><div class="brand-name">Brain &amp; Mind Academy</div><div class="series-name">Abhyas <span>Math Learning Series · Digital SAT</span></div></div></div>
+  <div class="crumbs" id="crumbs"></div>
+  <h1 class="title" id="title"></h1>
+  <p class="summary" id="summary"></p>
+  <div class="meta" id="meta"></div>
+</div></header>
+<nav class="modebar" aria-label="Sheet mode"><div class="wrap" role="tablist">
+  <button class="tab" role="tab" id="tabLearn" aria-selected="true">Learn</button>
+  <button class="tab" role="tab" id="tabQuiz" aria-selected="false">Quiz</button>
+  <span class="prog" id="prog"></span>
+</div></nav>
+<main class="wrap" id="main"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+(function(){
+"use strict";
+var S = {"id": "ALG-1.2", "unit": "Algebra", "topic": "Linear equations in one variable", "title": "Number of solutions and literal equations", "intro": "This subtopic shows how to tell whether a linear equation has one solution, no solution or infinitely many, how to pick constants that force each outcome, and how to rearrange a formula to solve for any one of its letters. These ideas appear across DSAT Algebra, and the constant-based versions are favorites for the hardest questions in Module 2.", "los": [{"id": "LO1", "text": "Determine whether a linear equation in one variable has exactly one solution, no solution or infinitely many solutions."}, {"id": "LO2", "text": "Determine the value of a constant (or constants) that gives a linear equation no solution, infinitely many solutions or a specified solution."}, {"id": "LO3", "text": "Solve a literal equation or formula for a specified variable, including when that variable appears in more than one term."}, {"id": "LO4", "text": "Apply rearranged formulas in real-world contexts to express or calculate one quantity in terms of the others."}], "notes": [{"lo": "LO1", "h": "Three possible outcomes", "html": "<p>Every linear equation in one variable can be simplified to the form <i>a<\/i><i>x<\/i> + <i>b<\/i> = <i>c<\/i><i>x<\/i> + <i>d<\/i>. Distribute, combine like terms on each side, and then compare the pieces. You do not need to finish solving to know how many solutions there are.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Compare<\/th><th>Outcome<\/th><th>Example<\/th><\/tr><tr><td><i>a<\/i> ≠ <i>c<\/i><\/td><td>Exactly one solution<\/td><td>5<i>x<\/i> + 1 = 2<i>x<\/i> + 7<\/td><\/tr><tr><td><i>a<\/i> = <i>c<\/i> and <i>b<\/i> ≠ <i>d<\/i><\/td><td>No solution<\/td><td>5<i>x<\/i> + 1 = 5<i>x<\/i> + 7<\/td><\/tr><tr><td><i>a<\/i> = <i>c<\/i> and <i>b<\/i> = <i>d<\/i><\/td><td>Infinitely many solutions<\/td><td>5<i>x<\/i> + 1 = 5<i>x<\/i> + 1<\/td><\/tr><\/table><\/div><div class=\"rule\">Different <i>x<\/i>-coefficients → exactly one solution.<br>Same <i>x<\/i>-coefficients → check the constants: different → no solution; equal → infinitely many solutions.<\/div>"}, {"lo": "LO1", "h": "Reading the last line", "html": "<p>If you do solve all the way, the final line tells you the outcome.<\/p><ul><li><b><i>x<\/i> = a number<\/b> (even <i>x<\/i> = 0): exactly one solution.<\/li><li><b>A false statement<\/b> such as 4 = −9: the <i>x<\/i>-terms cancelled and what is left is never true, so there is no solution.<\/li><li><b>A true statement<\/b> such as 6 = 6: the <i>x<\/i>-terms cancelled and the equation is true for every <i>x<\/i>, so there are infinitely many solutions.<\/li><\/ul><p>Fractions and decimals do not change the logic. Clearing them first, by multiplying both sides by a common denominator, often makes the comparison easier to see.<\/p><div class=\"tip\"><b>Desmos tip:<\/b> Graph <i>y<\/i> = (left side) and <i>y<\/i> = (right side). Two lines that cross once mean one solution, parallel lines mean no solution, and a single overlapping line means infinitely many solutions.<\/div>"}, {"lo": "LO2", "h": "Choosing a constant", "html": "<p>Many DSAT questions include a constant such as <i>k<\/i> and ask which value of it gives a certain number of solutions. Simplify both sides with <i>k<\/i> still written as a letter, then apply the comparison rule.<\/p><div class=\"rule\">No solution: <i>x<\/i>-coefficients equal <b>and<\/b> constants different.<br>Infinitely many: <i>x<\/i>-coefficients equal <b>and<\/b> constants equal.<br>Exactly one: <i>x<\/i>-coefficients different.<\/div><p>For example, in <i>k<\/i><i>x<\/i> + 2 = 9<i>x<\/i> − 4 the coefficients are <i>k<\/i> and 9 and the constants are 2 and −4. The constants already differ, so <i>k<\/i> = 9 gives no solution, and no value of <i>k<\/i> can give infinitely many. Always check the constants after you match the coefficients.<\/p>"}, {"lo": "LO2", "h": "Constants inside parentheses, and two constants", "html": "<p>When a constant multiplies parentheses, distribute it to <b>both<\/b> terms: <i>k<\/i>(<i>x<\/i> − 5) = <i>k<\/i><i>x<\/i> − 5<i>k<\/i>. Now <i>k<\/i> affects the <i>x<\/i>-coefficient and the constant at the same time.<\/p><p>When an equation has two unknown constants and infinitely many solutions, you get two conditions: one from matching the <i>x<\/i>-coefficients and one from matching the constants. Use the coefficient condition first, then substitute into the constant condition.<\/p><div class=\"eqs\"><i>a<\/i>(<i>x<\/i> + 2) = 4<i>x<\/i> + <i>b<\/i><br><i>a<\/i><i>x<\/i> + 2<i>a<\/i> = 4<i>x<\/i> + <i>b<\/i><br><i>a<\/i> = 4, so <i>b<\/i> = 2(4) = 8<\/div><p>If a problem instead tells you that a particular number, such as <i>x<\/i> = 3, is a solution, substitute it and solve the resulting equation for the constant.<\/p>"}, {"lo": "LO3", "h": "Solving a formula for one variable", "html": "<p>A literal equation contains several letters. To solve for one of them, treat every other letter as if it were a number and use the same inverse operations you would use on a numeric equation: undo addition and subtraction first, then multiplication and division.<\/p><div class=\"tscroll\"><table class=\"dtab\"><tr><th>Formula<\/th><th>Solve for<\/th><th>Result<\/th><\/tr><tr><td><i>y<\/i> = <i>m<\/i><i>x<\/i> + <i>b<\/i><\/td><td><i>x<\/i><\/td><td><i>x<\/i> = <span class=\"fq\"><span><i>y<\/i> − <i>b<\/i><\/span><span><i>m<\/i><\/span><\/span><\/td><\/tr><tr><td><i>I<\/i> = <i>P<\/i><i>r<\/i><i>t<\/i><\/td><td><i>r<\/i><\/td><td><i>r<\/i> = <span class=\"fq\"><span><i>I<\/i><\/span><span><i>P<\/i><i>t<\/i><\/span><\/span><\/td><\/tr><tr><td><i>P<\/i> = 2<i>ℓ<\/i> + 2<i>w<\/i><\/td><td><i>w<\/i><\/td><td><i>w<\/i> = <span class=\"fq\"><span><i>P<\/i> − 2<i>ℓ<\/i><\/span><span>2<\/span><\/span><\/td><\/tr><\/table><\/div><div class=\"rule\">Isolate the target one step at a time. When you divide, divide the <b>whole<\/b> other side, not just one of its terms.<\/div>"}, {"lo": "LO3", "h": "When the target appears more than once", "html": "<p>Sometimes the letter you want appears in two terms, as in <i>p<\/i><i>t<\/i> + 3 = <i>q<\/i><i>t<\/i> − <i>r<\/i>. You cannot isolate it until it appears only once.<\/p><ol><li>Move every term containing the target to one side and every other term to the other side.<\/li><li>Factor the target out: <i>p<\/i><i>t<\/i> − <i>q<\/i><i>t<\/i> = <i>t<\/i>(<i>p<\/i> − <i>q<\/i>).<\/li><li>Divide by the factor in parentheses.<\/li><\/ol><div class=\"eqs\"><i>p<\/i><i>t<\/i> − <i>q<\/i><i>t<\/i> = −<i>r<\/i> − 3<br><i>t<\/i>(<i>p<\/i> − <i>q<\/i>) = −<i>r<\/i> − 3<br><i>t<\/i> = <span class=\"fq\"><span>−<i>r<\/i> − 3<\/span><span><i>p<\/i> − <i>q<\/i><\/span><\/span><\/div><p>You may only divide by a factor that is not zero, which is why such questions state conditions like <i>p<\/i> ≠ <i>q<\/i>. If the target sits inside a fraction, multiply both sides by the denominator first.<\/p>"}, {"lo": "LO4", "h": "Formulas in real contexts", "html": "<p>Many DSAT questions give a formula from science, finance or geometry and ask for one quantity in terms of the others, or for its value. Two routes work:<\/p><ul><li><b>Rearrange first<\/b> when the answer choices are expressions, such as “which equation gives <i>t<\/i> in terms of <i>d<\/i> and <i>r<\/i>?”<\/li><li><b>Substitute first<\/b> when every other value is given; you are then solving an ordinary numeric equation.<\/li><\/ul><p>Keep track of what each letter means and its units. A rearranged formula describes exactly the same relationship, just viewed from the target variable's side.<\/p><div class=\"tip\"><b>Desmos tip:<\/b> To check a rearranged formula, choose easy values for the other letters, compute the target with your answer, then evaluate both sides of the original formula. If they match, your rearrangement is right.<\/div>"}], "examples": [{"lo": "LO1", "q": "<div class=\"eqs\">3(2<i>x<\/i> − 5) + <i>x<\/i> = 7<i>x<\/i> − 11<\/div>How many solutions does the equation have?", "steps": ["Distribute on the left: 6<i>x<\/i> − 15 + <i>x<\/i> = 7<i>x<\/i> − 11.", "Combine like terms: 7<i>x<\/i> − 15 = 7<i>x<\/i> − 11.", "The <i>x<\/i>-coefficients match (7 and 7) but the constants differ (−15 and −11). Subtracting 7<i>x<\/i> leaves −15 = −11, which is false."], "ans": "No solution"}, {"lo": "LO1", "q": "<div class=\"eqs\">5<i>x<\/i> − 2(<i>x<\/i> + 4) = 3(<i>x<\/i> − 1) − 5<\/div>How many solutions does the equation have?", "steps": ["Left side: 5<i>x<\/i> − 2<i>x<\/i> − 8 = 3<i>x<\/i> − 8.", "Right side: 3<i>x<\/i> − 3 − 5 = 3<i>x<\/i> − 8.", "Both sides are identical, so every value of <i>x<\/i> works."], "ans": "Infinitely many solutions"}, {"lo": "LO2", "q": "<div class=\"eqs\"><i>k<\/i><i>x<\/i> − 7 = 3(2<i>x<\/i> + 1)<\/div>In the equation above, <i>k<\/i> is a constant. For what value of <i>k<\/i> does the equation have no solution?", "steps": ["Simplify the right side: <i>k<\/i><i>x<\/i> − 7 = 6<i>x<\/i> + 3.", "No solution needs equal <i>x<\/i>-coefficients, so <i>k<\/i> = 6.", "Check the constants: −7 ≠ 3, so the equation really has no solution (not infinitely many)."], "ans": "<i>k<\/i> = 6"}, {"lo": "LO2", "q": "<div class=\"eqs\"><i>a<\/i>(<i>x<\/i> + 3) − 2<i>x<\/i> = 5<i>x<\/i> + <i>b<\/i><\/div>In the equation above, <i>a<\/i> and <i>b<\/i> are constants. If the equation has infinitely many solutions, what is the value of <i>a<\/i> + <i>b<\/i>?", "steps": ["Expand the left side: <i>a<\/i><i>x<\/i> + 3<i>a<\/i> − 2<i>x<\/i> = (<i>a<\/i> − 2)<i>x<\/i> + 3<i>a<\/i>.", "Match the <i>x<\/i>-coefficients: <i>a<\/i> − 2 = 5, so <i>a<\/i> = 7.", "Match the constants: <i>b<\/i> = 3<i>a<\/i> = 21.", "So <i>a<\/i> + <i>b<\/i> = 7 + 21 = 28."], "ans": "28"}, {"lo": "LO3", "q": "<div class=\"eqs\"><i>a<\/i><i>y<\/i> − 4 = <i>b<\/i><i>y<\/i> + <i>c<\/i><\/div>In the equation above, <i>a<\/i>, <i>b<\/i> and <i>c<\/i> are constants and <i>a<\/i> ≠ <i>b<\/i>. Solve the equation for <i>y<\/i>.", "steps": ["Collect the <i>y<\/i>-terms on the left and everything else on the right: <i>a<\/i><i>y<\/i> − <i>b<\/i><i>y<\/i> = <i>c<\/i> + 4.", "Factor out <i>y<\/i>: <i>y<\/i>(<i>a<\/i> − <i>b<\/i>) = <i>c<\/i> + 4.", "Divide by <i>a<\/i> − <i>b<\/i>, which is not zero because <i>a<\/i> ≠ <i>b<\/i>."], "ans": "<i>y<\/i> = <span class=\"fq\"><span><i>c<\/i> + 4<\/span><span><i>a<\/i> − <i>b<\/i><\/span><\/span>"}, {"lo": "LO4", "q": "A parking garage charges a flat fee of <i>f<\/i> dollars plus <i>r<\/i> dollars per hour, so the total charge <i>C<\/i>, in dollars, for <i>h<\/i> hours is <i>C<\/i> = <i>f<\/i> + <i>r<\/i><i>h<\/i>. Solve the formula for <i>h<\/i>, and use it to find the number of hours a driver parked if <i>C<\/i> = 41, <i>f<\/i> = 5 and <i>r<\/i> = 4.5.", "steps": ["Subtract <i>f<\/i>: <i>C<\/i> − <i>f<\/i> = <i>r<\/i><i>h<\/i>.", "Divide by <i>r<\/i>: <i>h<\/i> = <span class=\"fq\"><span><i>C<\/i> − <i>f<\/i><\/span><span><i>r<\/i><\/span><\/span>.", "Substitute: <i>h<\/i> = <span class=\"fq\"><span>41 − 5<\/span><span>4.5<\/span><\/span> = <span class=\"fq\"><span>36<\/span><span>4.5<\/span><\/span> = 8."], "ans": "<i>h<\/i> = <span class=\"fq\"><span><i>C<\/i> − <i>f<\/i><\/span><span><i>r<\/i><\/span><\/span>; the driver parked for 8 hours"}], "traps": ["Reading a final line such as 0 = 0 as “<i>x<\/i> = 0”: a true statement with no variable left means infinitely many solutions, not the single solution <i>x<\/i> = 0.", "Treating <i>x<\/i> = 0 as “no solution”: <i>x<\/i> = 0 is a perfectly good single solution.", "Matching the <i>x<\/i>-coefficients for “no solution” but forgetting to check that the constants are different; if they also match, the equation has infinitely many solutions.", "Distributing a constant to only the first term, writing <i>k<\/i>(<i>x<\/i> − 4) as <i>k<\/i><i>x<\/i> − 4 instead of <i>k<\/i><i>x<\/i> − 4<i>k<\/i>.", "Dividing only part of one side when solving a formula, such as turning 3<i>p<\/i> + <i>q<\/i> = <i>r<\/i> into <i>p<\/i> = <span class=\"fq\"><span><i>r<\/i><\/span><span>3<\/span><\/span> − <i>q<\/i>."], "guided": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">4<i>x<\/i> + 9 = 4<i>x<\/i> − 2<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 0, "sol": "Both sides have the same <i>x<\/i>-coefficient, 4.<br>Subtracting 4<i>x<\/i> from both sides leaves 9 = −2, which is false, so no value of <i>x<\/i> works.<br>Answer: <b>Zero<\/b>", "hint": "Subtract the <i>x<\/i>-term from both sides and look at what remains."}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">2(<i>x<\/i> + 5) = 2<i>x<\/i> + 10<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 3, "sol": "Distribute: 2<i>x<\/i> + 10 = 2<i>x<\/i> + 10.<br>The two sides are identical, so every value of <i>x<\/i> makes the equation true.<br>Answer: <b>Infinitely many<\/b>", "hint": "Distribute the 2, then compare the two sides term by term."}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">3<i>p<\/i> + <i>q<\/i> = <i>r<\/i><\/div>The equation above relates the quantities <i>p<\/i>, <i>q<\/i> and <i>r<\/i>. Which equation correctly expresses <i>p<\/i> in terms of <i>q<\/i> and <i>r<\/i>?", "opts": ["<i>p<\/i> = <span class=\"fq\"><span><i>r<\/i><\/span><span>3<\/span><\/span> − <i>q<\/i>", "<i>p<\/i> = 3(<i>r<\/i> − <i>q<\/i>)", "<i>p<\/i> = <span class=\"fq\"><span><i>r<\/i> − <i>q<\/i><\/span><span>3<\/span><\/span>", "<i>p<\/i> = <span class=\"fq\"><span><i>r<\/i> + <i>q<\/i><\/span><span>3<\/span><\/span>"], "ans": 2, "sol": "Subtract <i>q<\/i> from both sides: 3<i>p<\/i> = <i>r<\/i> − <i>q<\/i>.<br>Divide the whole right side by 3.<br>Answer: <b><i>p<\/i> = <span class=\"fq\"><span><i>r<\/i> − <i>q<\/i><\/span><span>3<\/span><\/span><\/b>", "hint": "Undo the + <i>q<\/i> first, then undo the multiplication by 3."}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "<div class=\"eqs\">8<i>x<\/i> + 3 = <i>k<\/i><i>x<\/i> − 1<\/div>In the equation above, <i>k<\/i> is a constant. If the equation has no solution, what is the value of <i>k<\/i>?", "ans": ["8"], "sol": "No solution requires equal <i>x<\/i>-coefficients and different constants.<br>The constants 3 and −1 already differ, so <i>k<\/i> must equal 8.<br>Answer: <b>8<\/b>", "hint": "What must be true about the <i>x<\/i>-coefficients on the two sides?"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">3(2<i>x<\/i> − <i>b<\/i>) = 6<i>x<\/i> − 12<\/div>In the equation above, <i>b<\/i> is a constant. For what value of <i>b<\/i> does the equation have infinitely many solutions?", "opts": ["12", "−4", "4", "2"], "ans": 2, "sol": "Distribute: 6<i>x<\/i> − 3<i>b<\/i> = 6<i>x<\/i> − 12.<br>The <i>x<\/i>-coefficients already match, so the constants must match: −3<i>b<\/i> = −12.<br>So <i>b<\/i> = 4.<br>Answer: <b>4<\/b>", "hint": "Distribute the 3 to both terms inside the parentheses; then the constants must be equal."}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Which of the following equations has no solution?", "opts": ["4<i>x<\/i> + 1 = 4(<i>x<\/i> + 1) − 3", "2(2<i>x<\/i> + 3) = 4<i>x<\/i> − 5", "4<i>x<\/i> + 1 = <i>x<\/i> + 4", "4<i>x<\/i> + 1 = −4<i>x<\/i> + 1"], "ans": 1, "sol": "A simplifies to 4<i>x<\/i> + 1 = 4<i>x<\/i> + 1 (infinitely many solutions).<br>B simplifies to 4<i>x<\/i> + 6 = 4<i>x<\/i> − 5: equal coefficients, different constants, so no solution.<br>C and D have different <i>x<\/i>-coefficients, so each has exactly one solution.<br>Answer: <b>2(2<i>x<\/i> + 3) = 4<i>x<\/i> − 5<\/b>", "hint": "Simplify each equation, then compare the <i>x<\/i>-coefficients and the constants."}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><i>m<\/i> = <span class=\"fq\"><span><i>a<\/i> + <i>b<\/i><\/span><span>2<\/span><\/span><\/div>The mean <i>m<\/i> of two numbers <i>a<\/i> and <i>b<\/i> is given by the equation above. Which equation expresses <i>b<\/i> in terms of <i>a<\/i> and <i>m<\/i>?", "opts": ["<i>b<\/i> = 2<i>m<\/i> − <i>a<\/i>", "<i>b<\/i> = <span class=\"fq\"><span><i>m<\/i> − <i>a<\/i><\/span><span>2<\/span><\/span>", "<i>b<\/i> = <i>m<\/i> − <i>a<\/i>", "<i>b<\/i> = 2(<i>m<\/i> − <i>a<\/i>)"], "ans": 0, "sol": "Multiply both sides by 2: 2<i>m<\/i> = <i>a<\/i> + <i>b<\/i>.<br>Subtract <i>a<\/i>: <i>b<\/i> = 2<i>m<\/i> − <i>a<\/i>.<br>Answer: <b><i>b<\/i> = 2<i>m<\/i> − <i>a<\/i><\/b>", "hint": "Clear the fraction before anything else."}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "The final velocity <i>v<\/i>, in meters per second, of an object that starts with velocity <i>u<\/i> and speeds up at a constant <i>a<\/i> meters per second per second for <i>t<\/i> seconds is given by <i>v<\/i> = <i>u<\/i> + <i>a<\/i><i>t<\/i>. If <i>v<\/i> = 31, <i>u<\/i> = 7 and <i>a<\/i> = 3, what is the value of <i>t<\/i>?", "ans": ["8"], "sol": "Solve for <i>t<\/i>: <i>t<\/i> = <span class=\"fq\"><span><i>v<\/i> − <i>u<\/i><\/span><span><i>a<\/i><\/span><\/span>.<br>Substitute: <i>t<\/i> = <span class=\"fq\"><span>31 − 7<\/span><span>3<\/span><\/span> = <span class=\"fq\"><span>24<\/span><span>3<\/span><\/span> = 8.<br>Answer: <b>8<\/b>", "hint": "Isolate the <i>a<\/i><i>t<\/i> term first."}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "<div class=\"eqs\"><i>k<\/i>(<i>x<\/i> + 4) = 3<i>x<\/i> + 20<\/div>In the equation above, <i>k<\/i> is a constant. If <i>x<\/i> = 2 is a solution of the equation, what is the value of <i>k<\/i>?", "ans": ["13/3", "4.333"], "sol": "Substitute <i>x<\/i> = 2: <i>k<\/i>(2 + 4) = 3(2) + 20, so 6<i>k<\/i> = 26.<br>Divide: <i>k<\/i> = <span class=\"fq\"><span>26<\/span><span>6<\/span><\/span> = <span class=\"fq\"><span>13<\/span><span>3<\/span><\/span>.<br>Answer: <b><span class=\"fq\"><span>13<\/span><span>3<\/span><\/span><\/b>", "hint": "A solution makes the equation true when you substitute it."}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><i>a<\/i><i>x<\/i> + 5 = <i>b<\/i><i>x<\/i> + <i>c<\/i><\/div>In the equation above, <i>a<\/i>, <i>b<\/i> and <i>c<\/i> are constants and <i>a<\/i> ≠ <i>b<\/i>. Which expression is equal to <i>x<\/i>?", "opts": ["<span class=\"fq\"><span><i>c<\/i> + 5<\/span><span><i>a<\/i> − <i>b<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>c<\/i> − 5<\/span><span><i>a<\/i> − <i>b<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>c<\/i> − 5<\/span><span><i>a<\/i> + <i>b<\/i><\/span><\/span>", "<span class=\"fq\"><span>5 − <i>c<\/i><\/span><span><i>a<\/i> − <i>b<\/i><\/span><\/span>"], "ans": 1, "sol": "Collect the <i>x<\/i>-terms: <i>a<\/i><i>x<\/i> − <i>b<\/i><i>x<\/i> = <i>c<\/i> − 5.<br>Factor: <i>x<\/i>(<i>a<\/i> − <i>b<\/i>) = <i>c<\/i> − 5.<br>Divide by <i>a<\/i> − <i>b<\/i>.<br>Answer: <b><span class=\"fq\"><span><i>c<\/i> − 5<\/span><span><i>a<\/i> − <i>b<\/i><\/span><\/span><\/b>", "hint": "Get both <i>x<\/i>-terms on the same side, then factor out <i>x<\/i>."}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "The total surface area <i>S<\/i> of a closed cylinder with radius <i>r<\/i> and height <i>h<\/i> is given by <i>S<\/i> = 2π<i>r<\/i>(<i>r<\/i> + <i>h<\/i>). Which equation gives <i>h<\/i> in terms of <i>S<\/i> and <i>r<\/i>?", "opts": ["<i>h<\/i> = <span class=\"fq\"><span><i>S<\/i> − <i>r<\/i><\/span><span>2π<i>r<\/i><\/span><\/span>", "<i>h<\/i> = <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<\/span><\/span> − <i>r<\/i>", "<i>h<\/i> = <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<i>r<\/i><\/span><\/span> + <i>r<\/i>", "<i>h<\/i> = <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<i>r<\/i><\/span><\/span> − <i>r<\/i>"], "ans": 3, "sol": "Divide both sides by 2π<i>r<\/i>: <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<i>r<\/i><\/span><\/span> = <i>r<\/i> + <i>h<\/i>.<br>Subtract <i>r<\/i>: <i>h<\/i> = <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<i>r<\/i><\/span><\/span> − <i>r<\/i>.<br>Answer: <b><i>h<\/i> = <span class=\"fq\"><span><i>S<\/i><\/span><span>2π<i>r<\/i><\/span><\/span> − <i>r<\/i><\/b>", "hint": "Undo the multiplication by 2π<i>r<\/i> before dealing with the <i>r<\/i> inside the parentheses."}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "<div class=\"eqs\"><i>a<\/i>(2<i>x<\/i> − 3) + 4 = 6<i>x<\/i> + <i>b<\/i><\/div>In the equation above, <i>a<\/i> and <i>b<\/i> are constants. If the equation has infinitely many solutions, what is the value of <i>b<\/i>?", "ans": ["-5"], "sol": "Expand the left side: 2<i>a<\/i><i>x<\/i> − 3<i>a<\/i> + 4.<br>Match the <i>x<\/i>-coefficients: 2<i>a<\/i> = 6, so <i>a<\/i> = 3.<br>Match the constants: <i>b<\/i> = −3(3) + 4 = −5.<br>Answer: <b>−5<\/b>", "hint": "Expand, match the <i>x<\/i>-coefficients to find <i>a<\/i>, then match the constants."}], "quiz1": [{"lo": "LO1", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">−2<i>x<\/i> + 11 = 11 − 2<i>x<\/i><\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 3, "sol": "The right side is the left side with its terms in a different order.<br>Both sides are equal for every value of <i>x<\/i>.<br>Answer: <b>Infinitely many<\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">5<i>x<\/i> + 8 = 3<i>x<\/i> + 8<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 1, "sol": "The <i>x<\/i>-coefficients 5 and 3 are different, so there is exactly one solution.<br>(Subtracting gives 2<i>x<\/i> = 0, so <i>x<\/i> = 0, which is a valid solution.)<br>Answer: <b>Exactly one<\/b>"}, {"lo": "LO3", "diff": "E", "type": "mcq", "q": "<div class=\"eqs\">4<i>a<\/i> − <i>b<\/i> = 9<\/div>Which equation expresses <i>b<\/i> in terms of <i>a<\/i>?", "opts": ["<i>b<\/i> = 9 − 4<i>a<\/i>", "<i>b<\/i> = 4<i>a<\/i> + 9", "<i>b<\/i> = 4<i>a<\/i> − 9", "<i>b<\/i> = −4<i>a<\/i> − 9"], "ans": 2, "sol": "Add <i>b<\/i> to both sides: 4<i>a<\/i> = 9 + <i>b<\/i>.<br>Subtract 9: <i>b<\/i> = 4<i>a<\/i> − 9.<br>Answer: <b><i>b<\/i> = 4<i>a<\/i> − 9<\/b>"}, {"lo": "LO2", "diff": "E", "type": "spr", "q": "<div class=\"eqs\">12<i>x<\/i> − 7 = <i>p<\/i><i>x<\/i> + 5<\/div>In the equation above, <i>p<\/i> is a constant. If the equation has no solution, what is the value of <i>p<\/i>?", "ans": ["12"], "sol": "No solution needs equal <i>x<\/i>-coefficients with different constants.<br>The constants −7 and 5 differ, so <i>p<\/i> = 12.<br>Answer: <b>12<\/b>"}, {"lo": "LO4", "diff": "E", "type": "mcq", "q": "The density <i>D<\/i> of an object is given by <i>D<\/i> = <span class=\"fq\"><span><i>m<\/i><\/span><span><i>V<\/i><\/span><\/span>, where <i>m<\/i> is the object's mass and <i>V<\/i> is its volume. Which equation gives the volume in terms of the density and the mass?", "opts": ["<i>V<\/i> = <i>m<\/i><i>D<\/i>", "<i>V<\/i> = <span class=\"fq\"><span><i>D<\/i><\/span><span><i>m<\/i><\/span><\/span>", "<i>V<\/i> = <span class=\"fq\"><span><i>m<\/i><\/span><span><i>D<\/i><\/span><\/span>", "<i>V<\/i> = <i>m<\/i> − <i>D<\/i>"], "ans": 2, "sol": "Multiply both sides by <i>V<\/i>: <i>D<\/i><i>V<\/i> = <i>m<\/i>.<br>Divide by <i>D<\/i>: <i>V<\/i> = <span class=\"fq\"><span><i>m<\/i><\/span><span><i>D<\/i><\/span><\/span>.<br>Answer: <b><i>V<\/i> = <span class=\"fq\"><span><i>m<\/i><\/span><span><i>D<\/i><\/span><\/span><\/b>"}, {"lo": "LO1", "diff": "E", "type": "mcq", "q": "Which of the following equations has infinitely many solutions?", "opts": ["3<i>x<\/i> + 2 = 2<i>x<\/i> + 3", "3(<i>x<\/i> + 2) = 3<i>x<\/i> + 2", "3<i>x<\/i> + 6 = 3(<i>x<\/i> + 2)", "3<i>x<\/i> + 6 = 6<i>x<\/i> + 3"], "ans": 2, "sol": "A and D have different <i>x<\/i>-coefficients, so each has one solution.<br>B becomes 3<i>x<\/i> + 6 = 3<i>x<\/i> + 2, which has no solution.<br>C becomes 3<i>x<\/i> + 6 = 3<i>x<\/i> + 6, true for every <i>x<\/i>.<br>Answer: <b>3<i>x<\/i> + 6 = 3(<i>x<\/i> + 2)<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">8(<i>x<\/i> − 1) − 3<i>x<\/i> = 5(<i>x<\/i> + 2) − 18<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 3, "sol": "Left side: 8<i>x<\/i> − 8 − 3<i>x<\/i> = 5<i>x<\/i> − 8.<br>Right side: 5<i>x<\/i> + 10 − 18 = 5<i>x<\/i> − 8.<br>The sides are identical.<br>Answer: <b>Infinitely many<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">4(3 − <i>x<\/i>) + 7<i>x<\/i> = 3(<i>x<\/i> + 5)<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 0, "sol": "Left side: 12 − 4<i>x<\/i> + 7<i>x<\/i> = 3<i>x<\/i> + 12.<br>Right side: 3<i>x<\/i> + 15.<br>Equal coefficients, different constants (12 ≠ 15).<br>Answer: <b>Zero<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">6<i>x<\/i> + 2(<i>x<\/i> − <i>c<\/i>) = 8<i>x<\/i> − 10<\/div>In the equation above, <i>c<\/i> is a constant. If the equation has infinitely many solutions, what is the value of <i>c<\/i>?", "opts": ["−5", "5", "10", "20"], "ans": 1, "sol": "Left side: 6<i>x<\/i> + 2<i>x<\/i> − 2<i>c<\/i> = 8<i>x<\/i> − 2<i>c<\/i>.<br>The <i>x<\/i>-coefficients match, so the constants must match: −2<i>c<\/i> = −10.<br>So <i>c<\/i> = 5.<br>Answer: <b>5<\/b>"}, {"lo": "LO2", "diff": "M", "type": "spr", "q": "<div class=\"eqs\"><span class=\"fq\"><span>3<\/span><span>4<\/span><\/span><i>x<\/i> + 2 = <i>k<\/i><i>x<\/i> − 1<\/div>In the equation above, <i>k<\/i> is a constant. If the equation has no solution, what is the value of <i>k<\/i>?", "ans": ["3/4", ".75", "0.75"], "sol": "The constants 2 and −1 are different, so the equation has no solution exactly when the <i>x<\/i>-coefficients are equal.<br>So <i>k<\/i> = <span class=\"fq\"><span>3<\/span><span>4<\/span><\/span>.<br>Answer: <b><span class=\"fq\"><span>3<\/span><span>4<\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "The volume <i>V<\/i> of a pyramid with base area <i>B<\/i> and height <i>h<\/i> is given by <i>V<\/i> = <span class=\"fq\"><span>1<\/span><span>3<\/span><\/span><i>B<\/i><i>h<\/i>. Which equation expresses <i>h<\/i> in terms of <i>V<\/i> and <i>B<\/i>?", "opts": ["<i>h<\/i> = <span class=\"fq\"><span>3<i>V<\/i><\/span><span><i>B<\/i><\/span><\/span>", "<i>h<\/i> = <span class=\"fq\"><span><i>V<\/i><\/span><span>3<i>B<\/i><\/span><\/span>", "<i>h<\/i> = 3<i>V<\/i><i>B<\/i>", "<i>h<\/i> = <span class=\"fq\"><span><i>B<\/i><\/span><span>3<i>V<\/i><\/span><\/span>"], "ans": 0, "sol": "Multiply both sides by 3: 3<i>V<\/i> = <i>B<\/i><i>h<\/i>.<br>Divide by <i>B<\/i>: <i>h<\/i> = <span class=\"fq\"><span>3<i>V<\/i><\/span><span><i>B<\/i><\/span><\/span>.<br>Answer: <b><i>h<\/i> = <span class=\"fq\"><span>3<i>V<\/i><\/span><span><i>B<\/i><\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span><i>a<\/i><\/span><\/span> + <i>b<\/i> = <i>c<\/i><\/div>In the equation above, <i>a<\/i> ≠ 0. Which expression is equal to <i>x<\/i>?", "opts": ["<i>a<\/i><i>c<\/i> − <i>b<\/i>", "<i>a<\/i>(<i>c<\/i> − <i>b<\/i>)", "<span class=\"fq\"><span><i>c<\/i> − <i>b<\/i><\/span><span><i>a<\/i><\/span><\/span>", "<i>a<\/i>(<i>b<\/i> − <i>c<\/i>)"], "ans": 1, "sol": "Subtract <i>b<\/i>: <span class=\"fq\"><span><i>x<\/i><\/span><span><i>a<\/i><\/span><\/span> = <i>c<\/i> − <i>b<\/i>.<br>Multiply both sides by <i>a<\/i>: <i>x<\/i> = <i>a<\/i>(<i>c<\/i> − <i>b<\/i>).<br>Answer: <b><i>a<\/i>(<i>c<\/i> − <i>b<\/i>)<\/b>"}, {"lo": "LO4", "diff": "M", "type": "mcq", "q": "The balance <i>B<\/i>, in dollars, in a savings account <i>w<\/i> weeks after it was opened is modeled by <i>B<\/i> = 260 + 15<i>w<\/i>. Which equation expresses the number of weeks in terms of the balance?", "opts": ["<i>w<\/i> = <span class=\"fq\"><span><i>B<\/i> − 260<\/span><span>15<\/span><\/span>", "<i>w<\/i> = <span class=\"fq\"><span><i>B<\/i><\/span><span>15<\/span><\/span> − 260", "<i>w<\/i> = 15<i>B<\/i> − 260", "<i>w<\/i> = <span class=\"fq\"><span><i>B<\/i> + 260<\/span><span>15<\/span><\/span>"], "ans": 0, "sol": "Subtract 260: <i>B<\/i> − 260 = 15<i>w<\/i>.<br>Divide the whole left side by 15.<br>Answer: <b><i>w<\/i> = <span class=\"fq\"><span><i>B<\/i> − 260<\/span><span>15<\/span><\/span><\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "The pressure <i>P<\/i>, in kilopascals, at a depth of <i>d<\/i> meters below the surface of a lake is modeled by <i>P<\/i> = 101 + 9.8<i>d<\/i>. At what depth, in meters, is the pressure 199 kilopascals?", "ans": ["10"], "sol": "Solve for <i>d<\/i>: <i>d<\/i> = <span class=\"fq\"><span><i>P<\/i> − 101<\/span><span>9.8<\/span><\/span>.<br>Substitute: <i>d<\/i> = <span class=\"fq\"><span>199 − 101<\/span><span>9.8<\/span><\/span> = <span class=\"fq\"><span>98<\/span><span>9.8<\/span><\/span> = 10.<br>Answer: <b>10<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "One phone plan costs $15 per month plus $0.08 per text message. A second plan costs $22 per month plus <i>r<\/i> dollars per text message. The equation 15 + 0.08<i>t<\/i> = 22 + <i>r<\/i><i>t<\/i> is used to find the number of texts <i>t<\/i> for which the two plans cost the same. For what value of <i>r<\/i> does the equation have no solution?", "opts": ["0.07", "0.08", "0.15", "7"], "ans": 1, "sol": "The constants 15 and 22 are different, so the equation has no solution exactly when the <i>t<\/i>-coefficients are equal.<br>So <i>r<\/i> = 0.08 (the plans then always differ by $7).<br>Answer: <b>0.08<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Which of the following equations has exactly one solution?", "opts": ["2(3<i>x<\/i> − 4) + <i>x<\/i> = 7<i>x<\/i> − 8", "<span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>(8<i>x<\/i> + 6) = 4<i>x<\/i> + 3", "5<i>x<\/i> − (<i>x<\/i> + 9) = 4<i>x<\/i> + 9", "3(<i>x<\/i> + 4) − <i>x<\/i> = 2(<i>x<\/i> + 6) + <i>x<\/i>"], "ans": 3, "sol": "A: 7<i>x<\/i> − 8 = 7<i>x<\/i> − 8 (infinitely many). B: 4<i>x<\/i> + 3 = 4<i>x<\/i> + 3 (infinitely many).<br>C: 4<i>x<\/i> − 9 = 4<i>x<\/i> + 9 (no solution).<br>D: 2<i>x<\/i> + 12 = 3<i>x<\/i> + 12; the coefficients differ, so exactly one solution (<i>x<\/i> = 0).<br>Answer: <b>3(<i>x<\/i> + 4) − <i>x<\/i> = 2(<i>x<\/i> + 6) + <i>x<\/i><\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">3(<i>k<\/i><i>x<\/i> − 2) = 12<i>x<\/i> + 5<i>k<\/i><\/div>In the equation above, <i>k<\/i> is a constant. If the equation has no solution, what is the value of <i>k<\/i>?", "ans": ["4"], "sol": "Left side: 3<i>k<\/i><i>x<\/i> − 6. Equal coefficients need 3<i>k<\/i> = 12, so <i>k<\/i> = 4.<br>Check the constants with <i>k<\/i> = 4: −6 on the left, 5(4) = 20 on the right. They differ, so there is no solution.<br>Answer: <b>4<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\">3<i>y<\/i> − <i>p<\/i> = <i>p<\/i><i>y<\/i> + 8<\/div>In the equation above, <i>p<\/i> ≠ 3. Which expression is equal to <i>y<\/i>?", "opts": ["<span class=\"fq\"><span><i>p<\/i> + 8<\/span><span>3 − <i>p<\/i><\/span><\/span>", "<span class=\"fq\"><span>8 − <i>p<\/i><\/span><span>3 − <i>p<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>p<\/i> + 8<\/span><span>3 + <i>p<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>p<\/i> + 8<\/span><span><i>p<\/i> − 3<\/span><\/span>"], "ans": 0, "sol": "Collect the <i>y<\/i>-terms on the left: 3<i>y<\/i> − <i>p<\/i><i>y<\/i> = 8 + <i>p<\/i>.<br>Factor: <i>y<\/i>(3 − <i>p<\/i>) = <i>p<\/i> + 8.<br>Divide by 3 − <i>p<\/i>.<br>Answer: <b><span class=\"fq\"><span><i>p<\/i> + 8<\/span><span>3 − <i>p<\/i><\/span><\/span><\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "A garden bed is shaped like a trapezoid with parallel sides of lengths <i>b<\/i> and <i>c<\/i> and height <i>h<\/i>. Its area <i>A<\/i> is given by <i>A<\/i> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>h<\/i>(<i>b<\/i> + <i>c<\/i>). Which equation gives <i>c<\/i> in terms of <i>A<\/i>, <i>b<\/i> and <i>h<\/i>?", "opts": ["<i>c<\/i> = <span class=\"fq\"><span>2<i>A<\/i><\/span><span><i>h<\/i><\/span><\/span> + <i>b<\/i>", "<i>c<\/i> = <span class=\"fq\"><span><i>A<\/i><\/span><span>2<i>h<\/i><\/span><\/span> − <i>b<\/i>", "<i>c<\/i> = <span class=\"fq\"><span>2<i>A<\/i><\/span><span><i>h<\/i><\/span><\/span> − <i>b<\/i>", "<i>c<\/i> = <span class=\"fq\"><span>2<i>A<\/i> − <i>b<\/i><\/span><span><i>h<\/i><\/span><\/span>"], "ans": 2, "sol": "Multiply both sides by 2: 2<i>A<\/i> = <i>h<\/i>(<i>b<\/i> + <i>c<\/i>).<br>Divide by <i>h<\/i>: <span class=\"fq\"><span>2<i>A<\/i><\/span><span><i>h<\/i><\/span><\/span> = <i>b<\/i> + <i>c<\/i>.<br>Subtract <i>b<\/i>.<br>Answer: <b><i>c<\/i> = <span class=\"fq\"><span>2<i>A<\/i><\/span><span><i>h<\/i><\/span><\/span> − <i>b<\/i><\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "The amount <i>A<\/i>, in dollars, in an account that earns simple interest is <i>A<\/i> = <i>P<\/i> + <i>P<\/i><i>r<\/i><i>t<\/i>, where <i>P<\/i> is the amount deposited, <i>r<\/i> is the annual interest rate written as a decimal and <i>t<\/i> is the time in years. An account has <i>A<\/i> = 1,890 after <i>t<\/i> = 5 years at <i>r<\/i> = 0.04. What is the value of <i>P<\/i>?", "ans": ["1575"], "sol": "Factor out <i>P<\/i>: <i>A<\/i> = <i>P<\/i>(1 + <i>r<\/i><i>t<\/i>).<br>So <i>P<\/i> = <span class=\"fq\"><span><i>A<\/i><\/span><span>1 + <i>r<\/i><i>t<\/i><\/span><\/span> = <span class=\"fq\"><span>1,890<\/span><span>1 + 0.04(5)<\/span><\/span> = <span class=\"fq\"><span>1,890<\/span><span>1.2<\/span><\/span> = 1,575.<br>Answer: <b>1575<\/b>"}], "quiz2": [{"lo": "LO1", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>(9<i>x<\/i> − 6) = 6<i>x<\/i> − 4<\/div>How many solutions does the equation above have?", "opts": ["Zero", "Exactly one", "Exactly two", "Infinitely many"], "ans": 3, "sol": "Distribute <span class=\"fq\"><span>2<\/span><span>3<\/span><\/span>: 6<i>x<\/i> − 4 = 6<i>x<\/i> − 4.<br>The sides are identical.<br>Answer: <b>Infinitely many<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">7<i>x<\/i> − 3<i>k<\/i> = <i>k<\/i><i>x<\/i> + 21<\/div>In the equation above, <i>k<\/i> is a constant. For which value of <i>k<\/i> does the equation have no solution?", "opts": ["−7", "3", "7", "21"], "ans": 2, "sol": "Equal <i>x<\/i>-coefficients need <i>k<\/i> = 7.<br>With <i>k<\/i> = 7 the equation is 7<i>x<\/i> − 21 = 7<i>x<\/i> + 21; the constants differ, so there is no solution.<br>Answer: <b>7<\/b>"}, {"lo": "LO3", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span>2<i>a<\/i> + 3<i>b<\/i><\/span><span><i>c<\/i><\/span><\/span> = 5<\/div>In the equation above, <i>c<\/i> ≠ 0. Which expression is equal to <i>b<\/i>?", "opts": ["<span class=\"fq\"><span>5<i>c<\/i> − 2<i>a<\/i><\/span><span>3<\/span><\/span>", "<span class=\"fq\"><span>5 − 2<i>a<\/i><\/span><span>3<i>c<\/i><\/span><\/span>", "<span class=\"fq\"><span>5<i>c<\/i> + 2<i>a<\/i><\/span><span>3<\/span><\/span>", "5<i>c<\/i> − <span class=\"fq\"><span>2<i>a<\/i><\/span><span>3<\/span><\/span>"], "ans": 0, "sol": "Multiply both sides by <i>c<\/i>: 2<i>a<\/i> + 3<i>b<\/i> = 5<i>c<\/i>.<br>Subtract 2<i>a<\/i>, then divide by 3.<br>Answer: <b><span class=\"fq\"><span>5<i>c<\/i> − 2<i>a<\/i><\/span><span>3<\/span><\/span><\/b>"}, {"lo": "LO4", "diff": "M", "type": "spr", "q": "The cost <i>C<\/i>, in dollars, of renting a kayak for <i>h<\/i> hours, including a 15% sales tax, is <i>C<\/i> = 1.15(12<i>h<\/i> + 8). A customer paid $78.20. For how many hours did the customer rent the kayak?", "ans": ["5"], "sol": "Divide by 1.15: 12<i>h<\/i> + 8 = <span class=\"fq\"><span>78.20<\/span><span>1.15<\/span><\/span> = 68.<br>Subtract 8 and divide by 12: <i>h<\/i> = <span class=\"fq\"><span>60<\/span><span>12<\/span><\/span> = 5.<br>Answer: <b>5<\/b>"}, {"lo": "LO1", "diff": "M", "type": "mcq", "q": "Candle A is 30 centimeters tall and burns down at 1.5 centimeters per hour. Candle B is 24 centimeters tall and also burns down at 1.5 centimeters per hour. Both are lit at the same time. Before either candle burns out, the equation 30 − 1.5<i>t<\/i> = 24 − 1.5<i>t<\/i> models the times <i>t<\/i>, in hours, when the candles are the same height. Which statement is true?", "opts": ["The equation has no solution, so the candles are never the same height.", "The equation has exactly one solution, so the candles are the same height after 4 hours.", "The equation has infinitely many solutions, so the candles are always the same height.", "The equation has exactly one solution, so the candles are the same height only when they are lit."], "ans": 0, "sol": "Adding 1.5<i>t<\/i> to both sides gives 30 = 24, which is false.<br>The candles burn at the same rate, so candle A stays 6 centimeters taller.<br>Answer: <b>The equation has no solution, so the candles are never the same height.<\/b>"}, {"lo": "LO2", "diff": "M", "type": "mcq", "q": "<div class=\"eqs\">0.4(5<i>x<\/i> − 15) = <i>r<\/i><i>x<\/i> − 6<\/div>In the equation above, <i>r<\/i> is a constant. If the equation has infinitely many solutions, what is the value of <i>r<\/i>?", "opts": ["0.4", "2", "5", "6"], "ans": 1, "sol": "Distribute: 2<i>x<\/i> − 6 = <i>r<\/i><i>x<\/i> − 6.<br>The constants already match, so the coefficients must match: <i>r<\/i> = 2.<br>Answer: <b>2<\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Exactly one of the following equations has no solution. Which one is it?", "opts": ["<span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + <span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> = <span class=\"fq\"><span><i>x<\/i><\/span><span>5<\/span><\/span> + 1", "0.5<i>x<\/i> + 0.3<i>x<\/i> = 0.8(<i>x<\/i> + 1) − 0.8", "1.2(<i>x<\/i> − 5) = 1.2<i>x<\/i> − 6", "<span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + <span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> = <span class=\"fq\"><span>5<i>x<\/i><\/span><span>6<\/span><\/span> + 1"], "ans": 3, "sol": "A: <span class=\"fq\"><span>5<i>x<\/i><\/span><span>6<\/span><\/span> = <span class=\"fq\"><span><i>x<\/i><\/span><span>5<\/span><\/span> + 1 has different coefficients (one solution).<br>B: 0.8<i>x<\/i> = 0.8<i>x<\/i> and C: 1.2<i>x<\/i> − 6 = 1.2<i>x<\/i> − 6 are identities (infinitely many).<br>D: <span class=\"fq\"><span>5<i>x<\/i><\/span><span>6<\/span><\/span> = <span class=\"fq\"><span>5<i>x<\/i><\/span><span>6<\/span><\/span> + 1 has equal coefficients but constants 0 and 1, so no solution.<br>Answer: <b><span class=\"fq\"><span><i>x<\/i><\/span><span>2<\/span><\/span> + <span class=\"fq\"><span><i>x<\/i><\/span><span>3<\/span><\/span> = <span class=\"fq\"><span>5<i>x<\/i><\/span><span>6<\/span><\/span> + 1<\/b>"}, {"lo": "LO2", "diff": "H", "type": "spr", "q": "<div class=\"eqs\">2(<i>p<\/i><i>x<\/i> − 3) + <i>x<\/i> = 15<i>x<\/i> − <i>q<\/i><\/div>In the equation above, <i>p<\/i> and <i>q<\/i> are constants. If the equation has infinitely many solutions, what is the value of <i>p<\/i> + <i>q<\/i>?", "ans": ["13"], "sol": "Left side: (2<i>p<\/i> + 1)<i>x<\/i> − 6.<br>Match coefficients: 2<i>p<\/i> + 1 = 15, so <i>p<\/i> = 7. Match constants: −6 = −<i>q<\/i>, so <i>q<\/i> = 6.<br><i>p<\/i> + <i>q<\/i> = 13.<br>Answer: <b>13<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><i>k<\/i><i>x<\/i> − 5 = 3(<i>x<\/i> + 2) − 2<i>x<\/i><\/div>In the equation above, <i>k<\/i> is a constant. For what value of <i>k<\/i> does the equation have no solution?", "opts": ["3", "−1", "1", "5"], "ans": 2, "sol": "Simplify the right side: 3<i>x<\/i> + 6 − 2<i>x<\/i> = <i>x<\/i> + 6.<br>No solution needs <i>k<\/i> = 1; then the constants −5 and 6 differ.<br>Answer: <b>1<\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><i>m<\/i>(2<i>n<\/i> − <i>p<\/i>) = 3<i>n<\/i> + 5<\/div>In the equation above, <i>m<\/i> ≠ <span class=\"fq\"><span>3<\/span><span>2<\/span><\/span>. Which expression is equal to <i>n<\/i>?", "opts": ["<span class=\"fq\"><span><i>p<\/i> + 5<\/span><span>2<i>m<\/i> − 3<\/span><\/span>", "<span class=\"fq\"><span><i>m<\/i><i>p<\/i> + 5<\/span><span>2<i>m<\/i> − 3<\/span><\/span>", "<span class=\"fq\"><span><i>m<\/i><i>p<\/i> + 5<\/span><span>2<i>m<\/i> + 3<\/span><\/span>", "<span class=\"fq\"><span>5 − <i>m<\/i><i>p<\/i><\/span><span>2<i>m<\/i> − 3<\/span><\/span>"], "ans": 1, "sol": "Distribute: 2<i>m<\/i><i>n<\/i> − <i>m<\/i><i>p<\/i> = 3<i>n<\/i> + 5.<br>Collect <i>n<\/i>-terms: 2<i>m<\/i><i>n<\/i> − 3<i>n<\/i> = <i>m<\/i><i>p<\/i> + 5, so <i>n<\/i>(2<i>m<\/i> − 3) = <i>m<\/i><i>p<\/i> + 5.<br>Divide by 2<i>m<\/i> − 3, which is not zero.<br>Answer: <b><span class=\"fq\"><span><i>m<\/i><i>p<\/i> + 5<\/span><span>2<i>m<\/i> − 3<\/span><\/span><\/b>"}, {"lo": "LO3", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>a<\/i><\/span><span><i>b<\/i><\/span><\/span> = <span class=\"fq\"><span><i>c<\/i> − <i>a<\/i><\/span><span><i>d<\/i><\/span><\/span><\/div>In the equation above, <i>b<\/i> ≠ 0, <i>d<\/i> ≠ 0 and <i>b<\/i> + <i>d<\/i> ≠ 0. Which expression is equal to <i>a<\/i>?", "opts": ["<span class=\"fq\"><span><i>b<\/i><i>c<\/i><\/span><span><i>d<\/i> − <i>b<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>b<\/i><i>c<\/i><\/span><span><i>d<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>c<\/i><\/span><span><i>b<\/i> + <i>d<\/i><\/span><\/span>", "<span class=\"fq\"><span><i>b<\/i><i>c<\/i><\/span><span><i>b<\/i> + <i>d<\/i><\/span><\/span>"], "ans": 3, "sol": "Cross-multiply: <i>a<\/i><i>d<\/i> = <i>b<\/i>(<i>c<\/i> − <i>a<\/i>) = <i>b<\/i><i>c<\/i> − <i>a<\/i><i>b<\/i>.<br>Collect <i>a<\/i>-terms: <i>a<\/i><i>d<\/i> + <i>a<\/i><i>b<\/i> = <i>b<\/i><i>c<\/i>, so <i>a<\/i>(<i>b<\/i> + <i>d<\/i>) = <i>b<\/i><i>c<\/i>.<br>Answer: <b><span class=\"fq\"><span><i>b<\/i><i>c<\/i><\/span><span><i>b<\/i> + <i>d<\/i><\/span><\/span><\/b>"}, {"lo": "LO4", "diff": "H", "type": "mcq", "q": "The formula <i>F<\/i> = <span class=\"fq\"><span>9<\/span><span>5<\/span><\/span><i>K<\/i> − 459.67 converts a temperature of <i>K<\/i> kelvins to <i>F<\/i> degrees Fahrenheit. Which equation converts a Fahrenheit temperature <i>F<\/i> to kelvins?", "opts": ["<i>K<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span><i>F<\/i> + 459.67", "<i>K<\/i> = <span class=\"fq\"><span>9<\/span><span>5<\/span><\/span>(<i>F<\/i> + 459.67)", "<i>K<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> + 459.67)", "<i>K<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> − 459.67)"], "ans": 2, "sol": "Add 459.67: <i>F<\/i> + 459.67 = <span class=\"fq\"><span>9<\/span><span>5<\/span><\/span><i>K<\/i>.<br>Multiply both sides by <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>.<br>Answer: <b><i>K<\/i> = <span class=\"fq\"><span>5<\/span><span>9<\/span><\/span>(<i>F<\/i> + 459.67)<\/b>"}, {"lo": "LO4", "diff": "H", "type": "spr", "q": "A tank holds 500 liters of water. A drain removes water at 12 liters per minute while a pump adds water at <i>f<\/i> liters per minute. The volume <i>V<\/i>, in liters, after <i>t<\/i> minutes is <i>V<\/i> = 500 + (<i>f<\/i> − 12)<i>t<\/i>. After 25 minutes the tank holds 350 liters. What is the value of <i>f<\/i>?", "ans": ["6"], "sol": "Substitute: 350 = 500 + 25(<i>f<\/i> − 12).<br>So 25(<i>f<\/i> − 12) = −150 and <i>f<\/i> − 12 = −6.<br><i>f<\/i> = 6.<br>Answer: <b>6<\/b>"}, {"lo": "LO2", "diff": "H", "type": "mcq", "q": "<div class=\"eqs\"><span class=\"fq\"><span><i>x<\/i><\/span><span>4<\/span><\/span> + <span class=\"fq\"><span><i>x<\/i><\/span><span>6<\/span><\/span> = <i>k<\/i><i>x<\/i> − 2<\/div>In the equation above, <i>k<\/i> is a constant. For what value of <i>k<\/i> does the equation have no solution?", "opts": ["<span class=\"fq\"><span>1<\/span><span>10<\/span><\/span>", "<span class=\"fq\"><span>5<\/span><span>12<\/span><\/span>", "<span class=\"fq\"><span>1<\/span><span>5<\/span><\/span>", "<span class=\"fq\"><span>5<\/span><span>24<\/span><\/span>"], "ans": 1, "sol": "Combine the left side: <span class=\"fq\"><span>3<i>x<\/i><\/span><span>12<\/span><\/span> + <span class=\"fq\"><span>2<i>x<\/i><\/span><span>12<\/span><\/span> = <span class=\"fq\"><span>5<i>x<\/i><\/span><span>12<\/span><\/span>.<br>The constants 0 and −2 differ, so no solution needs <i>k<\/i> = <span class=\"fq\"><span>5<\/span><span>12<\/span><\/span>.<br>Answer: <b><span class=\"fq\"><span>5<\/span><span>12<\/span><\/span><\/b>"}, {"lo": "LO1", "diff": "H", "type": "mcq", "q": "Company P rents a storage locker for a $12 setup fee plus $4 per month. Company Q charges a $12 setup fee plus $3 per month, plus a $1 monthly insurance fee. The equation 12 + 4<i>m<\/i> = 12 + 3<i>m<\/i> + <i>m<\/i> compares the total costs after <i>m<\/i> months. Which statement is true?", "opts": ["The total costs are never equal.", "The total costs are equal only after 12 months.", "The total costs are equal for every number of months.", "The total costs are equal only when <i>m<\/i> = 0."], "ans": 2, "sol": "Simplify the right side: 12 + 4<i>m<\/i>.<br>Both sides are identical, so the equation has infinitely many solutions: the costs always match.<br>Answer: <b>The total costs are equal for every number of months.<\/b>"}, {"lo": "LO3", "diff": "H", "type": "spr", "q": "<div class=\"eqs\"><span class=\"fq\"><span>3<i>x<\/i> − 2<i>y<\/i><\/span><span>5<\/span><\/span> = <i>x<\/i> + <i>y<\/i><\/div>When the equation above is solved for <i>x<\/i>, the result is <i>x<\/i> = <i>k<\/i><i>y<\/i>, where <i>k<\/i> is a constant. What is the value of <i>k<\/i>?", "ans": ["-7/2", "-3.5"], "sol": "Multiply by 5: 3<i>x<\/i> − 2<i>y<\/i> = 5<i>x<\/i> + 5<i>y<\/i>.<br>Collect: −2<i>x<\/i> = 7<i>y<\/i>, so <i>x<\/i> = −<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span><i>y<\/i>.<br>Answer: <b>−<span class=\"fq\"><span>7<\/span><span>2<\/span><\/span><\/b>"}, {"lo": "LO2", "diff": "X", "type": "mcq", "q": "<div class=\"eqs\"><i>a<\/i>(<i>x<\/i> − 3) = 2<i>x<\/i> + <i>b<\/i><\/div>In the equation above, <i>a<\/i> and <i>b<\/i> are constants. If the equation has no solution, which of the following must be true?", "opts": ["<i>a<\/i> ≠ 2", "<i>a<\/i> = 2 and <i>b<\/i> ≠ −6", "<i>a<\/i> = 2 and <i>b<\/i> = −6", "<i>a<\/i> = −6 and <i>b<\/i> ≠ 2"], "ans": 1, "sol": "Expand: <i>a<\/i><i>x<\/i> − 3<i>a<\/i> = 2<i>x<\/i> + <i>b<\/i>.<br>No solution needs <i>a<\/i> = 2 and −3<i>a<\/i> ≠ <i>b<\/i>, that is, <i>b<\/i> ≠ −6.<br>Answer: <b><i>a<\/i> = 2 and <i>b<\/i> ≠ −6<\/b>"}, {"lo": "LO2", "diff": "X", "type": "spr", "q": "<div class=\"eqs\"><i>k<\/i><sup>2<\/sup><i>x<\/i> + 2<i>k<\/i> = 4<i>x<\/i> + 4<\/div>In the equation above, <i>k<\/i> is a constant. If the equation has no solution, what is the value of <i>k<\/i>?", "ans": ["-2"], "sol": "Equal coefficients: <i>k<\/i><sup>2<\/sup> = 4, so <i>k<\/i> = 2 or <i>k<\/i> = −2.<br><i>k<\/i> = 2 gives 4<i>x<\/i> + 4 = 4<i>x<\/i> + 4 (infinitely many solutions).<br><i>k<\/i> = −2 gives 4<i>x<\/i> − 4 = 4<i>x<\/i> + 4 (no solution).<br>Answer: <b>−2<\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "An object moves in a straight line with constant acceleration <i>a<\/i>. Its initial velocity <i>u<\/i>, its velocity <i>v<\/i> after <i>t<\/i> seconds and its displacement <i>s<\/i> after <i>t<\/i> seconds satisfy the equations below.<div class=\"eqs\"><i>s<\/i> = <i>u<\/i><i>t<\/i> + <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>a<\/i><i>t<\/i><sup>2<\/sup><br><i>v<\/i> = <i>u<\/i> + <i>a<\/i><i>t<\/i><\/div>Which equation expresses <i>s<\/i> in terms of <i>u<\/i>, <i>v<\/i> and <i>t<\/i> only?", "opts": ["<i>s<\/i> = <span class=\"fq\"><span>(<i>u<\/i> + <i>v<\/i>)<i>t<\/i><\/span><span>2<\/span><\/span>", "<i>s<\/i> = <span class=\"fq\"><span>(<i>v<\/i> − <i>u<\/i>)<i>t<\/i><\/span><span>2<\/span><\/span>", "<i>s<\/i> = (<i>u<\/i> + <i>v<\/i>)<i>t<\/i>", "<i>s<\/i> = <i>u<\/i><i>t<\/i> + <span class=\"fq\"><span><i>v<\/i><i>t<\/i><\/span><span>2<\/span><\/span>"], "ans": 0, "sol": "From the second equation, <i>a<\/i><i>t<\/i> = <i>v<\/i> − <i>u<\/i>.<br>Rewrite <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>a<\/i><i>t<\/i><sup>2<\/sup> as <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>(<i>a<\/i><i>t<\/i>)<i>t<\/i> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>(<i>v<\/i> − <i>u<\/i>)<i>t<\/i>.<br>So <i>s<\/i> = <i>u<\/i><i>t<\/i> + <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>v<\/i><i>t<\/i> − <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>u<\/i><i>t<\/i> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span>(<i>u<\/i> + <i>v<\/i>)<i>t<\/i>.<br>Answer: <b><i>s<\/i> = <span class=\"fq\"><span>(<i>u<\/i> + <i>v<\/i>)<i>t<\/i><\/span><span>2<\/span><\/span><\/b>"}, {"lo": "LO4", "diff": "X", "type": "mcq", "q": "The mechanical energy <i>E<\/i> of a ball of mass <i>m<\/i> moving at speed <i>v<\/i> at height <i>h<\/i> above the ground is <i>E<\/i> = <span class=\"fq\"><span>1<\/span><span>2<\/span><\/span><i>m<\/i><i>v<\/i><sup>2<\/sup> + <i>m<\/i><i>g<\/i><i>h<\/i>, where <i>g<\/i> is a positive constant. Which equation expresses <i>m<\/i> in terms of <i>E<\/i>, <i>v<\/i>, <i>g<\/i> and <i>h<\/i>?", "opts": ["<i>m<\/i> = <span class=\"fq\"><span>2<i>E<\/i><\/span><span><i>v<\/i><sup>2<\/sup> + 2<i>g<\/i><i>h<\/i><\/span><\/span>", "<i>m<\/i> = <span class=\"fq\"><span><i>E<\/i><\/span><span><i>v<\/i><sup>2<\/sup> + <i>g<\/i><i>h<\/i><\/span><\/span>", "<i>m<\/i> = <span class=\"fq\"><span>2<i>E<\/i><\/span><span><i>v<\/i><sup>2<\/sup><\/span><\/span> − <i>g<\/i><i>h<\/i>", "<i>m<\/i> = <span class=\"fq\"><span>2<i>E<\/i> − 2<i>g<\/i><i>h<\/i><\/span><span><i>v<\/i><sup>2<\/sup><\/span><\/span>"], "ans": 0, "sol": "Multiply by 2: 2<i>E<\/i> = <i>m<\/i><i>v<\/i><sup>2<\/sup> + 2<i>m<\/i><i>g<\/i><i>h<\/i>.<br>Factor out <i>m<\/i>: 2<i>E<\/i> = <i>m<\/i>(<i>v<\/i><sup>2<\/sup> + 2<i>g<\/i><i>h<\/i>).<br>Divide by <i>v<\/i><sup>2<\/sup> + 2<i>g<\/i><i>h<\/i>.<br>Answer: <b><i>m<\/i> = <span class=\"fq\"><span>2<i>E<\/i><\/span><span><i>v<\/i><sup>2<\/sup> + 2<i>g<\/i><i>h<\/i><\/span><\/span><\/b>"}], "unit_no": 1, "topic_no": "1", "code": "1.2"};
+var KEY = 'abhyas-ls2-'+S.id;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+var ST = load(); ST.done = ST.done || {}; ST.best = ST.best || {}; if(typeof ST.sheet!=='number') ST.sheet=0;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function letter(i){ return 'ABCD'[i]; }
+var DIFF={E:'Easy',M:'Medium',H:'Hard',X:'Challenge'};
+var LOS = S.los;
+var QUIZ = [{title:'Quiz Sheet 1 · Practice', blurb:'Builds from easy to hard across every objective. Take it after the learning sheets.', qs:S.quiz1},
+            {title:'Quiz Sheet 2 · SAT Level', blurb:'Digital SAT Module 2 standard, with Challenge questions at the end. Take it once Sheet 1 is at 80% or better.', qs:S.quiz2}];
+var NSHEET = LOS.length + 1;   /* one learning sheet per objective + a recap sheet */
+function loIndex(id){ for(var i=0;i<LOS.length;i++) if(LOS[i].id===id) return i; return -1; }
+function loLabel(id){ var i=loIndex(id); return i<0?id:'Objective '+(i+1); }
+function byLo(arr,id){ return (arr||[]).filter(function(x){ return x.lo===id; }); }
+
+/* ---------- SPR checking (Bluebook rules) ---------- */
+function parseSPR(s){
+  var t=String(s||'').trim().replace(/[−–—]/g,'-'); if(!t) return null;
+  var m=t.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){ var d=parseInt(m[3],10); if(!d) return null; var v=parseInt(m[2],10)/d; return {v:m[1]?-v:v, dec:false, raw:t}; }
+  m=t.match(/^(-?)(\d*)\.?(\d*)$/);
+  if(m && (m[2]||m[3])){ var v2=parseFloat((m[1]||'')+(m[2]||'0')+'.'+(m[3]||'0')); return {v:v2, dec:t.indexOf('.')>=0, dp:(m[3]||'').length, raw:t}; }
+  return null;
+}
+function sprCorrect(input, answers){
+  var p=parseSPR(input); if(!p) return false;
+  return answers.some(function(a){
+    var q=parseSPR(a); if(!q) return false; var av=q.v;
+    if(Math.abs(p.v-av)<1e-9) return true;
+    if(p.dec){ var max=p.v<0?6:5; if(p.raw.length<max) return false;
+      var f=Math.pow(10,p.dp), tr=(av<0?-1:1)*Math.floor(Math.abs(av)*f)/f, rd=Math.round(av*f)/f;
+      return Math.abs(p.v-tr)<1e-9 || Math.abs(p.v-rd)<1e-9; }
+    return false;
+  });
+}
+function isCorrect(q,g){ if(g===null||g===undefined||g==='') return false; return q.type==='spr' ? sprCorrect(g,q.ans) : g===q.ans; }
+
+/* ---------- header ---------- */
+$('crumbs').innerHTML='<span>Unit '+esc(S.unit_no)+' · '+esc(S.unit)+'</span><span>›</span><span>Topic '+esc(S.topic_no)+' · '+esc(S.topic)+'</span><span>›</span><b>Subtopic '+esc(S.code)+'</b>';
+$('title').textContent=S.title;
+$('summary').innerHTML=S.intro||'';
+$('meta').innerHTML='<span>'+LOS.length+' learning objectives</span><span>'+LOS.length+' learning sheets + recap</span><span>'+S.guided.length+' guided questions</span><span>2 quiz sheets · '+(S.quiz1.length+S.quiz2.length)+' questions</span>';
+$('foot').innerHTML='Brain &amp; Mind Academy · Abhyas Math Learning Series · Unit '+esc(S.unit_no)+' '+esc(S.unit)+' · Subtopic '+esc(S.code)+'. Lessons and questions are original Brain &amp; Mind material written for the Digital SAT Math syllabus. SAT is a trademark of the College Board, which is not affiliated with Brain &amp; Mind Academy.';
+
+function setProg(){
+  var d=LOS.filter(function(l){ return ST.done[l.id]; }).length;
+  var b=[0,1].filter(function(k){ return ST.best[k]!=null; }).map(function(k){ return 'Quiz '+(k+1)+' best '+ST.best[k]+'/'+QUIZ[k].qs.length; });
+  $('prog').textContent=d+' of '+LOS.length+' objectives done'+(b.length?' · '+b.join(' · '):'');
+}
+
+/* ---------- mode switch ---------- */
+var mode='learn';
+function selTabs(m){ $('tabLearn').setAttribute('aria-selected', m==='learn'); $('tabQuiz').setAttribute('aria-selected', m==='quiz'); }
+function setMode(m, opts){
+  mode=m; selTabs(m);
+  if(m==='learn') renderLearn(opts&&opts.sheet); else renderQuizIntro();
+  try{ history.replaceState(null,'','#'+m); }catch(e){}
+}
+$('tabLearn').addEventListener('click',function(){ setMode('learn'); });
+$('tabQuiz').addEventListener('click',function(){
+  if(QZ){ mode='quiz'; selTabs('quiz'); if(QZ.done) renderReport('all'); else renderQuestion(); return; }
+  setMode('quiz');
+});
+
+/* ---------- shared question widget ---------- */
+function qBody(q, sel, name){
+  var h='<div class="qtext">'+q.q+'</div>';
+  if(q.type==='spr'){
+    h+='<div class="spr"><label for="'+name+'" class="pill">Your answer</label><input id="'+name+'" autocomplete="off" spellcheck="false" maxlength="6" inputmode="text" value="'+esc(sel||'')+'"><small>Type a number, fraction (7/3) or decimal.</small></div>';
+  } else {
+    h+='<div class="opts" role="radiogroup">'+q.opts.map(function(o,k){ return '<button type="button" class="opt" role="radio" aria-checked="'+(sel===k)+'" data-k="'+k+'"><span class="let">'+letter(k)+'</span><span>'+o+'</span></button>'; }).join('')+'</div>';
+  }
+  return h;
+}
+
+/* ---------- LEARN ---------- */
+function renderLearn(jump){
+  if(jump!=null) ST.sheet=jump;
+  var cur=Math.max(0,Math.min(NSHEET-1,ST.sheet)); ST.sheet=cur; save();
+  var h='<div class="stack">';
+  h+='<section class="card"><div class="eyebrow">Learning objectives</div><p style="margin:6px 0 0;color:var(--ink-soft)">Each objective has its own learning sheet: read the idea, step through the worked examples, then do the guided questions (use a hint if you are stuck). Tick the objective when you are confident, then take the quiz sheets.</p><ul class="los">'+
+    LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><a href="#" data-sheet="'+i+'">'+l.text+'</a>'+(ST.done[l.id]?'<span class="lo-done">✓ Done</span>':'')+'</li>'; }).join('')+'</ul>'+
+    '<div class="sheetnav" role="tablist" aria-label="Learning sheets">'+LOS.map(function(l,i){ return '<button class="tab'+(ST.done[l.id]?' done':'')+'" role="tab" data-sheet="'+i+'" aria-selected="'+(i===cur)+'">Sheet '+(i+1)+'</button>'; }).join('')+
+    '<button class="tab" role="tab" data-sheet="'+LOS.length+'" aria-selected="'+(cur===LOS.length)+'">Recap</button></div></section>';
+  if(cur<LOS.length){
+    var L=LOS[cur];
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Learning sheet '+(cur+1)+' of '+LOS.length+' · Objective '+(cur+1)+'</div><h2>'+L.text+'</h2>';
+    h+='<div class="concept">'+byLo(S.notes,L.id).map(function(n){ return '<h3 class="note-h">'+n.h+'</h3>'+n.html; }).join('')+'</div>';
+    byLo(S.examples,L.id).forEach(function(E,ei){
+      h+='<div class="ex"><h3>Worked example '+(ei+1)+'</h3><div class="ex-q">'+E.q+'</div><ol class="steps">'+E.steps.map(function(s){ return '<li hidden>'+s+'</li>'; }).join('')+'</ol><div class="ans" hidden>Answer: '+E.ans+'</div><div class="ex-ctrl"><button class="btn" data-next>Show first step</button><button class="btn" data-all>Show full solution</button></div></div>';
+    });
+    var G=byLo(S.guided,L.id);
+    if(G.length) h+='<h3 class="note-h">Guided practice</h3>';
+    G.forEach(function(q,qi){
+      var gi=S.guided.indexOf(q);
+      h+='<div class="try" data-g="'+gi+'"><h3>Question '+(qi+1)+' of '+G.length+' <span class="pill '+q.diff+'" style="margin-left:6px">'+DIFF[q.diff]+'</span></h3>'+qBody(q,null,'g-'+gi)+'<div class="ex-ctrl">'+(q.hint?'<button class="btn" data-hint>Show hint</button>':'')+'<button class="btn btn-primary" data-check>Check answer</button></div><div class="hint" hidden>'+(q.hint||'')+'</div><div class="fbk"></div></div>';
+    });
+    h+='<label class="donebox"><input type="checkbox" id="done-'+esc(L.id)+'" data-done="'+esc(L.id)+'"'+(ST.done[L.id]?' checked':'')+'> I can do this objective</label>';
+    h+='<div class="qnav"><button class="btn" data-go="'+(cur-1)+'"'+(cur===0?' disabled':'')+'>Previous sheet</button><button class="btn btn-primary" data-go="'+(cur+1)+'">'+(cur===LOS.length-1?'Go to recap':'Next sheet')+'</button></div></section>';
+  } else {
+    h+='<section class="card lesson" id="sheet"><div class="eyebrow">Recap</div><h2>Common traps in this subtopic</h2><div class="traps"><ul>'+S.traps.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul></div>'+
+      '<h3 class="note-h">Objective checklist</h3><ul class="los">'+LOS.map(function(l,i){ return '<li><span class="lo-n">'+(i+1)+'</span><span>'+l.text+'</span><span class="lo-done" style="color:'+(ST.done[l.id]?'var(--success)':'var(--ink-soft)')+'">'+(ST.done[l.id]?'✓ Done':'Not yet')+'</span></li>'; }).join('')+'</ul>'+
+      '<div class="qnav"><button class="btn" data-go="'+(LOS.length-1)+'">Previous sheet</button><button class="btn btn-primary" id="goQuiz">Go to the quiz sheets</button></div></section>';
+  }
+  h+='</div>';
+  $('main').innerHTML=h;
+  wireLearn(); setProg();
+}
+function wireLearn(){
+  document.querySelectorAll('[data-sheet]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); renderLearn(+a.getAttribute('data-sheet')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ renderLearn(+b.getAttribute('data-go')); var el=$('sheet'); if(el) el.scrollIntoView({block:'start'}); }); });
+  if($('goQuiz')) $('goQuiz').addEventListener('click',function(){ setMode('quiz'); window.scrollTo(0,0); });
+  document.querySelectorAll('.ex').forEach(function(ex){
+    var steps=ex.querySelectorAll('.steps li'), ans=ex.querySelector('.ans'), nb=ex.querySelector('[data-next]'), shown=0;
+    function upd(){ steps.forEach(function(s,i){ s.hidden=i>=shown; }); ans.hidden=shown<steps.length;
+      nb.textContent = shown===0?'Show first step':(shown<steps.length?'Show next step':'All steps shown'); nb.disabled=shown>=steps.length; }
+    nb.addEventListener('click',function(){ shown=Math.min(steps.length,shown+1); upd(); });
+    ex.querySelector('[data-all]').addEventListener('click',function(){ shown=steps.length; upd(); });
+    upd();
+  });
+  document.querySelectorAll('.try').forEach(function(box){
+    var q=S.guided[+box.getAttribute('data-g')], sel=null;
+    box.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ sel=+b.getAttribute('data-k'); box.querySelectorAll('.opt').forEach(function(x){ x.setAttribute('aria-checked', x===b); x.classList.remove('right','wrong'); }); }); });
+    var hb=box.querySelector('[data-hint]'); if(hb) hb.addEventListener('click',function(){ box.querySelector('.hint').hidden=false; hb.disabled=true; });
+    box.querySelector('[data-check]').addEventListener('click',function(){
+      var g = q.type==='spr' ? box.querySelector('input').value.trim() : sel;
+      var f=box.querySelector('.fbk');
+      if(g===null||g===''){ f.innerHTML='<div class="feedback no">Choose or type an answer first.</div>'; return; }
+      var ok=isCorrect(q,g);
+      if(q.type!=='spr') box.querySelectorAll('.opt').forEach(function(x){ var k=+x.getAttribute('data-k'); x.classList.toggle('right',k===q.ans); x.classList.toggle('wrong',k===g&&!ok); });
+      f.innerHTML='<div class="feedback '+(ok?'ok':'no')+'"><b class="v">'+(ok?'Correct.':'Not quite. The answer is '+(q.type==='spr'?q.ans[0]:letter(q.ans))+'.')+'</b>'+q.sol+'</div>';
+    });
+  });
+  document.querySelectorAll('[data-done]').forEach(function(c){ c.addEventListener('change',function(){ ST.done[c.getAttribute('data-done')]=c.checked; save(); setProg();
+    var t=document.querySelector('.sheetnav .tab[data-sheet="'+ST.sheet+'"]'); if(t) t.classList.toggle('done',c.checked); }); });
+}
+
+/* ---------- QUIZ ---------- */
+var QZ=null, tick=null;
+function counts(qs){ var d={E:0,M:0,H:0,X:0}; qs.forEach(function(q){ d[q.diff]=(d[q.diff]||0)+1; }); return d; }
+function renderQuizIntro(){
+  var h='<div class="stack"><section class="card"><div class="eyebrow">Quiz mode</div><h2 style="font-size:26px;margin:4px 0 6px;">Two quiz sheets, '+QUIZ[0].qs.length+' questions each</h2>'+
+    '<p style="margin:0;color:var(--ink-soft)">Answer every question, then submit to see your score by learning objective, with a full solution for each question. You can move back and forth before submitting. Calculator allowed, as on the Digital SAT.</p><div class="sheetcards">'+
+    QUIZ.map(function(Z,k){ var d=counts(Z.qs), spr=Z.qs.filter(function(q){ return q.type==='spr'; }).length;
+      return '<div class="sheetcard"><div class="eyebrow">Sheet '+(k+1)+'</div><h3>'+esc(Z.title.split('· ')[1]||Z.title)+'</h3><p>'+Z.blurb+'</p>'+
+        '<p class="num">'+['E','M','H','X'].filter(function(x){ return d[x]; }).map(function(x){ return d[x]+' '+DIFF[x]; }).join(' · ')+'<br>'+spr+' student-produced response · about '+Math.round(Z.qs.length*1.5)+' min</p>'+
+        (ST.best[k]!=null?'<p><b>Your best: '+ST.best[k]+'/'+Z.qs.length+'</b></p>':'')+
+        '<button class="btn btn-primary" data-start="'+k+'">Start Sheet '+(k+1)+'</button></div>'; }).join('')+'</div></section>';
+  var cov=LOS.map(function(l){ return [byLo(S.quiz1,l.id).length, byLo(S.quiz2,l.id).length]; });
+  h+='<section class="card"><div class="eyebrow">What the quizzes cover</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Sheet 1</th><th class="num">Sheet 2</th></tr>'+
+    LOS.map(function(l,i){ return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+'</td><td class="num">'+cov[i][0]+'</td><td class="num">'+cov[i][1]+'</td></tr>'; }).join('')+'</table></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-start'); QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); }); });
+}
+function fmt(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function renderQuestion(){
+  clearInterval(tick);
+  var i=QZ.i, q=QZ.qs[i], n=QZ.qs.length;
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+'</div><div class="qhead" style="margin-top:6px"><span class="qn">Question '+(i+1)+' <span style="color:var(--ink-soft);font-weight:500;font-size:16px">of '+n+'</span></span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span class="timer" id="tmr" aria-live="off"></span></div>'+
+    qBody(q, QZ.ans[i], 'qin')+
+    '<div class="qnav"><button class="btn" id="qBack"'+(i===0?' disabled':'')+'>Back</button>'+(i<n-1?'<button class="btn btn-primary" id="qNext">Next</button>':'<button class="btn btn-primary" id="qSubmit">Submit quiz</button>')+'</div>'+
+    '<div id="qConfirm"></div>'+
+    '<div class="chips" aria-label="Question navigator">'+QZ.qs.map(function(_,k){ var a=QZ.ans[k]!==null&&QZ.ans[k]!==''; return '<button class="chip'+(a?' ans':'')+(k===i?' cur':'')+'" data-q="'+k+'" aria-label="Question '+(k+1)+(a?', answered':', unanswered')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+    '<div class="ex-ctrl" style="margin-top:12px"><button class="btn" id="qFinish">Submit now</button><button class="btn" id="qQuit">Leave this sheet</button></div></section></div>';
+  $('main').innerHTML=h;
+  var tm=$('tmr'); function t(){ tm.textContent=fmt((Date.now()-QZ.t0)/1000); } t(); tick=setInterval(t,1000);
+  document.querySelectorAll('#main .opt').forEach(function(b){ b.addEventListener('click',function(){ var k=+b.getAttribute('data-k'); QZ.ans[i]=(QZ.ans[i]===k?null:k); renderQuestion(); }); });
+  var inp=$('qin'); if(inp){ inp.addEventListener('input',function(){ QZ.ans[i]=inp.value.trim()||null; var c=document.querySelector('.chip[data-q="'+i+'"]'); if(c) c.classList.toggle('ans',!!QZ.ans[i]); }); inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&i<n-1){ QZ.i++; renderQuestion(); } }); }
+  if($('qBack')) $('qBack').addEventListener('click',function(){ QZ.i--; renderQuestion(); });
+  if($('qNext')) $('qNext').addEventListener('click',function(){ QZ.i++; renderQuestion(); });
+  function ask(){ var un=QZ.ans.filter(function(a){ return a===null||a===''; }).length;
+    $('qConfirm').innerHTML='<div class="confirm">'+(un?'<b>'+un+' question'+(un>1?'s are':' is')+' unanswered.</b> ':'')+'Submit the quiz and see your results?<div class="row"><button class="btn btn-primary" id="qYes">Submit</button><button class="btn" id="qNo">Keep working</button></div></div>';
+    $('qYes').addEventListener('click',finish); $('qNo').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); }
+  if($('qSubmit')) $('qSubmit').addEventListener('click',ask);
+  $('qFinish').addEventListener('click',ask);
+  $('qQuit').addEventListener('click',function(){
+    $('qConfirm').innerHTML='<div class="confirm">Leave without submitting? Your answers on this sheet will be cleared.<div class="row"><button class="btn btn-primary" id="qLeave">Leave sheet</button><button class="btn" id="qStay">Keep working</button></div></div>';
+    $('qLeave').addEventListener('click',function(){ clearInterval(tick); QZ=null; renderQuizIntro(); window.scrollTo(0,0); }); $('qStay').addEventListener('click',function(){ $('qConfirm').innerHTML=''; }); });
+  document.querySelectorAll('[data-q]').forEach(function(c){ c.addEventListener('click',function(){ QZ.i=+c.getAttribute('data-q'); renderQuestion(); }); });
+}
+function finish(){
+  clearInterval(tick); QZ.done=true; QZ.secs=(Date.now()-QZ.t0)/1000;
+  var score=QZ.qs.filter(function(q,k){ return isCorrect(q,QZ.ans[k]); }).length;
+  ST.best[QZ.k]=Math.max(ST.best[QZ.k]||0,score); save();
+  renderReport('all'); window.scrollTo(0,0);
+}
+function renderReport(filter){
+  var n=QZ.qs.length, R=QZ.qs.map(function(q,k){ var g=QZ.ans[k], om=(g===null||g===''); return {q:q,k:k,g:g,om:om,ok:!om&&isCorrect(q,g)}; });
+  var score=R.filter(function(r){ return r.ok; }).length, pc=Math.round(100*score/n);
+  var C=2*Math.PI*48, off=C*(1-score/n);
+  var by={}; R.forEach(function(r){ var b=by[r.q.lo]=by[r.q.lo]||{c:0,t:0}; b.t++; if(r.ok) b.c++; });
+  var bd={E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0},X:{c:0,t:0}}; R.forEach(function(r){ var b=bd[r.q.diff]; if(b){ b.t++; if(r.ok) b.c++; } });
+  var weak=LOS.filter(function(l){ var b=by[l.id]; return b && b.c/b.t<0.8; });
+  var next = weak.length ? 'Revise '+weak.map(function(l){ return '<b>'+esc(loLabel(l.id))+'</b>'; }).join(', ')+' on its learning sheet, then retake this quiz.' :
+    (QZ.k===0 ? 'Every objective is at 80% or better. Move on to Quiz Sheet 2 · SAT Level.' : 'Every objective is at 80% or better. This subtopic is mastered.');
+  var h='<div class="stack"><section class="card"><div class="eyebrow">'+esc(QUIZ[QZ.k].title)+' · Your result</div><div class="scoreband" style="margin-top:8px">'+
+    '<svg class="ring" viewBox="0 0 120 120" role="img" aria-label="'+score+' of '+n+' correct"><circle class="bg" cx="60" cy="60" r="48"/><circle class="fg" cx="60" cy="60" r="48" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle">'+pc+'%</text></svg>'+
+    '<div style="min-width:0"><h2 style="font-size:28px">'+score+' of '+n+' correct</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Time '+fmt(QZ.secs)+' · '+R.filter(function(r){ return r.om; }).length+' left blank · best so far '+ST.best[QZ.k]+'/'+n+'</p><p style="margin:8px 0 0">'+next+'</p></div></div>'+
+    '<div class="intro-grid">'+['E','M','H','X'].map(function(d){ var b=bd[d]; return b.t?'<div class="kpi"><span>'+DIFF[d]+'</span><b class="num">'+b.c+'/'+b.t+'</b></div>':''; }).join('')+'</div></section>';
+  h+='<section class="card"><div class="eyebrow">Objective-wise analysis</div><div class="tscroll"><table class="lotab" style="margin-top:8px"><tr><th>Objective</th><th class="num">Score</th><th class="hide-s">Accuracy</th><th>Status</th></tr>'+
+    LOS.map(function(l,i){ var b=by[l.id]; if(!b) return ''; var p=b.c/b.t, cls=p>=0.8?'ok':(p>=0.5?'mid':'low'), lab=p>=0.8?'Mastered':(p>=0.5?'Revise':'Re-learn');
+      return '<tr><td><span class="lo-n">'+(i+1)+'</span> '+l.text+(p<0.8?'<br><button class="lnk" data-relearn="'+i+'">Open learning sheet '+(i+1)+'</button>':'')+'</td><td class="num">'+b.c+'/'+b.t+'</td><td class="hide-s"><div class="bar"><i style="width:'+Math.round(100*p)+'%"></i></div></td><td><span class="st '+cls+'">'+lab+'</span></td></tr>'; }).join('')+'</table></div></section>';
+  var list=R.filter(function(r){ return filter==='all'||(filter==='wrong'&&!r.ok); });
+  h+='<section class="card"><div class="eyebrow">Question review</div><div class="filters" style="margin-top:8px"><button class="tab" data-f="all" aria-selected="'+(filter==='all')+'">All ('+n+')</button><button class="tab" data-f="wrong" aria-selected="'+(filter==='wrong')+'">To fix ('+(n-score)+')</button></div><div class="stack" style="gap:10px">'+
+    list.map(function(r){ var q=r.q;
+      var yours = r.om?'—':(q.type==='spr'?esc(r.g):letter(r.g));
+      var opts = q.type==='spr'?'':'<div class="opts" style="margin-top:8px">'+q.opts.map(function(o,k){ return '<div class="opt'+(k===q.ans?' right':(k===r.g?' wrong':''))+'" style="cursor:default"><span class="let">'+letter(k)+'</span><span>'+o+'</span></div>'; }).join('')+'</div>';
+      return '<details class="rv"'+(r.ok?'':' open')+'><summary><b class="num">Q'+(r.k+1)+'</b><span class="mark '+(r.ok?'ok':(r.om?'om':'no'))+'">'+(r.ok?'Correct':(r.om?'Omitted':'Incorrect'))+'</span><span class="pill">'+esc(loLabel(q.lo))+'</span><span class="pill '+q.diff+'">'+DIFF[q.diff]+'</span><span style="margin-left:auto;font-size:14px;color:var(--ink-soft)">You: '+yours+' · Key: '+(q.type==='spr'?esc(q.ans[0]):letter(q.ans))+'</span></summary><div style="margin-top:10px"><div class="qtext">'+q.q+'</div>'+opts+'<div class="sol"><b>Solution.</b> '+q.sol+'</div></div></details>'; }).join('')+
+    '</div></section><section class="card gotoquiz"><div><b>Next step</b><br><span style="color:var(--ink-soft)">Retake this sheet, try the other quiz sheet, or go back to the learning sheets.</span></div><div class="ex-ctrl" style="margin:0"><button class="btn" id="toLearn">Learning sheets</button><button class="btn" id="toQuiz">All quiz sheets</button><button class="btn btn-primary" id="retake">Retake this sheet</button></div></section></div>';
+  $('main').innerHTML=h; setProg();
+  document.querySelectorAll('[data-f]').forEach(function(b){ b.addEventListener('click',function(){ renderReport(b.getAttribute('data-f')); }); });
+  document.querySelectorAll('[data-relearn]').forEach(function(b){ b.addEventListener('click',function(){ setMode('learn',{sheet:+b.getAttribute('data-relearn')}); window.scrollTo(0,0); }); });
+  $('toLearn').addEventListener('click',function(){ setMode('learn'); window.scrollTo(0,0); });
+  $('toQuiz').addEventListener('click',function(){ QZ=null; setMode('quiz'); window.scrollTo(0,0); });
+  $('retake').addEventListener('click',function(){ var k=QZ.k; QZ={k:k, qs:QUIZ[k].qs, ans:QUIZ[k].qs.map(function(){ return null; }), i:0, t0:Date.now(), done:false}; renderQuestion(); window.scrollTo(0,0); });
+}
+
+setMode(location.hash==='#quiz'?'quiz':'learn');
+})();
+
+</script>
