@@ -14,6 +14,7 @@ Start at **index.html** (the home page). Once GitHub Pages is on, each sheet and
 | `learning-sheets/` | Math learning sheets: 4 units, 45 subtopics (`ALG-1.1.html` …) |
 | `topic-sheets/` | 62 topic sheets, 22 questions / 35 min (`ALG-L1-1.html` …) |
 | `math-practice-tests/` | Earlier SAT Math practice tests |
+| `SOPAAN_CBSE_IX_MATH/` | Sopaan CBSE Class 9 Maths: 14 chapters of NCERT Ganita Manjari, LO practice (NCERT, Goyal, All in One, RS Aggarwal) and 30-minute LO tests |
 | `question-bank/` | Question bank analysis and CSV index |
 
 SAT is a trademark of the College Board, which is not affiliated with Brain & Mind Academy.
