@@ -13,6 +13,7 @@ Start at **index.html** (the home page). Once GitHub Pages is on, each sheet and
 | `mock-papers-cb-plusplus/` | Papers 21++–50++ (College Board questions) |
 | `learning-sheets/` | Math learning sheets: 4 units, 45 subtopics (`ALG-1.1.html` …) |
 | `topic-sheets/` | 62 topic sheets, 22 questions / 35 min (`ALG-L1-1.html` …) |
+| `advanced-practice/` | 18 Advanced Practice sheets: every Hard question per topic, Learn mode + timed (`AP-ALG-L1.html` …) |
 | `math-practice-tests/` | Earlier SAT Math practice tests |
 | `question-bank/` | Question bank analysis and CSV index |
 
