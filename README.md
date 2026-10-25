@@ -11,6 +11,7 @@ Start at **index.html** (the home page). Once GitHub Pages is on, each sheet and
 | `mock-papers-plus/` | Papers 9+–13+ |
 | `mock-papers-plusplus/` | Papers 14++–20++ |
 | `mock-papers-cb-plusplus/` | Papers 21++–50++ (College Board questions) |
+| `mock-papers-advanced/` | Advanced Practice DSAT Papers 1–10 (top level, hardest questions only) |
 | `learning-sheets/` | Math learning sheets: 4 units, 45 subtopics (`ALG-1.1.html` …) |
 | `topic-sheets/` | 62 topic sheets, 22 questions / 35 min (`ALG-L1-1.html` …) |
 | `advanced-practice/` | 18 Advanced Practice sheets: every Hard question per topic, Learn mode + timed (`AP-ALG-L1.html` …) |
